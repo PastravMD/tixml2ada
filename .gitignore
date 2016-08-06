@@ -1,0 +1,11 @@
+# Object file
+obj/*
+
+# Ada Library Information
+*.ali
+
+# Temporary files
+*~
+
+# executable
+tixml2ada.exe
