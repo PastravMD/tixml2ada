@@ -110,7 +110,7 @@ package body Descriptors.Peripheral is
       --Ada.Text_IO.Put_Line ("");
 
       -- reading input file
-      Input_Sources.File.Open(Value(xml_href), Peripheral_Xml_File);
+      Input_Sources.File.Open("input/Devices/" & Value(xml_href), Peripheral_Xml_File);
 
       -- parse xml document and get top element
       Peripheral_Xml_Reader.Parse (Peripheral_Xml_File);

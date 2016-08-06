@@ -85,7 +85,7 @@ begin
    GNAT.Command_Line.Getopt(Config => Cmd_Line_Cfg);
 
    -- reading input file
-   Input_Sources.File.Open("tms570lc43xx.xml", Top_Xml_File);
+   Input_Sources.File.Open("input/Devices/tms570lc43xx.xml", Top_Xml_File);
 
    -- parse xml document and get top element
    Top_Xml_Reader.Parse (Top_Xml_File);
@@ -100,7 +100,7 @@ begin
      (Top_Xml_Element, "package_name");
    
    -- generate code: not ready
-   Descriptors.Device.Dump (Target_Device, "Output Folder");
+   Descriptors.Device.Dump (Target_Device, "output");
    
    DOM.Readers.Free (Top_Xml_Reader); 
 
