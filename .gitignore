@@ -9,6 +9,3 @@ obj/*
 
 # executable
 tixml2ada.exe
-
-# test files lying around
-*.xml
