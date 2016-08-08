@@ -85,17 +85,12 @@ package body Descriptors.Register is
       Ret.Reg_Properties.Reset_Value := 16#0000_0000#;
       Ret.Reg_Properties.Reset_Mask := 16#0000_0000#;
 
---        if Get_Named_Item (Attributes (Register_Element), "offset") /= null then
---           Ada.Text_IO.Put_Line ("Reg [" &
---                                   Value (Get_Named_Item (Attributes (Register_Element), "id")) & "]   @ "
---                                 & Value (Get_Named_Item (Attributes (Register_Element), "offset")) &  " = " &
---                                   Unsigned'Image(Get_Value (Get_Named_Item (Attributes (Register_Element), "offset"))) &
---                                   "    -> " & Value (Get_Named_Item (Attributes (Register_Element), "description")));
---
---           Ret.Address_Offset := Get_Value (Get_Named_Item (Attributes (Register_Element), "offset"));
---        else
---           Ada.Text_IO.Put_Line ("Reg [" & Value (Get_Named_Item (Attributes (Register_Element), "id")) & "]    -> " & Value (Get_Named_Item (Attributes (Register_Element), "description")));
---        end if;
+      if Get_Named_Item (Attributes (Register_Element), "offset") /= null then
+         Ret.Address_Offset := Get_Value (Get_Named_Item (Attributes (Register_Element), "offset"));
+      else
+         Ada.Text_IO.Put_Line ("Reg [" & Value (Get_Named_Item (Attributes (Register_Element), "id")) & "]    -> " & Value (Get_Named_Item (Attributes (Register_Element), "description")) & " has no offset attribute !");
+         Ret.Address_Offset := 0; -- proper handling TBD
+      end if;
 
 
       --for K in 0 .. Length (Bitfield_List) - 1 loop
