@@ -18,7 +18,8 @@
 ------------------------------------------------------------------------------
 
 with Ada.Text_IO;
-with Interfaces;              use Interfaces;
+with Interfaces;            use Interfaces;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 with DOM.Core;                use DOM.Core;
 with DOM.Core.Elements;       use DOM.Core.Elements;
@@ -26,7 +27,27 @@ with DOM.Core.Nodes;
 
 with Descriptors.Register;
 
-with SVD2Ada_Utils;
+with SVD2Ada_Utils;           use SVD2Ada_Utils;
+
+----------------------- Temporary use/with -------------------------------------
+-- XML dependencies
+with Input_Sources.File;
+with DOM.Core.Documents;
+with DOM.Readers;
+
+with DOM.Core;                     use DOM.Core;
+with DOM.Core.Nodes;               use DOM.Core.Nodes;
+with DOM.Core.Attrs;               use DOM.Core.Attrs;
+with DOM.Core.Elements;            use DOM.Core.Elements;
+
+-- TIXML2Ada dependencies
+with Descriptors;                  use Descriptors;
+with Descriptors.Device;           use Descriptors.Device;
+with Descriptors.Peripheral;       use Descriptors.Peripheral;
+with Descriptors.Register;         use Descriptors.Register;
+with Descriptors.Field;            use Descriptors.Field;
+with Descriptors.Enumerate;        use Descriptors.Enumerate;
+--------------------------------------------------------------------------------
 
 package body Descriptors.Field is
 
@@ -77,70 +98,47 @@ package body Descriptors.Field is
          end;
       end if;
 
-      for J in 0 .. Nodes.Length (List) - 1 loop
-         if Nodes.Node_Type (Nodes.Item (List, J)) = Element_Node then
-            declare
-               Child : constant Element := Element (Nodes.Item (List, J));
-               Tag   : String renames Elements.Get_Tag_Name (Child);
-            begin
-               if Tag = "name" then
-                  Ret.Name := Get_Value (Child);
+      Ret.Name             := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Elt), "id"))));
+      Ret.Description      := To_Unbounded_String (Value (Get_Named_Item (Attributes (Elt), "description")));
+      Ret.LSB              := Natural'Value (Value (Get_Named_Item (Attributes (Elt), "end")));
+      Ret.Size             := Natural'Value (Value (Get_Named_Item (Attributes (Elt), "width")));
+      Ret.Acc              := Read_Write;
+      Ret.Mod_Write_Values := Modify;
+      --Ret.Read_Action    := ;
+      --Ret.Enums            := null;
 
-               elsif Tag = "description" then
-                  Ret.Description := Get_Value (Child);
+--        for J in 0 .. Nodes.Length (List) - 1 loop
+--              declare
+--                 Child : constant Element := Element (Nodes.Item (List, J));
+--                 Tag   : String renames Elements.Get_Tag_Name (Child);
+--              begin
 
-               elsif Tag = "bitOffset"
-                 or else Tag = "lsb"
-               then
-                  Ret.LSB := Get_Value (Child);
+--                 *** Tag = "bitRange" then
+--                    --  bitRange has the form: [XX:YY] where XX is the MSB,
+--                    --  and YY is the LSB
+--                    declare
+--                       Val : String renames Get_Value (Child);
+--                    begin
+--                       for K in Val'Range loop
+--                          if Val(K) = ':' then
+--                             Ret.LSB :=
+--                               Natural'Value (Val (K + 1 .. Val'Last - 1));
+--                             Ret.Size :=
+--                               Natural'Value (Val (2 .. K - 1)) - Ret.LSB + 1;
+--                          end if;
+--                       end loop;
+--                    end;
 
-               elsif Tag = "bitWidth" then
-                  Ret.Size := Get_Value (Child);
-
-               elsif Tag = "msb" then
-                  Ret.Size := Get_Value (Child) - Ret.LSB + 1;
-
-               elsif Tag = "bitRange" then
-                  --  bitRange has the form: [XX:YY] where XX is the MSB,
-                  --  and YY is the LSB
-                  declare
-                     Val : String renames Get_Value (Child);
-                  begin
-                     for K in Val'Range loop
-                        if Val(K) = ':' then
-                           Ret.LSB :=
-                             Natural'Value (Val (K + 1 .. Val'Last - 1));
-                           Ret.Size :=
-                             Natural'Value (Val (2 .. K - 1)) - Ret.LSB + 1;
-                        end if;
-                     end loop;
-                  end;
-
-               elsif Tag = "access" then
-                  Ret.Acc := Get_Value (Child);
-
-               elsif Tag = "modifiedWriteValues" then
-                  Ret.Mod_Write_Values := Get_Value (Child);
-
-               elsif Tag = "readAction" then
-                  Ret.Read_Action := Get_Value (Child);
-
-               elsif Tag = "enumeratedValues" then
-                  declare
-                     Enum : constant Descriptors.Enumerate.Enumerate_T :=
-                              Descriptors.Enumerate.Read_Enumerate
-                                (Child, Ret.Enums);
-                  begin
-                     Ret.Enums.Append (Enum);
-                  end;
-
-               else
-                  Ada.Text_IO.Put_Line
-                    ("*** WARNING: ignoring field element " & Tag);
-               end if;
-            end;
-         end if;
-      end loop;
+--                 *** Tag = "enumeratedValues" then
+--                    declare
+--                       Enum : constant Descriptors.Enumerate.Enumerate_T :=
+--                                Descriptors.Enumerate.Read_Enumerate
+--                                  (Child, Ret.Enums);
+--                    begin
+--                       Ret.Enums.Append (Enum);
+--                    end;
+--              end;
+--        end loop;
 
       return Ret;
    end Read_Field;

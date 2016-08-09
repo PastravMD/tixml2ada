@@ -29,7 +29,7 @@ with Interfaces;                     use Interfaces;
 with Base_Types;                     use Base_Types;
 
 with Ada_Gen;            use Ada_Gen;
-
+with SVD2Ada_Utils;      use SVD2Ada_Utils;
 ----------------------- Temporary use/with -------------------------------------
 -- XML dependencies
 with Input_Sources.File;
@@ -96,7 +96,7 @@ package body Descriptors.Peripheral is
    begin
 
       xml_href  := Get_Named_Item (Attributes (Peripheral_Element), "href");
-      Ret.Name  := To_Unbounded_String (Value (Get_Named_Item (Attributes (Peripheral_Element), "id")));
+      Ret.Name  := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Peripheral_Element), "id"))));
       Ret.Base_Address  := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "baseaddr"));
 
       -- := Value (Get_Named_Item (Attributes (Peripheral_Element), "HW_revision"));

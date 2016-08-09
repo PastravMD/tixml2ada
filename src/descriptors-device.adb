@@ -26,7 +26,7 @@ with GNAT.OS_Lib;
 --with DOM.Core.Nodes;
 
 with Ada_Gen;               use Ada_Gen;
-with SVD2Ada_Utils;
+with SVD2Ada_Utils;         use SVD2Ada_Utils;
 
 ----------------------- Temporary use/with -------------------------------------
 -- XML dependencies
@@ -99,8 +99,9 @@ package body Descriptors.Device is
       --Ada.Text_IO.Put_Line (" Device = " & Value(Get_Named_Item (Attributes (Device_Element), "id")));
       --Ada.Text_IO.Put_Line ("    [" & Value(Get_Named_Item (Attributes (Device_Element), "description")) & "]");
 
-      Ret.Name := Ada.Strings.Unbounded.To_Unbounded_String
-        (Value(Get_Named_Item (Attributes (Device_Element), "id")));
+      Ret.Name := Apply_Naming_Rules
+        (Ada.Strings.Unbounded.To_Unbounded_String
+        (Value(Get_Named_Item (Attributes (Device_Element), "id"))));
 
       Ret.Version := Ada.Strings.Unbounded.To_Unbounded_String
         (Value(Get_Named_Item (Attributes (Device_Element), "XML_version")));
