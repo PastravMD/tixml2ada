@@ -76,7 +76,7 @@ package body Descriptors.Register is
       Ret.Reg_Properties := Reg_Properties;
 
       Ret.Xml_Id := To_Unbounded_String ("1");
-      Ret.Name := To_Unbounded_String (Value (Get_Named_Item (Attributes (Register_Element), "id")));
+      Ret.Name := Apply_Naming_Rules(To_Unbounded_String (Value (Get_Named_Item (Attributes (Register_Element), "id"))));
       --Ret.Display_Name := "";
       Ret.Description  := To_Unbounded_String (Value (Get_Named_Item (Attributes (Register_Element), "description")));
 
@@ -92,20 +92,28 @@ package body Descriptors.Register is
          Ret.Address_Offset := 0; -- proper handling TBD
       end if;
 
+      Bitfield_List := DOM.Core.Elements.Get_Elements_By_Tag_Name (Register_Element, "bitfield");
 
-      --for K in 0 .. Length (Bitfield_List) - 1 loop
-      --   Field :=
-      --     Read_Field
-      --       (Item (Bitfield_List, K)),
-      --        Ret.Fields,
-      --        Ret.Reg_Properties.Reg_Access,
-      --        Ret.Read_Action);
-      --   if not Ret.Fields.Contains (Field) then
-      --      Ret.Fields.Append (Field);
-      --   end if;
-      --end loop;
+      if Length (Bitfield_List) > 0 then
+         Ada.Text_IO.Put_Line ("Reg [" & Value (Get_Named_Item (Attributes (Register_Element), "id")) & "] had bitfields defined.");
+         for K in 0 .. Length (Bitfield_List) - 1 loop
+            declare
+               Field : Field_T;
+            begin
+               Ada.Text_IO.Put_Line ("      - " & Value (Get_Named_Item (Attributes (Item (Bitfield_List, K)), "id")));
+               Field := Read_Field (Item (Bitfield_List, K),
+               Ret.Fields,
+               Ret.Reg_Properties.Reg_Access,
+               Ret.Read_Action);
+               if not Ret.Fields.Contains (Field) then
+                  Ret.Fields.Append (Field);
+               end if;
+            end;
+         end loop;
+      end if;
 
       return new Register_T'(Ret);
+
    end Read_Register;
 
    ---------

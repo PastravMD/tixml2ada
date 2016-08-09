@@ -17,6 +17,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+
 package SVD2Ada_Utils is
 
    function Executable_Location return String;
@@ -31,5 +33,8 @@ package SVD2Ada_Utils is
    procedure Set_Root_Package (Value : String);
    function Root_Package return String;
    function In_Runtime return Boolean;
+
+   function Apply_Naming_Rules (Variable_Name : String) return String;
+   function Apply_Naming_Rules (Variable_Name : Unbounded_String) return Unbounded_String;
 
 end SVD2Ada_Utils;
