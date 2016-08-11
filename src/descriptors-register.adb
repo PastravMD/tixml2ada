@@ -75,10 +75,12 @@ package body Descriptors.Register is
    begin
       Ret.Reg_Properties := Reg_Properties;
 
-      Ret.Xml_Id := To_Unbounded_String ("1");
       Ret.Name := Apply_Naming_Rules(To_Unbounded_String (Value (Get_Named_Item (Attributes (Register_Element), "id"))));
-      --Ret.Display_Name := "";
+      Ret.Xml_Id := Ret.Name;
       Ret.Description  := To_Unbounded_String (Value (Get_Named_Item (Attributes (Register_Element), "description")));
+      Ret.Mod_Write_Values := Modify;
+      Ret.Read_Action := Undefined_Read_Action;
+      Ret.Type_Name := Prepend & Ret.Name & Append;
 
       Ret.Reg_Properties.Size := Natural'Value (Value (Get_Named_Item (Attributes (Register_Element), "width")));
       Ret.Reg_Properties.Reg_Access := Read_Write;

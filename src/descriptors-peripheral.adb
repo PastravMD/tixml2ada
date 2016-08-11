@@ -128,6 +128,7 @@ package body Descriptors.Peripheral is
       Module_Element := Item (Module_List, 0);
 
       Ret.Version := To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "XML_version")));
+      Ret.Description := To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "description")));
 
       -- Register_Properties.Read_Register_Property (Child, Ret.Reg_Properties);
 
