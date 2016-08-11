@@ -105,7 +105,7 @@ package body Descriptors.Peripheral is
       Ret.Reg_Properties.Protection := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "permissions"));
 
       --Ada.Text_IO.Put_Line ("");
-      --Ada.Text_IO.Put_Line (" Module = " & Value (Get_Named_Item (Attributes (Peripheral_Element), "id")));
+      Ada.Text_IO.Put_Line (" Module = " & Value (Get_Named_Item (Attributes (Peripheral_Element), "id")));
       --Ada.Text_IO.Put_Line ("    Base Address = " & Value (Get_Named_Item (Attributes (Peripheral_Element), "baseaddr")) & " = " & Unsigned'Image(Ret.Base_Address));
       --Ada.Text_IO.Put_Line ("");
 

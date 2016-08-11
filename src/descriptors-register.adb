@@ -37,18 +37,22 @@ with Input_Sources.File;
 with DOM.Core.Documents;
 with DOM.Readers;
 
-with DOM.Core;                     use DOM.Core;
-with DOM.Core.Nodes;               use DOM.Core.Nodes;
-with DOM.Core.Attrs;               use DOM.Core.Attrs;
-with DOM.Core.Elements;            use DOM.Core.Elements;
+with DOM.Core;               use DOM.Core;
+with DOM.Core.Nodes;         use DOM.Core.Nodes;
+with DOM.Core.Attrs;         use DOM.Core.Attrs;
+with DOM.Core.Elements;      use DOM.Core.Elements;
 
 -- TIXML2Ada dependencies
-with Descriptors;                  use Descriptors;
-with Descriptors.Device;           use Descriptors.Device;
-with Descriptors.Peripheral;       use Descriptors.Peripheral;
-with Descriptors.Register;         use Descriptors.Register;
-with Descriptors.Field;            use Descriptors.Field;
-with Descriptors.Enumerate;        use Descriptors.Enumerate;
+with Descriptors;            use Descriptors;
+with Descriptors.Device;     use Descriptors.Device;
+with Descriptors.Peripheral; use Descriptors.Peripheral;
+with Descriptors.Register;   use Descriptors.Register;
+with Descriptors.Field;      use Descriptors.Field;
+with Descriptors.Enumerate;  use Descriptors.Enumerate;
+
+with Ada.Strings.Unbounded;  use Ada.Strings.Unbounded;
+with Ada_Gen;                use Ada_Gen;
+with SVD2Ada_Utils;          use SVD2Ada_Utils;
 --------------------------------------------------------------------------------
 
 package body Descriptors.Register is
@@ -96,13 +100,18 @@ package body Descriptors.Register is
 
       Bitfield_List := DOM.Core.Elements.Get_Elements_By_Tag_Name (Register_Element, "bitfield");
 
+      if Ret.Description = "Transmit Control Register" then
+         Ret.Description := Ret.Description & "XXX"; -- some dummy instruction to put a breakpoint on
+      end if;
+
+
       if Length (Bitfield_List) > 0 then
          Ada.Text_IO.Put_Line ("Reg [" & Value (Get_Named_Item (Attributes (Register_Element), "id")) & "] had bitfields defined.");
          for K in 0 .. Length (Bitfield_List) - 1 loop
             declare
                Field : Field_T;
             begin
-               Ada.Text_IO.Put_Line ("      - " & Value (Get_Named_Item (Attributes (Item (Bitfield_List, K)), "id")));
+               --Ada.Text_IO.Put_Line ("      - " & Value (Get_Named_Item (Attributes (Item (Bitfield_List, K)), "id")));
                Field := Read_Field (Item (Bitfield_List, K),
                Ret.Fields,
                Ret.Reg_Properties.Reg_Access,

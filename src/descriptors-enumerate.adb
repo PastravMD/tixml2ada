@@ -23,6 +23,30 @@ with DOM.Core;           use DOM.Core;
 with DOM.Core.Elements;  use DOM.Core.Elements;
 with DOM.Core.Nodes;
 
+----------------------- Temporary use/with -------------------------------------
+-- XML dependencies
+with Input_Sources.File;
+with DOM.Core.Documents;
+with DOM.Readers;
+
+with DOM.Core;               use DOM.Core;
+with DOM.Core.Nodes;         use DOM.Core.Nodes;
+with DOM.Core.Attrs;         use DOM.Core.Attrs;
+with DOM.Core.Elements;      use DOM.Core.Elements;
+
+-- TIXML2Ada dependencies
+with Descriptors;            use Descriptors;
+with Descriptors.Device;     use Descriptors.Device;
+with Descriptors.Peripheral; use Descriptors.Peripheral;
+with Descriptors.Register;   use Descriptors.Register;
+with Descriptors.Field;      use Descriptors.Field;
+with Descriptors.Enumerate;  use Descriptors.Enumerate;
+
+with Ada.Strings.Unbounded;  use Ada.Strings.Unbounded;
+with Ada_Gen;                use Ada_Gen;
+with SVD2Ada_Utils;          use SVD2Ada_Utils;
+--------------------------------------------------------------------------------
+
 package body Descriptors.Enumerate is
 
    function Read_Value (Elt : DOM.Core.Element) return Enumerate_Value;
@@ -34,36 +58,12 @@ package body Descriptors.Enumerate is
 
    function Read_Value (Elt : DOM.Core.Element) return Enumerate_Value
    is
-      List : constant Node_List := Nodes.Child_Nodes (Elt);
       Ret  : Enumerate_Value;
    begin
-      for J in 0 .. Nodes.Length (List) - 1 loop
-         if Nodes.Node_Type (Nodes.Item (List, J)) = Element_Node then
-            declare
-               Child : constant Element := Element (Nodes.Item (List, J));
-               Tag   : String renames Elements.Get_Tag_Name (Child);
-            begin
-               if Tag = "name" then
-                  Ret.Name := Get_Value (Child);
-
-               elsif Tag = "description" then
-                  Ret.Descr := Get_Value (Child);
-
-               elsif Tag = "value" then
-                  Ret.Value := Get_Value (Child);
-                  Ret.IsDefault := False;
-
-               elsif Tag = "isDefault" then
-                  Ret.Value := 0;
-                  Ret.IsDefault := True;
-
-               else
-                  Ada.Text_IO.Put_Line
-                    ("*** WARNING: ignoring enumerate element " & Tag);
-               end if;
-            end;
-         end if;
-      end loop;
+      Ret.Name := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Elt), "id"))));
+      Ret.Descr := To_Unbounded_String (Value (Get_Named_Item (Attributes (Elt), "description")));
+      Ret.Value := Unsigned'Value (Value (Get_Named_Item (Attributes (Elt), "value")));
+      Ret.IsDefault := False;
 
       return Ret;
    end Read_Value;
@@ -78,53 +78,38 @@ package body Descriptors.Enumerate is
       Vector : Enumerate_Vectors.Vector)
       return Enumerate_T
    is
-      List         : constant Node_List := Nodes.Child_Nodes (Elt);
-      Ret          : Enumerate_T;
+      Enum_Value_List : Node_List := DOM.Core.Elements.Get_Elements_By_Tag_Name (Elt, "bitenum");
+      Ret             : Enumerate_T;
+      R_W_Acess       : String := Value (Get_Named_Item (Attributes (Elt), "rwaccess"));
       Derived_From : constant String :=
                        Elements.Get_Attribute (Elt, "derivedFrom");
    begin
-      if Derived_From /= "" then
-         declare
-            Found : Boolean := False;
-         begin
-            for Oth of Vector loop
-               if Unbounded.To_String (Oth.Name) = Derived_From then
-                  --  Copy the derived from enumerate type into the new value
-                  Ret := Oth;
-                  Found := True;
-                  exit;
-               end if;
-            end loop;
 
-            if not Found then
-               raise Constraint_Error with
-                 "enumerate 'derivedFrom' is not known: " & Derived_From;
-            end if;
-         end;
+      Ret.Name := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Elt), "id")))) & "_enum";
+
+      if R_W_Acess = "R" then
+         Ret.Usage := Read;
+      elsif
+        R_W_Acess = "W" then
+         Ret.Usage := Write;
+      elsif
+        R_W_Acess = "RW" then
+         Ret.Usage := Read_Write;
+      else Ret.Usage := Undefined_Enum_Usage;
       end if;
 
-      for J in 0 .. Nodes.Length (List) - 1 loop
-         if Nodes.Node_Type (Nodes.Item (List, J)) = Element_Node then
-            declare
-               Child : constant Element := Element (Nodes.Item (List, J));
-               Tag   : String renames Elements.Get_Tag_Name (Child);
-            begin
-               if Tag = "name" then
-                  Ret.Name := Get_Value (Child);
+      if Nodes.Length (Enum_Value_List) > 1 then
+         for J in 0 .. Nodes.Length (Enum_Value_List) - 1 loop
 
-               elsif Tag = "usage" then
-                  Ret.Usage := Get_Value (Child);
+            if Item (Enum_Value_List, J) = null then
+               Ret.Usage := Undefined_Enum_Usage; -- some dummy assignement to put a breakpoint on
+            end if;
 
-               elsif Tag = "enumeratedValue" then
-                  Ret.Values.Append (Read_Value (Child));
 
-               else
-                  Ada.Text_IO.Put_Line
-                    ("*** WARNING: ignoring enumerate element " & Tag);
-               end if;
-            end;
-         end if;
-      end loop;
+            Ret.Values.Append (Read_Value (Item (Enum_Value_List, J)));
+         end loop;
+      end if;
+
 
 
       return Ret;

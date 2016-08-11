@@ -45,6 +45,9 @@ with Descriptors.Register;         use Descriptors.Register;
 with Descriptors.Field;            use Descriptors.Field;
 with Descriptors.Enumerate;        use Descriptors.Enumerate;
 
+with Ada_Gen;
+with GNAT.Directory_Operations;
+
 function tixml2Ada return Integer
 is
    -- Local variables used for XML parsing
@@ -86,6 +89,9 @@ begin
 
    -- reading input file
    Input_Sources.File.Open("input/Devices/tms570lc43xx.xml", Top_Xml_File);
+   
+   Ada_Gen.Set_Input_File_Name     
+     (GNAT.Directory_Operations.Base_Name ("input/Devices/tms570lc43xx.xml"));   
 
    -- parse xml document and get top element
    Top_Xml_Reader.Parse (Top_Xml_File);

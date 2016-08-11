@@ -70,15 +70,13 @@ package body Descriptors.Field is
       Default_Read   : Read_Action_Type)
       return Field_T
    is
-      List         : constant Node_List := Nodes.Child_Nodes (Elt);
-      Ret          : Field_T;
-      Derived_From : constant String :=
-                       Elements.Get_Attribute (Elt, "derivedFrom");
+      Enum_Value_List : Node_List := DOM.Core.Elements.Get_Elements_By_Tag_Name (Elt, "bitenum");
+      Field_Enum      : Descriptors.Enumerate.Enumerate_T;
+      Ret             : Field_T;
+      Derived_From    : constant String :=
+                             Elements.Get_Attribute (Elt, "derivedFrom");
 
    begin
-      Ret.Acc := Default_Access;
-      Ret.Read_Action := Default_Read;
-
       if Derived_From /= "" then
          declare
             Found : Boolean := False;
@@ -102,43 +100,13 @@ package body Descriptors.Field is
       Ret.Description      := To_Unbounded_String (Value (Get_Named_Item (Attributes (Elt), "description")));
       Ret.LSB              := Natural'Value (Value (Get_Named_Item (Attributes (Elt), "end")));
       Ret.Size             := Natural'Value (Value (Get_Named_Item (Attributes (Elt), "width")));
-      Ret.Acc              := Read_Write;
+      Ret.Acc              := Default_Access;
+      Ret.Read_Action      := Default_Read;
       Ret.Mod_Write_Values := Modify;
-      --Ret.Read_Action    := ;
-      --Ret.Enums            := null;
 
---        for J in 0 .. Nodes.Length (List) - 1 loop
---              declare
---                 Child : constant Element := Element (Nodes.Item (List, J));
---                 Tag   : String renames Elements.Get_Tag_Name (Child);
---              begin
 
---                 *** Tag = "bitRange" then
---                    --  bitRange has the form: [XX:YY] where XX is the MSB,
---                    --  and YY is the LSB
---                    declare
---                       Val : String renames Get_Value (Child);
---                    begin
---                       for K in Val'Range loop
---                          if Val(K) = ':' then
---                             Ret.LSB :=
---                               Natural'Value (Val (K + 1 .. Val'Last - 1));
---                             Ret.Size :=
---                               Natural'Value (Val (2 .. K - 1)) - Ret.LSB + 1;
---                          end if;
---                       end loop;
---                    end;
 
---                 *** Tag = "enumeratedValues" then
---                    declare
---                       Enum : constant Descriptors.Enumerate.Enumerate_T :=
---                                Descriptors.Enumerate.Read_Enumerate
---                                  (Child, Ret.Enums);
---                    begin
---                       Ret.Enums.Append (Enum);
---                    end;
---              end;
---        end loop;
+      Ret.Enums.Append (Descriptors.Enumerate.Read_Enumerate (Elt, Ret.Enums));
 
       return Ret;
    end Read_Field;

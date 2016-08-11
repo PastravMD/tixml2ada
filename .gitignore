@@ -10,5 +10,8 @@ output/*
 # Temporary files
 *~
 
+# Hidden Files
+.*
+
 # executable
 tixml2ada.exe
