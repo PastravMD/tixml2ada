@@ -250,6 +250,10 @@ package Ada_Gen is
      (Elt   : in out Ada_Type_Record'Class;
       Order : System.Bit_Order);
 
+   procedure Add_Scalar_Storage_Order_Aspect
+     (Elt   : in out Ada_Type_Record'Class;
+      Order : System.Bit_Order);
+
    function Simplify
      (Elt  : Ada_Type_Record;
       Spec : in out Ada_Spec) return Ada_Type'Class;

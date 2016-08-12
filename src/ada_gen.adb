@@ -1715,6 +1715,25 @@ package body Ada_Gen is
       Elt.Need_System := True;
    end Add_Bit_Order_Aspect;
 
+   --------------------------
+   -- Add_Bit_Order_Aspect --
+   --------------------------
+
+   procedure Add_Scalar_Storage_Order_Aspect
+     (Elt   : in out Ada_Type_Record'Class;
+      Order : System.Bit_Order)
+   is
+   begin
+      case Order is
+         when System.High_Order_First =>
+            Add_Aspect (Elt, "Scalar_Storage_Order => System.High_Order_First");
+         when System.Low_Order_First =>
+            Add_Aspect (Elt, "Scalar_Storage_Order => System.Low_Order_First");
+      end case;
+
+      Elt.Need_System := True;
+   end Add_Scalar_Storage_Order_Aspect;
+
    -------------------
    -- Added_In_Spec --
    -------------------

@@ -100,11 +100,6 @@ package body Descriptors.Register is
 
       Bitfield_List := DOM.Core.Elements.Get_Elements_By_Tag_Name (Register_Element, "bitfield");
 
-      if Ret.Description = "Transmit Control Register" then
-         Ret.Description := Ret.Description & "XXX"; -- some dummy instruction to put a breakpoint on
-      end if;
-
-
       if Length (Bitfield_List) > 0 then
          Ada.Text_IO.Put_Line ("Reg [" & Value (Get_Named_Item (Attributes (Register_Element), "id")) & "] had bitfields defined.");
          for K in 0 .. Length (Bitfield_List) - 1 loop
@@ -285,7 +280,8 @@ package body Descriptors.Register is
 
             Add_Aspect (Rec, "Volatile_Full_Access");
             Add_Size_Aspect (Rec, Reg.Reg_Properties.Size);
-            Add_Bit_Order_Aspect (Rec, System.Low_Order_First);
+            Add_Bit_Order_Aspect (Rec, System.High_Order_First);
+            Add_Scalar_Storage_Order_Aspect (Rec, System.High_Order_First);
 
             declare
                Res : Ada_Type'Class := Simplify (Rec, Spec);
