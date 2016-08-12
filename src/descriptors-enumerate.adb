@@ -100,12 +100,6 @@ package body Descriptors.Enumerate is
 
       if Nodes.Length (Enum_Value_List) > 1 then
          for J in 0 .. Nodes.Length (Enum_Value_List) - 1 loop
-
-            if Item (Enum_Value_List, J) = null then
-               Ret.Usage := Undefined_Enum_Usage; -- some dummy assignement to put a breakpoint on
-            end if;
-
-
             Ret.Values.Append (Read_Value (Item (Enum_Value_List, J)));
          end loop;
       end if;

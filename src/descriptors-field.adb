@@ -98,7 +98,7 @@ package body Descriptors.Field is
 
       Ret.Name             := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Elt), "id"))));
       Ret.Description      := To_Unbounded_String (Value (Get_Named_Item (Attributes (Elt), "description")));
-      Ret.LSB              := Natural'Value (Value (Get_Named_Item (Attributes (Elt), "end")));
+      Ret.LSB              := Natural'Value (Value (Get_Named_Item (Attributes (Elt), "begin")));
       Ret.Size             := Natural'Value (Value (Get_Named_Item (Attributes (Elt), "width")));
       Ret.Acc              := Default_Access;
       Ret.Read_Action      := Default_Read;
