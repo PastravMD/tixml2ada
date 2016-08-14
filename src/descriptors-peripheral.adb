@@ -94,6 +94,7 @@ package body Descriptors.Peripheral is
       Module_List              : Node_List;
       Register_List            : Node_List;
       Module_Element           : DOM.Core.Element;
+      Address_Block            : Address_Block_Type;
    begin
 
       if Is_Derived_From /= Null_Unbounded_String then
@@ -128,15 +129,16 @@ package body Descriptors.Peripheral is
          Ret.Name  := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Peripheral_Element), "id"))));
          Ret.Base_Address  := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "baseaddr"));
 
+
+         Address_Block.Offset := 16#0#;
+         Address_Block.Size := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "size"));
+         Address_Block.Usage := Registers_Usage;
+         Address_Block.Protection := Undefined_Protection;
+
          -- := Value (Get_Named_Item (Attributes (Peripheral_Element), "HW_revision"));
          -- Ret.Address_Blocks.Append := Unsigned_64'Value (Value (Get_Named_Item (Attributes (Peripheral_Element), "size")));
          -- Ret.Reg_Properties := Value (Get_Named_Item (Attributes (Peripheral_Element), "accessnumbytes"));
          Ret.Reg_Properties.Protection := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "permissions"));
-
-         --Ada.Text_IO.Put_Line ("");
-         Ada.Text_IO.Put_Line (" Module = " & Value (Get_Named_Item (Attributes (Peripheral_Element), "id")));
-         --Ada.Text_IO.Put_Line ("    Base Address = " & Value (Get_Named_Item (Attributes (Peripheral_Element), "baseaddr")) & " = " & Unsigned'Image(Ret.Base_Address));
-         --Ada.Text_IO.Put_Line ("");
 
          -- reading input file
          Input_Sources.File.Open("input/Devices/" & Value(xml_href), Peripheral_Xml_File);
@@ -158,6 +160,12 @@ package body Descriptors.Peripheral is
 
          Ret.Version := To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "XML_version")));
          Ret.Description := To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "description")));
+         Ret.Group_Name := To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "id")));
+
+         --Ada.Text_IO.Put_Line ("");
+         Ada.Text_IO.Put_Line (" Group [" & To_String (Ret.Group_Name) & "] Module = " & Value (Get_Named_Item (Attributes (Peripheral_Element), "id")));
+         --Ada.Text_IO.Put_Line ("    Base Address = " & Value (Get_Named_Item (Attributes (Peripheral_Element), "baseaddr")) & " = " & Unsigned'Image(Ret.Base_Address));
+         --Ada.Text_IO.Put_Line ("");
 
          -- Register_Properties.Read_Register_Property (Child, Ret.Reg_Properties);
 

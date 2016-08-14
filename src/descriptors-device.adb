@@ -76,7 +76,7 @@ package body Descriptors.Device is
         Item(Get_Elements_By_Tag_Name(Top_Xml_Element,"cpu") , 0);
 
       Hw_Module_List : Node_List :=
-        DOM.Core.Elements.Get_Elements_By_Tag_Name (Cpu_Element, "instance");
+                         DOM.Core.Elements.Get_Elements_By_Tag_Name (Cpu_Element, "instance");
 
    begin
 
@@ -140,8 +140,8 @@ package body Descriptors.Device is
                      if Module_href = Predecessor_href then
                         Is_Derived_From := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Predecessor_Element), "id"))));
 
-                        Ada.Text_IO.Put_Line (" Module " & To_String (Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "id"))))) &
-                                                "is derived from " &
+                        Ada.Text_IO.Put_Line ("        " & To_String (Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "id"))))) &
+                                                " is derived from " &
                                                 To_String (Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Predecessor_Element), "id")))))
                                              );
                         exit;
