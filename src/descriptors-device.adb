@@ -29,6 +29,8 @@ with Ada_Gen;               use Ada_Gen;
 with SVD2Ada_Utils;         use SVD2Ada_Utils;
 
 ----------------------- Temporary use/with -------------------------------------
+with Ada.Strings.Unbounded;       use Ada.Strings.Unbounded;
+
 -- XML dependencies
 with Input_Sources.File;
 with DOM.Core.Documents;
@@ -123,16 +125,39 @@ package body Descriptors.Device is
 
       for J in 0 .. Length (Hw_Module_List) - 1 loop
          declare
-            Module_Element : constant Element :=
-              Element (Nodes.Item (Hw_Module_List, J));
+            Module_Element : DOM.Core.Element :=
+                               DOM.Core.Element (Nodes.Item (Hw_Module_List, J));
+            Module_href : String := Value (Get_Named_Item (Attributes (Module_Element), "href"));
+            Is_Derived_From : Unbounded_String := Null_Unbounded_String;
             Peripheral : Peripheral_T;
          begin
-            Peripheral :=
-              Read_Peripheral
-                (Module_Element,
-                 Ret.Reg_Properties,
-                 Ret.Peripherals);
-            Ret.Peripherals.Append (Peripheral);
+            if J > 1 then
+               for K in 0 .. (J - 1) loop
+                  declare
+                     Predecessor_Element : DOM.Core.Element := DOM.Core.Element (Nodes.Item (Hw_Module_List, K));
+                     Predecessor_href    : String := Value (Get_Named_Item (Attributes (Predecessor_Element), "href"));
+                  begin
+                     if Module_href = Predecessor_href then
+                        Is_Derived_From := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Predecessor_Element), "id"))));
+
+                        Ada.Text_IO.Put_Line (" Module " & To_String (Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "id"))))) &
+                                                "is derived from " &
+                                                To_String (Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Predecessor_Element), "id")))))
+                                             );
+                        exit;
+                     end if;
+                  end;
+               end loop;
+            end if;
+
+               Peripheral :=
+                 Read_Peripheral
+                   (Module_Element,
+                    Ret.Reg_Properties,
+                    Ret.Peripherals,
+                    Is_Derived_From);
+               Ret.Peripherals.Append (Peripheral);
+               Is_Derived_From := Null_Unbounded_String;
          end;
       end loop;
 

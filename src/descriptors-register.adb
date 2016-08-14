@@ -94,14 +94,14 @@ package body Descriptors.Register is
       if Get_Named_Item (Attributes (Register_Element), "offset") /= null then
          Ret.Address_Offset := Get_Value (Get_Named_Item (Attributes (Register_Element), "offset"));
       else
-         Ada.Text_IO.Put_Line ("Reg [" & Value (Get_Named_Item (Attributes (Register_Element), "id")) & "]    -> " & Value (Get_Named_Item (Attributes (Register_Element), "description")) & " has no offset attribute !");
+         --Ada.Text_IO.Put_Line ("Reg [" & Value (Get_Named_Item (Attributes (Register_Element), "id")) & "]    -> " & Value (Get_Named_Item (Attributes (Register_Element), "description")) & " has no offset attribute !");
          Ret.Address_Offset := 0; -- proper handling TBD
       end if;
 
       Bitfield_List := DOM.Core.Elements.Get_Elements_By_Tag_Name (Register_Element, "bitfield");
 
       if Length (Bitfield_List) > 0 then
-         Ada.Text_IO.Put_Line ("Reg [" & Value (Get_Named_Item (Attributes (Register_Element), "id")) & "] had bitfields defined.");
+         --Ada.Text_IO.Put_Line ("Reg [" & Value (Get_Named_Item (Attributes (Register_Element), "id")) & "] had bitfields defined.");
          for K in 0 .. Length (Bitfield_List) - 1 loop
             declare
                Field : Field_T;
