@@ -160,7 +160,7 @@ package body Descriptors.Peripheral is
 
          Ret.Version := To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "XML_version")));
          Ret.Description := To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "description")));
-         Ret.Group_Name := To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "id")));
+         Ret.Group_Name := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "id"))));
 
          --Ada.Text_IO.Put_Line ("");
          Ada.Text_IO.Put_Line (" Group [" & To_String (Ret.Group_Name) & "] Module = " & Value (Get_Named_Item (Attributes (Peripheral_Element), "id")));

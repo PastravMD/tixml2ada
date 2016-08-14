@@ -125,11 +125,11 @@ package body Descriptors.Device is
 
       for J in 0 .. Length (Hw_Module_List) - 1 loop
          declare
-            Module_Element : DOM.Core.Element :=
-                               DOM.Core.Element (Nodes.Item (Hw_Module_List, J));
-            Module_href : String := Value (Get_Named_Item (Attributes (Module_Element), "href"));
+            Module_Element  : DOM.Core.Element :=
+                                DOM.Core.Element (Nodes.Item (Hw_Module_List, J));
+            Module_href     : String := Value (Get_Named_Item (Attributes (Module_Element), "href"));
             Is_Derived_From : Unbounded_String := Null_Unbounded_String;
-            Peripheral : Peripheral_T;
+            Peripheral      : Peripheral_T;
          begin
             if J > 1 then
                for K in 0 .. (J - 1) loop
@@ -150,14 +150,14 @@ package body Descriptors.Device is
                end loop;
             end if;
 
-               Peripheral :=
-                 Read_Peripheral
-                   (Module_Element,
-                    Ret.Reg_Properties,
-                    Ret.Peripherals,
-                    Is_Derived_From);
-               Ret.Peripherals.Append (Peripheral);
-               Is_Derived_From := Null_Unbounded_String;
+            Peripheral :=
+              Read_Peripheral
+                (Module_Element,
+                 Ret.Reg_Properties,
+                 Ret.Peripherals,
+                 Is_Derived_From);
+            Ret.Peripherals.Append (Peripheral);
+            Is_Derived_From := Null_Unbounded_String;
          end;
       end loop;
 
