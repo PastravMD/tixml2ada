@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module id="MagicUnicorn" HW_revision="" XML_version="1" description="The Deus Ex Machina to all problems.">
+   <!-- (c) Texas Instruments 2003-2012, All rights reserved. -->
+   <!-- Filename: Hercules_CCMR5_spec_0.6.0.xml                 -->
+   <!-- Version: 1.0                                          -->
+   <register id="Problem" acronym="Prob" offset="0x00" width="32" description="What's the problem ?">
+      <bitfield id="PrbType" width="5" begin="0" end="4" resetval="0" description="Problem type" range="" rwaccess="RW">
+         <bitenum id="AllOK" value="0" token="Ok" description="No problem here"/>
+         <bitenum id="Misconfigured" value="1" token="Miscfg" description="Invalid configuration"/>
+         <bitenum id="Broken" value="2" token="Brk" description="Just broken"/>
+         <bitenum id="Bugged" value="4" token="Bug" description="Software bug"/>
+         <bitenum id="Fubar" value="8" token="Fbr" description="Fucked Up Beyond All Repair"/>
+         <bitenum id="Unknwon" value="16" token="Unknwn" description="???"/>
+      </bitfield>
+      <bitfield id="Responsible" width="3" begin="5" end="7" resetval="0" description="Who dunnit" range="" rwaccess="RW">
+         <bitenum id="God" value="0" token="God" description="Act of God"/>
+         <bitenum id="Developer" value="1" token="Dev" description="I did it."/>
+         <bitenum id="Manager" value="2" token="Mng" description="My boss did it."/>
+         <bitenum id="Customer" value="4" token="Cst" description="Our beloved did it."/>
+      </bitfield>
+      <bitfield id="Impact" width="3" begin="8" end="10" resetval="0" description="How bad is it" range="" rwaccess="RW">
+         <bitenum id="None" value="0" token="Min" description="Move along"/>
+         <bitenum id="Minor" value="1" token="Min" description="Pffft"/>
+         <bitenum id="Medium" value="2" token="Med" description="Meh"/>
+         <bitenum id="Major" value="4" token="Max" description="Oh shit"/>
+      </bitfield>      
+      <bitfield id="Reserved" width="21" begin="11" end="31" resetval="0" description="Reserved for future use" range="" rwaccess="RW"></bitfield>
+   </register>
+   <register id="Deadline" acronym="When" offset="0x04" width="32" description="When do you want it fixed ?"></register>
+   <register id="Method" acronym="How" offset="0x08" width="32" description="How do you want it fixed ?"></register>
+</module>
