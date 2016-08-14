@@ -18,7 +18,8 @@
 ------------------------------------------------------------------------------
 
 with Ada.Containers.Vectors;
-with Ada.Strings.Unbounded;          use Ada.Strings;
+with Ada.Strings.Unbounded;          use Ada.Strings.Unbounded;
+with Ada.Strings;                    use Ada.Strings;
 
 with DOM.Core;
 
@@ -50,7 +51,8 @@ package Descriptors.Peripheral is
    function Read_Peripheral
      (Peripheral_Element : DOM.Core.Element;
       Reg_Properties     : Register_Properties_T;
-      Vector             : Peripheral_Vectors.Vector) return Peripheral_T;
+      Vector             : Peripheral_Vectors.Vector;
+      Is_Derived_From    : Unbounded_String) return Peripheral_T;
 
    procedure Dump
      (Peripheral : in out Peripheral_T;

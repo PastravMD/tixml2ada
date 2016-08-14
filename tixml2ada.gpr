@@ -1,16 +1,29 @@
-
 with "xmlada";
 
-project tixml2Ada is
+project Tixml2Ada is
 
+   type Build_Kind is
+      ("static", "relocatable", "static-pic");
    for Source_Dirs use ("src");
    for Main use ("tixml2ada.adb");
    for Object_Dir use "obj";
    for Exec_Dir use ".";
+   XMLADA_BUILD : Build_Kind := external ("XMLADA_BUILD");
 
    package Compiler is
-      for Default_Switches ("ada") use ("-g", "-O0", "-gnatwa", "-gnatQ", "-gnatw.X");
+
+      case XMLADA_BUILD is
+
+         when "static" =>
+            for Default_Switches ("ada") use ("-gnatws", "-g", "-O0", "-gnatQ");
+
+         when "relocatable" =>
+            for Default_Switches ("ada") use ("-g", "-O0", "-gnatwa", "-gnatQ", "-gnatw.X");
+
+         when "static-pic" =>
+            for Default_Switches ("ada") use ("-g", "-O0", "-gnatwa", "-gnatQ", "-gnatw.X");
+      end case;
    end Compiler;
 
-end tixml2Ada;
+end Tixml2Ada;
 

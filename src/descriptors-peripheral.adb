@@ -80,7 +80,8 @@ package body Descriptors.Peripheral is
    function Read_Peripheral
      (Peripheral_Element : DOM.Core.Element;
       Reg_Properties     : Register_Properties_T;
-      Vector             : Peripheral_Vectors.Vector) return Peripheral_T
+      Vector             : Peripheral_Vectors.Vector;
+      Is_Derived_From    : Unbounded_String) return Peripheral_T
    is
       Ret                      : Peripheral_T;
       Peripheral_Xml_File        : Input_Sources.File.File_Input;
@@ -93,62 +94,97 @@ package body Descriptors.Peripheral is
       Module_List              : Node_List;
       Register_List            : Node_List;
       Module_Element           : DOM.Core.Element;
+      Address_Block            : Address_Block_Type;
    begin
 
-      xml_href  := Get_Named_Item (Attributes (Peripheral_Element), "href");
-      Ret.Name  := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Peripheral_Element), "id"))));
-      Ret.Base_Address  := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "baseaddr"));
-
-      -- := Value (Get_Named_Item (Attributes (Peripheral_Element), "HW_revision"));
-      -- Ret.Address_Blocks.Append := Unsigned_64'Value (Value (Get_Named_Item (Attributes (Peripheral_Element), "size")));
-      -- Ret.Reg_Properties := Value (Get_Named_Item (Attributes (Peripheral_Element), "accessnumbytes"));
-      Ret.Reg_Properties.Protection := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "permissions"));
-
-      --Ada.Text_IO.Put_Line ("");
-      Ada.Text_IO.Put_Line (" Module = " & Value (Get_Named_Item (Attributes (Peripheral_Element), "id")));
-      --Ada.Text_IO.Put_Line ("    Base Address = " & Value (Get_Named_Item (Attributes (Peripheral_Element), "baseaddr")) & " = " & Unsigned'Image(Ret.Base_Address));
-      --Ada.Text_IO.Put_Line ("");
-
-      -- reading input file
-      Input_Sources.File.Open("input/Devices/" & Value(xml_href), Peripheral_Xml_File);
-
-      -- parse xml document and get top element
-      Peripheral_Xml_Reader.Parse (Peripheral_Xml_File);
-      Input_Sources.File.Close(Peripheral_Xml_File);
-      Peripheral_Xml_Doc := DOM.Readers.Get_Tree(Peripheral_Xml_Reader);
-      Module_List := DOM.Core.Documents.Get_Elements_By_Tag_Name
-        (Peripheral_Xml_Doc, "module");
-
-      if Length(Module_List) /= 1 then raise Constraint_Error with
-           "Read_Peripheral(" & Value (xml_href) & ") failed: " &
-           "Input XML document must contain exactly 1 module element." &
-           "Current one has " & Integer'Image(Length(Module_List));
-      end if;
-
-      Module_Element := Item (Module_List, 0);
-
-      Ret.Version := To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "XML_version")));
-      Ret.Description := To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "description")));
-
-      -- Register_Properties.Read_Register_Property (Child, Ret.Reg_Properties);
-
-      Register_List := DOM.Core.Elements.Get_Elements_By_Tag_Name (Module_Element, "register");
-
-      for K in 0 .. Length (Register_List) - 1 loop
+      if Is_Derived_From /= Null_Unbounded_String then
          declare
-            Register : Register_Access;
+            Found : Boolean := False;
          begin
-         Register :=
-           Read_Register
-             (Item (Register_List, K),
-              Ret.Prepend_To_Name,
-              Ret.Append_To_Name,
-              Ret.Reg_Properties,
-              Ret.Registers);
-            Insert_Register (Ret, Register);
-         end;
-      end loop;
+            for P of Vector loop
+               if Unbounded.To_String (P.Name) = Unbounded.To_String (Is_Derived_From) then
+                  Found := True;
+                  Ret   := P;
+                  --  Deep copy of the registers list
+                  Ret.Registers.Clear;
+                  for Reg of P.Registers loop
+                     Ret.Registers.Append (new Register_T'(Reg.all));
+                  end loop;
+                  exit;
+               end if;
+            end loop;
 
+            if not Found then
+               raise Constraint_Error with
+                 "peripheral 'Is_Derived_From' is not known: " & To_String(Is_Derived_From);
+            end if;
+         end;
+         xml_href  := Get_Named_Item (Attributes (Peripheral_Element), "href");
+         Ret.Name  := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Peripheral_Element), "id"))));
+         Ret.Base_Address  := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "baseaddr"));
+      else
+
+
+         xml_href  := Get_Named_Item (Attributes (Peripheral_Element), "href");
+         Ret.Name  := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Peripheral_Element), "id"))));
+         Ret.Base_Address  := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "baseaddr"));
+
+
+         Address_Block.Offset := 16#0#;
+         Address_Block.Size := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "size"));
+         Address_Block.Usage := Registers_Usage;
+         Address_Block.Protection := Undefined_Protection;
+
+         -- := Value (Get_Named_Item (Attributes (Peripheral_Element), "HW_revision"));
+         -- Ret.Address_Blocks.Append := Unsigned_64'Value (Value (Get_Named_Item (Attributes (Peripheral_Element), "size")));
+         -- Ret.Reg_Properties := Value (Get_Named_Item (Attributes (Peripheral_Element), "accessnumbytes"));
+         Ret.Reg_Properties.Protection := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "permissions"));
+
+         -- reading input file
+         Input_Sources.File.Open("input/Devices/" & Value(xml_href), Peripheral_Xml_File);
+
+         -- parse xml document and get top element
+         Peripheral_Xml_Reader.Parse (Peripheral_Xml_File);
+         Input_Sources.File.Close(Peripheral_Xml_File);
+         Peripheral_Xml_Doc := DOM.Readers.Get_Tree(Peripheral_Xml_Reader);
+         Module_List := DOM.Core.Documents.Get_Elements_By_Tag_Name
+           (Peripheral_Xml_Doc, "module");
+
+         if Length(Module_List) /= 1 then raise Constraint_Error with
+              "Read_Peripheral(" & Value (xml_href) & ") failed: " &
+              "Input XML document must contain exactly 1 module element." &
+              "Current one has " & Integer'Image(Length(Module_List));
+         end if;
+
+         Module_Element := Item (Module_List, 0);
+
+         Ret.Version := To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "XML_version")));
+         Ret.Description := To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "description")));
+         Ret.Group_Name := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "id"))));
+
+         --Ada.Text_IO.Put_Line ("");
+         Ada.Text_IO.Put_Line (" Group [" & To_String (Ret.Group_Name) & "] Module = " & Value (Get_Named_Item (Attributes (Peripheral_Element), "id")));
+         --Ada.Text_IO.Put_Line ("    Base Address = " & Value (Get_Named_Item (Attributes (Peripheral_Element), "baseaddr")) & " = " & Unsigned'Image(Ret.Base_Address));
+         --Ada.Text_IO.Put_Line ("");
+
+         -- Register_Properties.Read_Register_Property (Child, Ret.Reg_Properties);
+
+         Register_List := DOM.Core.Elements.Get_Elements_By_Tag_Name (Module_Element, "register");
+         for K in 0 .. Length (Register_List) - 1 loop
+            declare
+               Register : Register_Access;
+            begin
+               Register :=
+                 Read_Register
+                   (Item (Register_List, K),
+                    Ret.Prepend_To_Name,
+                    Ret.Append_To_Name,
+                    Ret.Reg_Properties,
+                    Ret.Registers);
+               Insert_Register (Ret, Register);
+            end;
+         end loop;
+      end if;
       return Ret;
    end Read_Peripheral;
 
