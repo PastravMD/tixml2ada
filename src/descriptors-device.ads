@@ -24,9 +24,9 @@ with DOM.Core;
 with Base_Types;                     use Base_Types;
 with Base_Types.Register_Properties;
 
-with Descriptors.Peripheral;         use Descriptors.Peripheral;
+with Descriptors.Peripheral;
 
---  Decodes and dumps the <device> elements of the SVD file. This is the
+--  Decodes and dumps the <device> elements of the xml file. This is the
 --  main entry point for decoding this file.
 package Descriptors.Device is
 
@@ -46,11 +46,10 @@ package Descriptors.Device is
       --  REGISTERS properties
       Reg_Properties    : Register_Properties.Register_Properties_T;
 
-      Peripherals       : Peripheral_Vectors.Vector;
+      Peripherals       : Descriptors.Peripheral.Peripheral_Vectors.Vector;
    end record;
 
-   function Read_Device (Top_Xml_Element : DOM.Core.Element;
-                         Pkg_Name        : String) return Device_T;
+   function Read_Device (Top_Xml_Element : DOM.Core.Element) return Device_T;
 
    procedure Dump
      (Device     : Device_T;

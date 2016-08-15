@@ -17,70 +17,44 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Interfaces;            use Interfaces;
-with Ada.Text_IO;           use Ada.Text_IO;
-with GNAT.OS_Lib;
-
---with DOM.Core;              use DOM.Core;
---with DOM.Core.Elements;     use DOM.Core.Elements;
---with DOM.Core.Nodes;
-
-with Ada_Gen;               use Ada_Gen;
-with SVD2Ada_Utils;         use SVD2Ada_Utils;
-
------------------------ Temporary use/with -------------------------------------
-with Ada.Strings.Unbounded;       use Ada.Strings.Unbounded;
+-- common Ada dependencies
+with Ada.Text_IO;            use Ada.Text_IO;
+with Ada.Strings.Unbounded;  use Ada.Strings.Unbounded;
 with Ada.Strings.Fixed;
-with Ada.Strings.Maps;            use Ada.Strings.Maps;
+with Ada.Strings.Maps;
 with GNAT.Directory_Operations;
 
 -- XML dependencies
-with Input_Sources.File;
-with DOM.Core.Documents;
-with DOM.Readers;
-
-with DOM.Core;                     use DOM.Core;
-with DOM.Core.Nodes;               use DOM.Core.Nodes;
-with DOM.Core.Attrs;               use DOM.Core.Attrs;
-with DOM.Core.Elements;            use DOM.Core.Elements;
+with DOM.Core;               use DOM.Core;
+with DOM.Core.Nodes;         use DOM.Core.Nodes;
+with DOM.Core.Attrs;         use DOM.Core.Attrs;
+with DOM.Core.Elements;      use DOM.Core.Elements;
 
 -- TIXML2Ada dependencies
-with Descriptors;                  use Descriptors;
-with Descriptors.Device;           use Descriptors.Device;
-with Descriptors.Peripheral;       use Descriptors.Peripheral;
-with Descriptors.Register;         use Descriptors.Register;
-with Descriptors.Field;            use Descriptors.Field;
-with Descriptors.Enumerate;        use Descriptors.Enumerate;
---------------------------------------------------------------------------------
+with Descriptors.Peripheral; use Descriptors.Peripheral;
+with Ada_Gen;                use Ada_Gen;
+with SVD2Ada_Utils;          use SVD2Ada_Utils;
 
 package body Descriptors.Device is
-
-   package Interrupt_Sort is new Interrupt_Vectors.Generic_Sorting
-     (Base_Types."<");
 
    -----------------
    -- Read_Device --
    -----------------
 
    function Read_Device
-     (Top_Xml_Element : DOM.Core.Element;
-      Pkg_Name        : String) return Device_T
+     (Top_Xml_Element : DOM.Core.Element) return Device_T
    is
       Ret  : Device_T;
-
       Device_List : Node_List :=
         Get_Elements_By_Tag_Name(Top_Xml_Element,"device");
       Cpu_List : Node_List :=
         Get_Elements_By_Tag_Name(Top_Xml_Element,"cpu");
-
       Device_Element : constant DOM.Core.Element :=
         Item(Get_Elements_By_Tag_Name(Top_Xml_Element,"device") , 0);
       Cpu_Element : constant DOM.Core.Element :=
         Item(Get_Elements_By_Tag_Name(Top_Xml_Element,"cpu") , 0);
-
-      Hw_Module_List : Node_List :=
+      Hw_Module_List : constant Node_List :=
                          DOM.Core.Elements.Get_Elements_By_Tag_Name (Cpu_Element, "instance");
-
    begin
 
       if Length(Device_List) /= 1 then raise Constraint_Error with
@@ -122,17 +96,17 @@ package body Descriptors.Device is
 
       -- try to determine device endianess
       declare
-         Properties_List  : Node_List   := DOM.Core.Elements.Get_Elements_By_Tag_Name (Cpu_Element, "property");
+         Properties_List  : constant Node_List   := DOM.Core.Elements.Get_Elements_By_Tag_Name (Cpu_Element, "property");
          Device_Endianess : Endian_Type := Big_Endian;
       begin
          for K in 0 .. Length (Properties_List) - 1 loop
             declare
-               Property_Elt   : DOM.Core.Element := DOM.Core.Element (Nodes.Item (Properties_List, K));
-               Property_Id    : String := Value (Get_Named_Item (Attributes (Property_Elt), "id"));
-               Property_Value : String := Value (Get_Named_Item (Attributes (Property_Elt), "Value"));
+               Property_Elt   : constant DOM.Core.Element := DOM.Core.Element (Nodes.Item (Properties_List, K));
+               Property_Id    : constant String := Value (Get_Named_Item (Attributes (Property_Elt), "id"));
+               Property_Value : constant String := Value (Get_Named_Item (Attributes (Property_Elt), "Value"));
                First_Idx      : Positive := 1;
                Last_Idx       : Natural  := 0;
-               Little_Endian_Flag : String := "--little";
+               Little_Endian_Flag : constant String := "--little";
             begin
                if Property_Id = "Endianness" then
                   if Property_Value = "little" then
@@ -142,7 +116,7 @@ package body Descriptors.Device is
                   end if;
                elsif Property_Id = "CompilerBuildOptions" then
                   Ada.Strings.Fixed.Find_Token (Source           => Property_Value,
-                              Set              => To_Set(Little_Endian_Flag),
+                              Set              => Ada.Strings.Maps.To_Set(Little_Endian_Flag),
                               Test             => Inside,
                               First            => First_Idx,
                               Last             => Last_Idx);
@@ -157,17 +131,17 @@ package body Descriptors.Device is
 
       for J in 0 .. Length (Hw_Module_List) - 1 loop
          declare
-            Module_Element  : DOM.Core.Element :=
+            Module_Element  : constant DOM.Core.Element :=
                                 DOM.Core.Element (Nodes.Item (Hw_Module_List, J));
-            Module_href     : String := Value (Get_Named_Item (Attributes (Module_Element), "href"));
+            Module_href     : constant String := Value (Get_Named_Item (Attributes (Module_Element), "href"));
             Is_Derived_From : Unbounded_String := Null_Unbounded_String;
             Peripheral      : Peripheral_T;
          begin
             if J > 1 then
                for K in 0 .. (J - 1) loop
                   declare
-                     Predecessor_Element : DOM.Core.Element := DOM.Core.Element (Nodes.Item (Hw_Module_List, K));
-                     Predecessor_href    : String := Value (Get_Named_Item (Attributes (Predecessor_Element), "href"));
+                     Predecessor_Element : constant DOM.Core.Element := DOM.Core.Element (Nodes.Item (Hw_Module_List, K));
+                     Predecessor_href    : constant String := Value (Get_Named_Item (Attributes (Predecessor_Element), "href"));
                   begin
                      if Module_href = Predecessor_href then
                         Is_Derived_From := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Predecessor_Element), "id"))));
@@ -191,7 +165,6 @@ package body Descriptors.Device is
                  Ret.Peripherals,
                  Is_Derived_From);
             Ret.Peripherals.Append (Peripheral);
-            Is_Derived_From := Null_Unbounded_String;
          end;
       end loop;
 
@@ -212,20 +185,12 @@ package body Descriptors.Device is
      (Device     : Device_T;
       Output_Dir : String)
    is
-      use Ada.Strings.Unbounded;
       Peripherals : Peripheral_Vectors.Vector;
-      Interrupts  : Interrupt_Vectors.Vector;
       Spec        : Ada_Gen.Ada_Spec :=
                       New_Spec (To_String (Device.Name),
                                 To_String (Device.Description),
                                 True);
-      Old_Spec    : Ada_Gen.Ada_Spec;
-      Max_Len     : Natural := 0;
-
    begin
-
-      --Spec := Old_Spec;
-
       ----------------------------
       --  Base types definition --
       ----------------------------

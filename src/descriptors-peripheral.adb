@@ -17,38 +17,23 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+-- common Ada dependencies
 with Ada.Text_IO;
 with Ada.Containers.Indefinite_Vectors;
-with Ada.Strings.Unbounded;       use Ada.Strings.Unbounded;
-
---with DOM.Core;
---with DOM.Core.Elements;  use DOM.Core.Elements;
---with DOM.Core.Nodes;
-
-with Interfaces;                     use Interfaces;
-with Base_Types;                     use Base_Types;
-
-with Ada_Gen;            use Ada_Gen;
-with SVD2Ada_Utils;      use SVD2Ada_Utils;
------------------------ Temporary use/with -------------------------------------
--- XML dependencies
 with Input_Sources.File;
+with Interfaces;
+
+-- XML dependencies
 with DOM.Core.Documents;
 with DOM.Readers;
-
 with DOM.Core;                     use DOM.Core;
 with DOM.Core.Nodes;               use DOM.Core.Nodes;
 with DOM.Core.Attrs;               use DOM.Core.Attrs;
 with DOM.Core.Elements;            use DOM.Core.Elements;
 
 -- TIXML2Ada dependencies
-with Descriptors;                  use Descriptors;
-with Descriptors.Device;           use Descriptors.Device;
-with Descriptors.Peripheral;       use Descriptors.Peripheral;
-with Descriptors.Register;         use Descriptors.Register;
-with Descriptors.Field;            use Descriptors.Field;
-with Descriptors.Enumerate;        use Descriptors.Enumerate;
---------------------------------------------------------------------------------
+with Ada_Gen;            use Ada_Gen;
+with SVD2Ada_Utils;      use SVD2Ada_Utils;
 
 package body Descriptors.Peripheral is
 
@@ -69,6 +54,7 @@ package body Descriptors.Peripheral is
 
    function Less (P1, P2 : Peripheral_T) return Boolean
    is
+      use Interfaces;
    begin
       return P1.Base_Address < P2.Base_Address;
    end Less;
@@ -89,8 +75,6 @@ package body Descriptors.Peripheral is
       Peripheral_Xml_Doc         : DOM.Core.Document;
 
       xml_href                 : DOM.Core.Attr;
-      hw_module_id             : DOM.Core.Attr;
-      base_address             : DOM.Core.Attr;
       Module_List              : Node_List;
       Register_List            : Node_List;
       Module_Element           : DOM.Core.Element;
@@ -136,11 +120,7 @@ package body Descriptors.Peripheral is
          Address_Block.Size := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "size"));
          Address_Block.Usage := Registers_Usage;
          Address_Block.Protection := Undefined_Protection;
-
-         -- := Value (Get_Named_Item (Attributes (Peripheral_Element), "HW_revision"));
-         -- Ret.Address_Blocks.Append := Unsigned_64'Value (Value (Get_Named_Item (Attributes (Peripheral_Element), "size")));
-         -- Ret.Reg_Properties := Value (Get_Named_Item (Attributes (Peripheral_Element), "accessnumbytes"));
-         -- Ret.Reg_Properties.Protection := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "permissions"));
+         Ret.Address_Blocks.Append (Address_Block);
 
          -- reading input file
          Input_Sources.File.Open("input/Devices/" & Value(xml_href), Peripheral_Xml_File);
@@ -181,8 +161,7 @@ package body Descriptors.Peripheral is
                    (Item (Register_List, K),
                     Ret.Prepend_To_Name,
                     Ret.Append_To_Name,
-                    Ret.Reg_Properties,
-                    Ret.Registers);
+                    Ret.Reg_Properties);
                Insert_Register (Ret, Register);
             end;
          end loop;
@@ -224,7 +203,6 @@ package body Descriptors.Peripheral is
    function Find_Overlapping_Registers
      (Reg_Set : Register_Vectors.Vector) return Boolean
    is
-      use Unbounded;
       Ret      : Boolean := False;
       Idx      : Positive;
       Off      : Natural;
@@ -342,8 +320,6 @@ package body Descriptors.Peripheral is
       Peripheral : Peripheral_T;
       Type_Name  : String)
    is
-      use Ada.Strings.Unbounded;
-
       function Create_Record return Ada_Type_Record'Class;
 
       function Get_Discriminent_Type
@@ -463,7 +439,6 @@ package body Descriptors.Peripheral is
       Dev_Name   : String;
       Output_Dir : String)
    is
-      use Ada.Strings.Unbounded;
       Spec : Ada_Spec;
 
    begin
@@ -516,7 +491,6 @@ package body Descriptors.Peripheral is
       Dev_Name   : String;
       Output_Dir : String)
    is
-      use Ada.Strings.Unbounded;
       use type Register_Vectors.Vector;
       use type Ada.Containers.Count_Type;
       Regs               : Register_Vectors.Vector;

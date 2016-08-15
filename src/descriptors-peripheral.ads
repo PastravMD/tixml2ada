@@ -17,27 +17,31 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+-- common Ada dependencies
 with Ada.Containers.Vectors;
 with Ada.Strings.Unbounded;          use Ada.Strings.Unbounded;
 with Ada.Strings;                    use Ada.Strings;
 
+-- XML dependencies
 with DOM.Core;
 
+-- TIXML2Ada dependencies
+with Descriptors.Register;           use Descriptors.Register;
 with Base_Types;                     use Base_Types;
 with Base_Types.Register_Properties; use Base_Types.Register_Properties;
 
-with Descriptors.Register;           use Descriptors.Register;
 
---  Decodes and then dumps the <peripheral> elements of the SVD file.
+
+--  Decodes and then dumps the <peripheral> elements of the xml file.
 package Descriptors.Peripheral is
 
    type Peripheral_T is record
-      Name            : Unbounded.Unbounded_String;
-      Version         : Unbounded.Unbounded_String;
-      Description     : Unbounded.Unbounded_String;
-      Group_Name      : Unbounded.Unbounded_String;
-      Prepend_To_Name : Unbounded.Unbounded_String;
-      Append_To_Name  : Unbounded.Unbounded_String;
+      Name            : Unbounded_String;
+      Version         : Unbounded_String;
+      Description     : Unbounded_String;
+      Group_Name      : Unbounded_String;
+      Prepend_To_Name : Unbounded_String;
+      Append_To_Name  : Unbounded_String;
       Base_Address    : Unsigned := 0;
       Reg_Properties  : Register_Properties_T := Null_Register_Property;
       Address_Blocks  : Address_Block_Vectors.Vector;

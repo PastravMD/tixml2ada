@@ -17,35 +17,20 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Text_IO;
 with Interfaces;            use Interfaces;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
+-- XML dependencies
 with DOM.Core;                use DOM.Core;
+with DOM.Core.Nodes;          use DOM.Core.Nodes;
 with DOM.Core.Elements;       use DOM.Core.Elements;
-with DOM.Core.Nodes;
+with DOM.Core.Attrs;          use DOM.Core.Attrs;
 
 with Descriptors.Register;
-
 with SVD2Ada_Utils;           use SVD2Ada_Utils;
-
------------------------ Temporary use/with -------------------------------------
--- XML dependencies
-with Input_Sources.File;
-with DOM.Core.Documents;
-with DOM.Readers;
-
-with DOM.Core;                     use DOM.Core;
-with DOM.Core.Nodes;               use DOM.Core.Nodes;
-with DOM.Core.Attrs;               use DOM.Core.Attrs;
-with DOM.Core.Elements;            use DOM.Core.Elements;
 
 -- TIXML2Ada dependencies
 with Descriptors;                  use Descriptors;
-with Descriptors.Device;           use Descriptors.Device;
-with Descriptors.Peripheral;       use Descriptors.Peripheral;
-with Descriptors.Register;         use Descriptors.Register;
-with Descriptors.Field;            use Descriptors.Field;
 with Descriptors.Enumerate;        use Descriptors.Enumerate;
 --------------------------------------------------------------------------------
 
@@ -70,8 +55,6 @@ package body Descriptors.Field is
       Default_Read   : Read_Action_Type)
       return Field_T
    is
-      Enum_Value_List : Node_List := DOM.Core.Elements.Get_Elements_By_Tag_Name (Elt, "bitenum");
-      Field_Enum      : Descriptors.Enumerate.Enumerate_T;
       Ret             : Field_T;
       Derived_From    : constant String :=
                              Elements.Get_Attribute (Elt, "derivedFrom");
@@ -117,7 +100,6 @@ package body Descriptors.Field is
 
    function "=" (F1, F2 : Field_T) return Boolean
    is
-      use Unbounded;
    begin
       return F1.LSB = F2.LSB
         and then F1.Size = F2.Size
@@ -133,7 +115,7 @@ package body Descriptors.Field is
       Prefix_Idx : in out Natural;
       First      : in out Natural) return Boolean
    is
-      use Unbounded, Descriptors.Enumerate.Enumerate_Vectors;
+      use Descriptors.Enumerate.Enumerate_Vectors;
       Prefix : Unbounded_String;
       N      : Natural;
 
@@ -199,7 +181,7 @@ package body Descriptors.Field is
       Reg_Fields   : Field_Vectors.Vector;
       Properties   : Register_Properties_T)
    is
-      use Unbounded, Ada_Gen;
+      use Ada_Gen;
 
       function Get_Default (Index : Natural; Size : Natural) return Unsigned;
       --  Retrieves the field default value from the Register's reset value

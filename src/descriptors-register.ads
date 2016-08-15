@@ -18,14 +18,15 @@
 ------------------------------------------------------------------------------
 
 with Ada.Containers.Vectors;
-with Ada.Strings.Unbounded;          use Ada.Strings;
+with Ada.Strings.Unbounded;          use Ada.Strings.Unbounded;
+use Ada.Strings;
 
 with DOM.Core;
 
 with Base_Types;                     use Base_Types;
 with Base_Types.Register_Properties; use Base_Types.Register_Properties;
 
-with Descriptors.Field;               use Descriptors.Field;
+with Descriptors.Field;              use Descriptors.Field;
 
 with Ada_Gen;
 
@@ -47,7 +48,7 @@ package Descriptors.Register is
       Reg_Properties   : Register_Properties_T;
       Mod_Write_Values : Modified_Write_Values_Type := Modify;
       Read_Action      : Read_Action_Type := Undefined_Read_Action;
-      Fields           : Field_Vectors.Vector;
+      Fields           : Descriptors.Field.Field_Vectors.Vector;
 
       --  By default, equal to Name. In case similar types are found, then
       --  this holds the common prefix to be used to the type definition
@@ -88,8 +89,7 @@ package Descriptors.Register is
      (Register_Element            : DOM.Core.Element;
       Prepend        : Unbounded.Unbounded_String;
       Append         : Unbounded.Unbounded_String;
-      Reg_Properties : Register_Properties_T;
-      Vec            : in out Register_Vectors.Vector)
+      Reg_Properties : Register_Properties_T)
       return Register_Access;
 
    function Get_Ada_Type (Reg : Register_Access) return String;

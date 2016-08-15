@@ -18,42 +18,17 @@
 ------------------------------------------------------------------------------
 
 with System;
-with Ada.Text_IO;
-with Ada.Strings.Unbounded;       use Ada.Strings.Unbounded;
-with System.Unsigned_Types;
 
-with Interfaces; use Interfaces;
-
-with DOM.Core;
-with DOM.Core.Elements;  use DOM.Core.Elements;
-with DOM.Core.Nodes;
-
-with Ada_Gen;            use Ada_Gen;
-with SVD2Ada_Utils;      use SVD2Ada_Utils;
-
------------------------ Temporary use/with -------------------------------------
 -- XML dependencies
-with Input_Sources.File;
-with DOM.Core.Documents;
-with DOM.Readers;
-
-with DOM.Core;               use DOM.Core;
-with DOM.Core.Nodes;         use DOM.Core.Nodes;
-with DOM.Core.Attrs;         use DOM.Core.Attrs;
-with DOM.Core.Elements;      use DOM.Core.Elements;
+with DOM.Core;             use DOM.Core;
+with DOM.Core.Elements;    use DOM.Core.Elements;
+with DOM.Core.Attrs;       use DOM.Core.Attrs;
+with DOM.Core.Nodes;       use DOM.Core.Nodes;
 
 -- TIXML2Ada dependencies
-with Descriptors;            use Descriptors;
-with Descriptors.Device;     use Descriptors.Device;
-with Descriptors.Peripheral; use Descriptors.Peripheral;
-with Descriptors.Register;   use Descriptors.Register;
-with Descriptors.Field;      use Descriptors.Field;
-with Descriptors.Enumerate;  use Descriptors.Enumerate;
-
-with Ada.Strings.Unbounded;  use Ada.Strings.Unbounded;
-with Ada_Gen;                use Ada_Gen;
-with SVD2Ada_Utils;          use SVD2Ada_Utils;
---------------------------------------------------------------------------------
+with Ada_Gen;              use Ada_Gen;
+with SVD2Ada_Utils;        use SVD2Ada_Utils;
+with Descriptors.Register; use Descriptors.Register;
 
 package body Descriptors.Register is
 
@@ -65,17 +40,10 @@ package body Descriptors.Register is
      (Register_Element            : DOM.Core.Element;
       Prepend        : Unbounded.Unbounded_String;
       Append         : Unbounded.Unbounded_String;
-      Reg_Properties : Register_Properties_T;
-      Vec            : in out Register_Vectors.Vector) return Register_Access
+      Reg_Properties : Register_Properties_T) return Register_Access
    is
-      --use DOM.Core;
-      use type Unbounded.Unbounded_String;
       Ret          : Register_T;
-      Derived_From : constant String :=
-                       Elements.Get_Attribute (Register_Element, "derivedFrom");
-
       Bitfield_List : Node_List;
-      Hex_String    : String := "16#00000000#";
    begin
       Ret.Reg_Properties := Reg_Properties;
 
@@ -128,7 +96,6 @@ package body Descriptors.Register is
 
    function Equal (R1, R2 : Register_Access) return Boolean
    is
-      use type Unbounded.Unbounded_String;
       use type Field_Vectors.Vector;
    begin
       if R1 = null then
@@ -214,7 +181,6 @@ package body Descriptors.Register is
    function Get_Ada_Type (Reg : Register_Access) return String
    is
       use type Ada.Containers.Count_Type;
-      use Unbounded;
    begin
       if Reg.Type_Holder /= null then
          return Get_Ada_Type (Reg.Type_Holder);
@@ -236,7 +202,6 @@ package body Descriptors.Register is
      (Spec : in out Ada_Gen.Ada_Spec;
       Reg  : Register_Access)
    is
-      use Ada.Strings.Unbounded;
       use type Ada.Containers.Count_Type;
    begin
       if Reg.Type_Holder /= null then
