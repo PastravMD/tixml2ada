@@ -32,6 +32,7 @@ with SVD2Ada_Utils;         use SVD2Ada_Utils;
 with Ada.Strings.Unbounded;       use Ada.Strings.Unbounded;
 with Ada.Strings.Fixed;
 with Ada.Strings.Maps;            use Ada.Strings.Maps;
+with GNAT.Directory_Operations;
 
 -- XML dependencies
 with Input_Sources.File;
@@ -181,6 +182,8 @@ package body Descriptors.Device is
                end loop;
             end if;
 
+            Ret.Reg_Properties.Module_Xml := To_Unbounded_String(GNAT.Directory_Operations.Base_Name (Module_href));
+
             Peripheral :=
               Read_Peripheral
                 (Module_Element,
@@ -281,6 +284,8 @@ package body Descriptors.Device is
             Index : Natural;
          begin
             Peripherals.Delete_First;
+
+            Ada_Gen.Set_Input_File_Name (To_String(P.Reg_Properties.Module_Xml));
 
             if Ada.Strings.Unbounded.Length (P.Group_Name) = 0 then
                Dump (P,

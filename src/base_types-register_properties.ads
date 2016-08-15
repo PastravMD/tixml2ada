@@ -17,7 +17,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with DOM.Core; use DOM.Core;
+with DOM.Core;                 use DOM.Core;
+with Ada.Strings.Unbounded;
 
 --  Decodes the register properties group from an SVD element.
 --  This group is used in Device, Peripherals and Registers descriptors.
@@ -30,6 +31,7 @@ package Base_Types.Register_Properties is
       Reset_Value : Unsigned;
       Reset_Mask  : Unsigned;
       Endianess   : Endian_Type := Big_Endian;
+      Module_Xml  : Unbounded.Unbounded_String;
    end record;
 
    Null_Register_Property : constant Register_Properties_T :=
@@ -38,7 +40,8 @@ package Base_Types.Register_Properties is
                                Protection  => Undefined_Protection,
                                Reset_Value => 0,
                                Reset_Mask  => 0,
-                               Endianess   => Undefined_Endian);
+                               Endianess   => Undefined_Endian,
+                               Module_Xml  => Unbounded.Null_Unbounded_String);
 
    function Is_Register_Property (Tag : String) return Boolean;
 
