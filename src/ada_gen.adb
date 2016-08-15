@@ -612,7 +612,7 @@ package body Ada_Gen is
          Ada.Text_IO.Put_Line
            (File,
             Get_Id (F) &
-              " at " & To_String (F.Offset) &
+              " at " & To_Hex (F.Offset) &
               " range " & To_String (F.LSB) & " .. " & To_String (F.MSB) &
               ";");
       end loop;
