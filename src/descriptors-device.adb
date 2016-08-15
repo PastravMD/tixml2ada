@@ -30,6 +30,8 @@ with SVD2Ada_Utils;         use SVD2Ada_Utils;
 
 ----------------------- Temporary use/with -------------------------------------
 with Ada.Strings.Unbounded;       use Ada.Strings.Unbounded;
+with Ada.Strings.Fixed;
+with Ada.Strings.Maps;            use Ada.Strings.Maps;
 
 -- XML dependencies
 with Input_Sources.File;
@@ -98,9 +100,6 @@ package body Descriptors.Device is
            "a hardware module";
       end if;
 
-      --Ada.Text_IO.Put_Line (" Device = " & Value(Get_Named_Item (Attributes (Device_Element), "id")));
-      --Ada.Text_IO.Put_Line ("    [" & Value(Get_Named_Item (Attributes (Device_Element), "description")) & "]");
-
       Ret.Name := Apply_Naming_Rules
         (Ada.Strings.Unbounded.To_Unbounded_String
         (Value(Get_Named_Item (Attributes (Device_Element), "id"))));
@@ -117,11 +116,43 @@ package body Descriptors.Device is
 
       Ret.Has_FPU := True;
 
-      --Ret.Reg_Properties.Size := 32;
-
       SVD2Ada_Utils.Set_Root_Package
         (Ada.Strings.Unbounded.To_String (Ret.Name));
 
+      -- try to determine device endianess
+      declare
+         Properties_List  : Node_List   := DOM.Core.Elements.Get_Elements_By_Tag_Name (Cpu_Element, "property");
+         Device_Endianess : Endian_Type := Big_Endian;
+      begin
+         for K in 0 .. Length (Properties_List) - 1 loop
+            declare
+               Property_Elt   : DOM.Core.Element := DOM.Core.Element (Nodes.Item (Properties_List, K));
+               Property_Id    : String := Value (Get_Named_Item (Attributes (Property_Elt), "id"));
+               Property_Value : String := Value (Get_Named_Item (Attributes (Property_Elt), "Value"));
+               First_Idx      : Positive := 1;
+               Last_Idx       : Natural  := 0;
+               Little_Endian_Flag : String := "--little";
+            begin
+               if Property_Id = "Endianness" then
+                  if Property_Value = "little" then
+                     Device_Endianess := Little_Endian;
+                  elsif Property_Value = "big" then
+                     Device_Endianess := Big_Endian;
+                  end if;
+               elsif Property_Id = "CompilerBuildOptions" then
+                  Ada.Strings.Fixed.Find_Token (Source           => Property_Value,
+                              Set              => To_Set(Little_Endian_Flag),
+                              Test             => Inside,
+                              First            => First_Idx,
+                              Last             => Last_Idx);
+                  if Last_Idx = (First_Idx + Little_Endian_Flag'Length - 1) then
+                     Device_Endianess := Little_Endian;
+                  end if;
+               end if;
+            end;
+         end loop;
+         Ret.Reg_Properties.Endianess := Device_Endianess;
+      end;
 
       for J in 0 .. Length (Hw_Module_List) - 1 loop
          declare

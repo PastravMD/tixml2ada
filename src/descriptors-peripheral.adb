@@ -97,6 +97,8 @@ package body Descriptors.Peripheral is
       Address_Block            : Address_Block_Type;
    begin
 
+      Ret.Reg_Properties := Reg_Properties;
+
       if Is_Derived_From /= Null_Unbounded_String then
          declare
             Found : Boolean := False;
@@ -138,7 +140,7 @@ package body Descriptors.Peripheral is
          -- := Value (Get_Named_Item (Attributes (Peripheral_Element), "HW_revision"));
          -- Ret.Address_Blocks.Append := Unsigned_64'Value (Value (Get_Named_Item (Attributes (Peripheral_Element), "size")));
          -- Ret.Reg_Properties := Value (Get_Named_Item (Attributes (Peripheral_Element), "accessnumbytes"));
-         Ret.Reg_Properties.Protection := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "permissions"));
+         -- Ret.Reg_Properties.Protection := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "permissions"));
 
          -- reading input file
          Input_Sources.File.Open("input/Devices/" & Value(xml_href), Peripheral_Xml_File);

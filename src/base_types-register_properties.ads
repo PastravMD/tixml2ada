@@ -29,6 +29,7 @@ package Base_Types.Register_Properties is
       Protection  : Protection_Type;
       Reset_Value : Unsigned;
       Reset_Mask  : Unsigned;
+      Endianess   : Endian_Type := Big_Endian;
    end record;
 
    Null_Register_Property : constant Register_Properties_T :=
@@ -36,7 +37,8 @@ package Base_Types.Register_Properties is
                                Reg_Access  => Read_Write,
                                Protection  => Undefined_Protection,
                                Reset_Value => 0,
-                               Reset_Mask  => 0);
+                               Reset_Mask  => 0,
+                               Endianess   => Undefined_Endian);
 
    function Is_Register_Property (Tag : String) return Boolean;
 
