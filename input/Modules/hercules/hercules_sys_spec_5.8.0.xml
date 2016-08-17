@@ -1,63 +1,346 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module id="Sys" HW_revision="" XML_version="1" description="System Modules">
+<module id="Sys" HW_revision="" XML_version="1.0.1b" description="System Modules">
 
 <!-- (c) Texas Instruments 2003-2012, All rights reserved. -->
 <!-- Filename:Hercules_SYS_spec_5.8.0.xml                      -->
 <!-- Version:1.0                                           -->
 
-  <register id="SysPc1" acronym="SysPc1" offset="0x00" width="32" description="Sys Pin Control Register 1"></register>
-  <register id="SysPc2" acronym="SysPc2" offset="0x04" width="32" description="Sys Pin Control Register 2"></register>
-  <register id="SysPc3" acronym="SysPc3" offset="0x08" width="32" description="Sys Pin Control Register 3"></register>
-  <register id="SysPc4" acronym="SysPc4" offset="0x0C" width="32" description="Sys Pin Control Register 4"></register>
-  <register id="SysPc5" acronym="SysPc5" offset="0x10" width="32" description="Sys Pin Control Register 5"></register>
-  <register id="SysPc6" acronym="SysPc6" offset="0x14" width="32" description="Sys Pin Control Register 6"></register>
-  <register id="SysPc7" acronym="SysPc7" offset="0x18" width="32" description="Sys Pin Control Register 7"></register>
-  <register id="SysPc8" acronym="SysPc8" offset="0x1C" width="32" description="Sys Pin Control Register 8"></register>
-  <register id="SysPc9" acronym="SysPc9" offset="0x20" width="32" description="Sys Pin Control Register 9"></register>
-  <register id="CsDis" acronym="CsDis" offset="0x30" width="32" description="Clock Source Disable Register"></register>
-  <register id="CsDisSet" acronym="CsDisSet" offset="0x34" width="32" description="Clock Source Disable Set Register"></register>
-  <register id="CsDisClr" acronym="CsDisClr" offset="0x38" width="32" description="Clock Source Disable Clear Register"></register>
-  <register id="CdDis" acronym="CdDis" offset="0x3C" width="32" description="Clock Domain Disable Register"></register>
-  <register id="CdDisSet" acronym="CdDisSet" offset="0x40" width="32" description="Clock Domain Disable Set Register"></register>
-  <register id="CdDisClr" acronym="CdDisClr" offset="0x44" width="32" description="Clock Domain Disable Clear Register"></register>
-  <register id="GhvSrc" acronym="GhvSrc" offset="0x48" width="32" description="GClk, HClk, VClk, and VClk2 Source Register"></register>
-  <register id="VlckASrc" acronym="VlckASrc" offset="0x4C" width="32" description="Peripheral Asynchronous Clock Source Register"></register>
-  <register id="RclkSrc" acronym="RclkSrc" offset="0x50" width="32" description="RTI Clock Source Register"></register>
-  <register id="CsVStat" acronym="CsVStat" offset="0x54" width="32" description="Clock Source Valid Status Register"></register>
-  <register id="MstGlbCtrl" acronym="MstGlbCtrl" offset="0x58" width="32" description="Memory Self-Test Global Control Register"></register>
-  <register id="MinitGlbCtrl" acronym="MinitGlbCtrl" offset="0x5C" width="32" description="Memory Hardware Initialization Global Control Register"></register>
+  <register id="SysPc1" acronym="SysPc1" offset="0x00" width="32" description="Sys Pin Control Register 1">
+      <bitfield id="EClkFun" width="1" begin="0" end="0" resetval="0" description="Changes the function of the ECLK pin." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="31" begin="1" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="SysPc2" acronym="SysPc2" offset="0x04" width="32" description="Sys Pin Control Register 2">
+      <bitfield id="EClkDir" width="1" begin="0" end="0" resetval="0" description="Controls the direction of the ECLK pin when in GIO mode only." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="31" begin="1" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="SysPc3" acronym="SysPc3" offset="0x08" width="32" description="Sys Pin Control Register 3">
+      <bitfield id="EClkDIn" width="1" begin="0" end="0" resetval="0" description="Displays the logic state of the ECLK pin when in GIO mode." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="31" begin="1" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="SysPc4" acronym="SysPc4" offset="0x0C" width="32" description="Sys Pin Control Register 4">
+      <bitfield id="EClkDOut" width="1" begin="0" end="0" resetval="0" description="ECLK data out write." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="31" begin="1" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="SysPc5" acronym="SysPc5" offset="0x10" width="32" description="Sys Pin Control Register 5">
+      <bitfield id="EClkSet" width="1" begin="0" end="0" resetval="0" description="Drives the output of the ECLK pin high when in output mode." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="31" begin="1" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="SysPc6" acronym="SysPc6" offset="0x14" width="32" description="Sys Pin Control Register 6">
+      <bitfield id="EClkClr" width="1" begin="0" end="0" resetval="0" description="Drives the output of the ECLK pin low when in output mode." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="31" begin="1" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="SysPc7" acronym="SysPc7" offset="0x18" width="32" description="Sys Pin Control Register 7">
+      <bitfield id="EClkODE" width="1" begin="0" end="0" resetval="0" description="ECLK open drain enable." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="31" begin="1" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="SysPc8" acronym="SysPc8" offset="0x1C" width="32" description="Sys Pin Control Register 8">
+      <bitfield id="EClkPe" width="1" begin="0" end="0" resetval="0" description="ECLK pull enable." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="31" begin="1" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="SysPc9" acronym="SysPc9" offset="0x20" width="32" description="Sys Pin Control Register 9">
+      <bitfield id="EClkPs" width="1" begin="0" end="0" resetval="0" description="ECLK pull up/pull down select" range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="31" begin="1" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="CsDis" acronym="CsDis" offset="0x30" width="32" description="Clock Source Disable Register">
+      <bitfield id="ClkSr0" width="1" begin="0" end="0" resetval="0" description="Clock source 0 off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClkSr1" width="1" begin="1" end="1" resetval="0" description="Clock source 1 off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved0" width="1" begin="2" end="2" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClkSr3" width="1" begin="3" end="3" resetval="0" description="Clock source 3 off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClkSr4" width="1" begin="4" end="4" resetval="0" description="Clock source 4 off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClkSr5" width="1" begin="5" end="5" resetval="0" description="Clock source 5 off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClkSr6" width="1" begin="6" end="6" resetval="0" description="Clock source 6 off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClkSr7" width="1" begin="7" end="7" resetval="0" description="Clock source 7 off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="24" begin="8" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+  </register>
+  <register id="CsDisSet" acronym="CsDisSet" offset="0x34" width="32" description="Clock Source Disable Set Register">
+      <bitfield id="SetClkSr0" width="1" begin="0" end="0" resetval="0" description="Set clock source 0 to the disabled state." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SetClkSr1" width="1" begin="1" end="1" resetval="0" description="Set clock source 1 to the disabled state." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved0" width="1" begin="2" end="2" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SetClkSr3" width="1" begin="3" end="3" resetval="0" description="Set clock source 3 to the disabled state." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SetClkSr4" width="1" begin="4" end="4" resetval="0" description="Set clock source 4 to the disabled state." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SetClkSr5" width="1" begin="5" end="5" resetval="0" description="Set clock source 5 to the disabled state." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SetClkSr6" width="1" begin="6" end="6" resetval="0" description="Set clock source 6 to the disabled state." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SetClkSr7" width="1" begin="7" end="7" resetval="0" description="Set clock source 7 to the disabled state." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="24" begin="8" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+  </register>
+  <register id="CsDisClr" acronym="CsDisClr" offset="0x38" width="32" description="Clock Source Disable Clear Register">
+      <bitfield id="ClrClkSr0" width="1" begin="0" end="0" resetval="0" description="Enables clock source 0." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClrClkSr1" width="1" begin="1" end="1" resetval="0" description="Enables clock source 1." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved0" width="1" begin="2" end="2" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClrClkSr3" width="1" begin="3" end="3" resetval="0" description="Enables clock source 3." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClrClkSr4" width="1" begin="4" end="4" resetval="0" description="Enables clock source 4." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClrClkSr5" width="1" begin="5" end="5" resetval="0" description="Enables clock source 5." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClrClkSr6" width="1" begin="6" end="6" resetval="0" description="Enables clock source 6." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClrClkSr7" width="1" begin="7" end="7" resetval="0" description="Enables clock source 7." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="24" begin="8" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+  </register>
+  <register id="CdDis" acronym="CdDis" offset="0x3C" width="32" description="Clock Domain Disable Register">
+      <bitfield id="GClkOff" width="1" begin="0" end="0" resetval="0" description="GCLK domain off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="HClkOff" width="1" begin="1" end="1" resetval="0" description="HCLK and VCLK_sys domains off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="VClkPOff" width="1" begin="2" end="2" resetval="0" description="VCLK_periph domain off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="VClk2Off" width="1" begin="3" end="3" resetval="0" description="VCLK2 domain off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="VClkA1Off" width="1" begin="4" end="4" resetval="0" description="VCLKA1 domain off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="VClkA2Off" width="1" begin="5" end="5" resetval="0" description="VCLKA2 domain off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="RtiOff" width="1" begin="6" end="6" resetval="0" description="RTICLK domain off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="VClk3Off" width="1" begin="8" end="8" resetval="0" description="VCLK3 domain off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="2" begin="9" end="10" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="VClkA4Off" width="1" begin="11" end="11" resetval="0" description="VCLKA4 domain off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="20" begin="12" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+  </register>
+  <register id="CdDisSet" acronym="CdDisSet" offset="0x40" width="32" description="Clock Domain Disable Set Register">
+      <bitfield id="SetGClkOff" width="1" begin="0" end="0" resetval="0" description="Set GCLK domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SetHClkOff" width="1" begin="1" end="1" resetval="0" description="Set HCLK and VCLK_sys domains." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SetVClkPOff" width="1" begin="2" end="2" resetval="0" description="Set VCLK_periph domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SetVClk2Off" width="1" begin="3" end="3" resetval="0" description="Set VCLK2 domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SetVClkA1Off" width="1" begin="4" end="4" resetval="0" description="Set VCLKA1 domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SetVClkA2Off" width="1" begin="5" end="5" resetval="0" description="Set VCLKA2 domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SetRtiOff" width="1" begin="6" end="6" resetval="0" description="Set RTICLK domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SetVClk3Off" width="1" begin="8" end="8" resetval="0" description="Set VCLK3 domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="2" begin="9" end="10" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SetVClkA4Off" width="1" begin="11" end="11" resetval="0" description="Set VCLKA4 domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="20" begin="12" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+  </register>
+  <register id="CdDisClr" acronym="CdDisClr" offset="0x44" width="32" description="Clock Domain Disable Clear Register">
+      <bitfield id="ClrGClkOff" width="1" begin="0" end="0" resetval="0" description="Clear GCLK domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClrHClkOff" width="1" begin="1" end="1" resetval="0" description="Clear HCLK and VCLK_sys domains." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClrVClkPOff" width="1" begin="2" end="2" resetval="0" description="Clear VCLK_periph domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClrVClk2Off" width="1" begin="3" end="3" resetval="0" description="Clear VCLK2 domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClrVClkA1Off" width="1" begin="4" end="4" resetval="0" description="Clear VCLKA1 domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClrVClkA2Off" width="1" begin="5" end="5" resetval="0" description="Clear VCLKA2 domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClrRtiOff" width="1" begin="6" end="6" resetval="0" description="Clear RTICLK domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClrVClk3Off" width="1" begin="8" end="8" resetval="0" description="Clear VCLK3 domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="2" begin="9" end="10" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClrVClkA4Off" width="1" begin="11" end="11" resetval="0" description="Clear VCLKA4 domain." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="20" begin="12" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+  </register>
+  <register id="GhvSrc" acronym="GhvSrc" offset="0x48" width="32" description="GClk, HClk, VClk, and VClk2 Source Register">
+      <bitfield id="VClkA1S" width="4" begin="0" end="3" resetval="0" description="Peripheral asynchronous clock1 source." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved0" width="4" begin="4" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="VClkA2S" width="4" begin="8" end="11" resetval="0" description="Peripheral asynchronous clock2 source." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="20" begin="12" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield> 
+  </register>
+  <register id="VlckASrc" acronym="VlckASrc" offset="0x4C" width="32" description="Peripheral Asynchronous Clock Source Register">
+      <bitfield id="GhvSrc" width="4" begin="0" end="3" resetval="0" description="GCLK, HCLK, VCLK, VCLK2 current source." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved0" width="12" begin="4" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="Hvlpm" width="4" begin="16" end="19" resetval="0" description="HCLK, VCLK, VCLK2 source on wakeup when GCLK1 is turned off." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="4" begin="20" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield> 
+      <bitfield id="GhvWake" width="4" begin="16" end="24" resetval="27" description="GCLK, HCLK, VCLK source on wakeup." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved2" width="4" begin="28" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield> 
+  </register>
+  <register id="RclkSrc" acronym="RclkSrc" offset="0x50" width="32" description="RTI Clock Source Register">
+      <bitfield id="RtiSrc" width="4" begin="0" end="3" resetval="0" description="RTI clock source." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved0" width="4" begin="4" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="RtiDiv" width="2" begin="8" end="9" resetval="0" description="RTI clock Divider." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="22" begin="10" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield> 
+  </register>
+  <register id="CsVStat" acronym="CsVStat" offset="0x54" width="32" description="Clock Source Valid Status Register">
+      <bitfield id="ClkSr0V" width="1" begin="0" end="0" resetval="0" description="RTI clock source 0 valid." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClkSr1V" width="1" begin="1" end="1" resetval="0" description="RTI clock source 1 valid." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved0" width="1" begin="2" end="2" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="ClkSr3V" width="1" begin="3" end="3" resetval="0" description="RTI clock source 3 valid." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClkSr4V" width="1" begin="4" end="4" resetval="0" description="RTI clock source 4 valid." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClkSr5V" width="1" begin="5" end="5" resetval="0" description="RTI clock source 5 valid." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClkSr6V" width="1" begin="6" end="6" resetval="0" description="RTI clock source 6 valid." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ClkSr7V" width="1" begin="7" end="7" resetval="0" description="RTI clock source 7 valid." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="24" begin="8" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield> 
+  </register>
+  <register id="MstGlbCtrl" acronym="MstGlbCtrl" offset="0x58" width="32" description="Memory Self-Test Global Control Register">
+      <bitfield id="MstGena" width="4" begin="0" end="3" resetval="0" description="Memory self-test controller global enable key" range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved0" width="4" begin="4" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="Rom_Div" width="2" begin="8" end="9" resetval="0" description="Prescaler divider bits for ROM clock source." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="22" begin="10" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield> 
+  </register>
+  <register id="MinitGlbCtrl" acronym="MinitGlbCtrl" offset="0x5C" width="32" description="Memory Hardware Initialization Global Control Register">
+      <bitfield id="MinitGena" width="4" begin="0" end="3" resetval="0" description="Memory hardware initialization global enable key." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved0" width="28" begin="4" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
   <register id="MsInEna" acronym="MsInEna" offset="0x60" width="32" description="MBIST Controller/Memory Initialization Enable Register"></register>
   <register id="MstFail" acronym="MstFail" offset="0x64" width="32" description="Memory Self-Test Fail Status Register"></register>
-  <register id="MstCgStat" acronym="MstCgStat" offset="0x68" width="32" description="MstC Global Status Register"></register>
+  <register id="MstCgStat" acronym="MstCgStat" offset="0x68" width="32" description="MstC Global Status Register">
+      <bitfield id="MiniDone" width="1" begin="0" end="0" resetval="0" description="Memory hardware initialization complete status." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved0" width="7" begin="1" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="MstDone" width="1" begin="8" end="8" resetval="0" description="Memory self-test run complete status." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="23" begin="9" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield> 
+  </register>
   <register id="MIniStat" acronym="MIniStat" offset="0x6C" width="32" description="Memory Hardware Initialization Status Register"></register>
-  <register id="PllCtl1" acronym="PllCtl1" offset="0x70" width="32" description="Pll Control Register 1"></register>
-  <register id="PllCtl2" acronym="PllCtl2" offset="0x74" width="32" description="Pll Control Register 2"></register>
-  <register id="SysPc10" acronym="SysPc10" offset="0x78" width="32" description="Sys Pin Control Register 10"></register>
-  <register id="DieIdL" acronym="DieIdL" offset="0x7C" width="32" description="Die Identification Register, Lower Word"></register>
-  <register id="DieIdH" acronym="DieIdH" offset="0x80" width="32" description="Die Identification Register Upper Word"></register>
-  <register id="LpoMonCtl" acronym="LpoMonCtl" offset="0x88" width="32" description="Lpo/Clock Monitor Control Register"></register>
-  <register id="ClkTest" acronym="ClkTest" offset="0x8C" width="32" description="Clock Test Register"></register>
-  <register id="DftCtrlReg" acronym="DftCtrlReg" offset="0x90" width="32" description="DFT Control Register"></register>
-  <register id="DftCtrlReg2" acronym="DftCtrlReg2" offset="0x94" width="32" description="DFT Control Register 2"></register>
-  <register id="GPREG1" acronym="GPREG1" offset="0xA0" width="32" description="General Purpose Register"></register>
+  <register id="PllCtl1" acronym="PllCtl1" offset="0x70" width="32" description="Pll Control Register 1">
+      <bitfield id="PllMul" width="16" begin="0" end="15" resetval="0" description="PLL Multiplication Factor" range="" rwaccess="RW"></bitfield>
+      <bitfield id="RefClkDiv" width="6" begin="16" end="21" resetval="0" description="Reference Clock Divider" range="" rwaccess="RW"></bitfield>     
+      <bitfield id="Reserved0" width="1" begin="22" end="22" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield> 
+      <bitfield id="Rof" width="1" begin="23" end="23" resetval="0" description="Reset on Oscillator Fail" range="" rwaccess="RW"></bitfield>
+      <bitfield id="PllDiv" width="5" begin="24" end="28" resetval="0" description="PLL Output Clock Divider" range="" rwaccess="RW"></bitfield>
+      <bitfield id="BPos" width="2" begin="29" end="30" resetval="0" description="Bypass of PLL Slip" range="" rwaccess="RW"></bitfield>
+      <bitfield id="Ros" width="1" begin="31" end="31" resetval="0" description="Reset on PLL Slip" range="" rwaccess="RW"></bitfield> 
+  </register>
+  <register id="PllCtl2" acronym="PllCtl2" offset="0x74" width="32" description="Pll Control Register 2">
+      <bitfield id="SprAmount" width="9" begin="0" end="8" resetval="0" description="Spreading Amount." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ODPll" width="3" begin="9" end="11" resetval="0" description="Internal PLL Output Divider." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="MulMod" width="9" begin="12" end="20" resetval="0" description="Multiplier Correction when Frequency Modulation is enabled." range="" rwaccess="RW"></bitfield> 
+      <bitfield id="Reserved0" width="1" begin="21" end="21" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield> 
+      <bitfield id="SprRate" width="9" begin="22" end="30" resetval="0" description="NS = SPREADINGRATE + 1" range="" rwaccess="RW"></bitfield>
+      <bitfield id="FMEna" width="1" begin="31" end="31" resetval="0" description="Frequency Modulation Enable" range="" rwaccess="RW"></bitfield>
+  </register>
+  <register id="SysPc10" acronym="SysPc10" offset="0x78" width="32" description="Sys Pin Control Register 10">
+      <bitfield id="EcpClkSlew" width="1" begin="0" end="0" resetval="0" description="ECPCLK slew control. Controls between the fast or slow slew mode." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="31" begin="1" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="DieIdL" acronym="DieIdL" offset="0x7C" width="32" description="Die Identification Register, Lower Word">
+      <bitfield id="X_Wafer_Coord" width="8" begin="0" end="7" resetval="0" description="These read only bits contain the X wafer coordinate of the device" range="" rwaccess="RW"></bitfield>
+      <bitfield id="Y_Wafer_Coord" width="8" begin="8" end="15" resetval="0" description="These read only bits contain the Y wafer coordinate of the device" range="" rwaccess="RW"></bitfield>     
+      <bitfield id="WaferNr" width="6" begin="16" end="21" resetval="0" description="These read only bits contain the wafer number of the device." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="LotNrLower" width="10" begin="22" end="31" resetval="0" description="These read only bits contain the lower 10 bits of the device lot number." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="DieIdH" acronym="DieIdH" offset="0x80" width="32" description="Die Identification Register Upper Word">
+      <bitfield id="LotNrUpper" width="14" begin="0" end="13" resetval="0" description="This read-only register contains the upper 14 bits of the device lot number." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="18" begin="14" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="LpoMonCtl" acronym="LpoMonCtl" offset="0x88" width="32" description="Lpo/Clock Monitor Control Register">
+      <bitfield id="LfTrim" width="5" begin="0" end="4" resetval="0" description="Low frequency oscillator trim value." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved0" width="3" begin="5" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="HfTrim" width="5" begin="8" end="12" resetval="0" description="High frequency oscillator trim value." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="3" begin="13" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="OscFrqConfigCnt" width="1" begin="16" end="16" resetval="0" description="Configures the counter based on OSC frequency." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="Reserved2" width="7" begin="17" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="BiasEnable" width="1" begin="24" end="24" resetval="0" description="Bias Enable." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="Reserved2" width="7" begin="25" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="ClkTest" acronym="ClkTest" offset="0x8C" width="32" description="Clock Test Register">
+      <bitfield id="SelEcpPin" width="4" begin="0" end="3" resetval="0" description="ECLK pin clock source select." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved0" width="4" begin="4" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="SelGioPin" width="4" begin="8" end="11" resetval="0" description="GIOB[0] pin clock source valid, clock source select." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="4" begin="12" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="ClkTestEn" width="4" begin="16" end="19" resetval="0" description="Clock test enable." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="Reserved2" width="4" begin="20" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="RangeDetEnAsSel" width="1" begin="24" end="24" resetval="0" description="Selects range detection enable." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="RangeDetCtrl" width="1" begin="25" end="25" resetval="0" description="Range detection control." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="Test" width="1" begin="26" end="26" resetval="0" description="This bit is used for test purposes. It must be written to 0." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="Reserved2" width="5" begin="27" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="DftCtrlReg" acronym="DftCtrlReg" offset="0x90" width="32" description="DFT Control Register">
+      <bitfield id="TestModeKey" width="4" begin="0" end="3" resetval="0" description="Test mode key. Internal TI use only." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved0" width="4" begin="4" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="DftRead" width="2" begin="8" end="9" resetval="0" description="DFT logic access." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="Reserved1" width="2" begin="10" end="11" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="DftWrite" width="2" begin="12" end="13" resetval="0" description="DFT logic access." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="Reserved2" width="18" begin="14" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="DftCtrlReg2" acronym="DftCtrlReg2" offset="0x94" width="32" description="DFT Control Register 2">
+      <bitfield id="ImpDf" width="4" begin="0" end="3" resetval="0" description="DFT Implementation defined bits." range="" rwaccess="RW"></bitfield>
+      <bitfield id="TestModeKey" width="28" begin="4" end="31" resetval="0" description="Test mode key. Internal TI use only." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="GPREG1" acronym="GPREG1" offset="0xA0" width="32" description="General Purpose Register">
+      <bitfield id="Reserved0" width="16" begin="0" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="Pll1FbSlipFilterKey" width="3" begin="16" end="19" resetval="0" description="System response when a FBSLIP is indicated by the PLL macro.." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="Pll1FbSlipFilterCnt" width="6" begin="20" end="25" resetval="0" description="FBSLIP down counter programmed value." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="Reserved1" width="6" begin="26" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
   <register id="ImpFaSts" acronym="ImpFaSts" offset="0xA8" width="32" description="Imprecise Fault Status Register"></register>
   <register id="ImpFtAdd" acronym="ImpFtAdd" offset="0xAC" width="32" description="Imprecise Fault Write Address Register"></register>
-  <register id="SSIr1" acronym="SSIr1" offset="0xB0" width="32" description="System Software Interrupt Request 1 Register"></register>
-  <register id="SSIr2" acronym="SSIr2" offset="0xB4" width="32" description="System Software Interrupt Request 2 Register"></register>
-  <register id="SSIr3" acronym="SSIr3" offset="0xB8" width="32" description="System Software Interrupt Request 3 Register"></register>
-  <register id="SSIr4" acronym="SSIr4" offset="0xBC" width="32" description="System Software Interrupt Request 4 Register"></register>
-  <register id="RamGlbCtrl" acronym="RamGlbCtrl" offset="0xC0" width="32" description="Ram Control Register"></register>
-  <register id="BmmCr1" acronym="BmmCr1" offset="0xC4" width="32" description="Bus Matrix Module Control Register1"></register>
+  <register id="SSIr1" acronym="SSIr1" offset="0xB0" width="32" description="System Software Interrupt Request 1 Register">
+      <bitfield id="SsData1" width="8" begin="0" end="7" resetval="0" description="System software interrupt data." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SsKey1" width="8" begin="8" end="15" resetval="0" description="System software interrupt request key." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="16" begin="16" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="SSIr2" acronym="SSIr2" offset="0xB4" width="32" description="System Software Interrupt Request 2 Register">
+      <bitfield id="SsData2" width="8" begin="0" end="7" resetval="0" description="System software interrupt data." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SsKey2" width="8" begin="8" end="15" resetval="0" description="System software interrupt request key." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="16" begin="16" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="SSIr3" acronym="SSIr3" offset="0xB8" width="32" description="System Software Interrupt Request 3 Register">
+      <bitfield id="SsData3" width="8" begin="0" end="7" resetval="0" description="System software interrupt data." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SsKey3" width="8" begin="8" end="15" resetval="0" description="System software interrupt request key." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="16" begin="16" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="SSIr4" acronym="SSIr4" offset="0xBC" width="32" description="System Software Interrupt Request 4 Register">
+      <bitfield id="SsData4" width="8" begin="0" end="7" resetval="0" description="System software interrupt data." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SsKey4" width="8" begin="8" end="15" resetval="0" description="System software interrupt request key." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="16" begin="16" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="RamGlbCtrl" acronym="RamGlbCtrl" offset="0xC0" width="32" description="Ram Control Register">
+      <bitfield id="Reserved0" width="16" begin="0" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="RamDftEn" width="3" begin="16" end="19" resetval="0" description="Functional mode RAM DFT (Design For Test) port enable key." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="16" begin="16" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="BmmCr1" acronym="BmmCr1" offset="0xC4" width="32" description="Bus Matrix Module Control Register1">
+      <bitfield id="MemSw" width="4" begin="0" end="3" resetval="0" description="Memory swap key." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="28" begin="4" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
   <register id="BmmCr2" acronym="BmmCr2" offset="0xC8" width="32" description="Bus Matrix Module Control Register2"></register>
+  <!--- Device User manual conflict id="CPURSTCR" offset="0xCC" description="CPU Reset Control Register" --->
   <register id="MmuGlbCtrl" acronym="MmuGlbCtrl" offset="0xCC" width="32" description="Mmu Global Control Register"></register>
-  <register id="ClkCntl" acronym="ClkCntl" offset="0xD0" width="32" description="Clock Control Register"></register>
-  <register id="EcpCntl" acronym="EcpCntl" offset="0xD4" width="32" description="ECP Control Register"></register>
-  <register id="DevCr1" acronym="DevCr1" offset="0xDC" width="32" description="DEV Parity Control Register1"></register>
-  <register id="SysEcr" acronym="SysEcr" offset="0xE0" width="32" description="System Exception Control Register"></register>
-  <register id="SysEsr" acronym="SysEsr" offset="0xE4" width="32" description="System Exception Status Register"></register>
-  <register id="SysTasr" acronym="SysTasr" offset="0xE8" width="32" description="System Test Abort Status Register"></register>
-  <register id="GlbStat" acronym="GlbStat" offset="0xEC" width="32" description="Global Status Register"></register>
-  <register id="DevId" acronym="DevId" offset="0xF0" width="32" description="Device Identification Register"></register>
-  <register id="SSiVec" acronym="SSiVec" offset="0xF4" width="32" description="Software Interrupt Vector Register"></register>
-  <register id="SSIf" acronym="SSIF" offset="0xF8" width="32" description="System Software Interrupt Flag Register"></register>
+  <register id="ClkCntl" acronym="ClkCntl" offset="0xD0" width="32" description="Clock Control Register">
+      <bitfield id="Reserved0" width="8" begin="0" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="PEna" width="1" begin="8" end="8" resetval="0" description="Peripheral enable bit." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="7" begin="9" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="VClkR" width="4" begin="16" end="19" resetval="0" description="VBUS clock ratio." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved2" width="4" begin="20" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>    
+      <bitfield id="VClk2R" width="4" begin="24" end="27" resetval="0" description="VBUS clock 2 ratio." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="4" begin="28" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>    
+  </register>
+  <register id="EcpCntl" acronym="EcpCntl" offset="0xD4" width="32" description="ECP Control Register">
+      <bitfield id="EcpDiv" width="16" begin="0" end="16" resetval="0" description="ECP divider value." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="Reserved0" width="7" begin="16" end="22" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="EcpCos" width="1" begin="23" end="23" resetval="0" description="ECP continue on suspend." range="" rwaccess="RW"></bitfield>
+      <bitfield id="EcpSsel" width="1" begin="24" end="24" resetval="0" description="Select between VCLK and OSCIN as clock source for ECLK." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="7" begin="25" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>    
+  </register>
+  <register id="DevCr1" acronym="DevCr1" offset="0xDC" width="32" description="DEV Parity Control Register1">
+      <bitfield id="DevParSel" width="4" begin="0" end="3" resetval="0" description="Device parity select bit key." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="28" begin="4" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="SysEcr" acronym="SysEcr" offset="0xE0" width="32" description="System Exception Control Register">
+      <bitfield id="Reserved0" width="14" begin="0" end="13" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="Reset" width="2" begin="14" end="15" resetval="0" description="Software reset bits." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="16" begin="16" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="SysEsr" acronym="SysEsr" offset="0xE4" width="32" description="System Exception Status Register">
+      <bitfield id="MpMode" width="1" begin="0" end="0" resetval="0" description="Memory protection unit (MPU) mode." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="Reserved0" width="2" begin="1" end="2" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>    
+      <bitfield id="ExtRst" width="1" begin="3" end="3" resetval="0" description="External reset flag." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="SwRst" width="1" begin="4" end="4" resetval="0" description="Software reset flag." range="" rwaccess="RW"></bitfield>
+      <bitfield id="CpuRst" width="1" begin="5" end="5" resetval="0" description="CPU reset flag." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="6" end="6" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>    
+      <bitfield id="IcstRst" width="1" begin="7" end="7" resetval="0" description="Interconnect reset flag." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved2" width="3" begin="8" end="10" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>    
+      <bitfield id="DbgRst" width="1" begin="11" end="11" resetval="0" description="Debug reset flag." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Wd2Rst" width="1" begin="12" end="12" resetval="0" description="Watchdog 2 reset flag." range="" rwaccess="RW"></bitfield>
+      <bitfield id="WdRst" width="1" begin="13" end="13" resetval="0" description="Watchdog reset flag." range="" rwaccess="RW"></bitfield>
+      <bitfield id="OscRst" width="1" begin="14" end="14" resetval="0" description="Reset caused by an oscillator failure or PLL cycle slip." range="" rwaccess="RW"></bitfield>
+      <bitfield id="PoRst" width="1" begin="15" end="15" resetval="0" description="Power-on reset. flag." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="16" begin="16" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>    
+  </register>
+  <register id="SysTasr" acronym="SysTasr" offset="0xE8" width="32" description="System Test Abort Status Register">
+      <bitfield id="EFuseAbort" width="5" begin="0" end="4" resetval="0" description="Set when test abort occurred." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="27" begin="5" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="GlbStat" acronym="GlbStat" offset="0xEC" width="32" description="Global Status Register">
+      <bitfield id="OscFail" width="1" begin="0" end="0" resetval="0" description="Oscillator fail flag bit." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved0" width="7" begin="1" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="RfSlip" width="1" begin="8" end="8" resetval="0" description="PLL under cycle slip detection." range="" rwaccess="RW"></bitfield>
+      <bitfield id="FbSlip" width="1" begin="9" end="9" resetval="0" description="PLL over cycle slip detection." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="22" begin="10" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="DevId" acronym="DevId" offset="0xF0" width="32" description="Device Identification Register">
+      <bitfield id="PlatformID" width="3" begin="0" end="2" resetval="0" description="The TMS570Px ID is always 5h." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Version" width="5" begin="3" end="7" resetval="0" description="These bits provide the revision of the device." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="RamEcc" width="1" begin="8" end="8" resetval="0" description="This bit indicates whether or not RAM memory ECC is present." range="" rwaccess="RW"></bitfield>
+      <bitfield id="FlashEcc" width="2" begin="9" end="10" resetval="0" description="These bits indicate which parity is present for the program memory." range="" rwaccess="RW"></bitfield>
+      <bitfield id="PeriphParity" width="1" begin="11" end="11" resetval="0" description="This bit indicates whether or not peripheral memory parity is present." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="IoVoltage" width="1" begin="12" end="12" resetval="0" description="Input/output voltage. This bit defines the I/O voltage of the device." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="Tech" width="4" begin="13" end="16" resetval="0" description="These bits define the process technology by which the device was manufactured." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="UniqueID" width="14" begin="17" end="30" resetval="0" description="The device ID is unique by device configuration." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="CP15" width="1" begin="31" end="31" resetval="0" description="This bit indicates whether the CPU has a coprocessor 15." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="SSiVec" acronym="SSiVec" offset="0xF4" width="32" description="Software Interrupt Vector Register">
+      <bitfield id="SSiVect" width="8" begin="0" end="7" resetval="0" description="Source for the system software interrupt." range="" rwaccess="RW"></bitfield>
+      <bitfield id="SSiData" width="8" begin="8" end="15" resetval="0" description="System software interrupt data key." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="16" begin="16" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
+  <register id="SSIf" acronym="SSIF" offset="0xF8" width="32" description="System Software Interrupt Flag Register">
+      <bitfield id="SSiFlag" width="4" begin="0" end="3" resetval="0" description="System software interrupt flag[4-1]." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="28" begin="4" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+  </register>
 </module>

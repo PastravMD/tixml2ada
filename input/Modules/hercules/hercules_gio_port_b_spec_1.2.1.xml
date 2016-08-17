@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module id="GioB" HW_revision="" XML_version="1" description="General Purpose Input Output">
+<module id="GioB" HW_revision="" XML_version="1.0.1b" description="General Purpose Input Output">
 
 <!-- (c) Texas Instruments 2003-2012, All rights reserved. -->
 <!-- Filename:Hercules_GIO_portB_spec_1.2.xml                -->

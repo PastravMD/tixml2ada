@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module id="GioA" HW_revision="" XML_version="1" description="General Purpose Input Output">
+<module id="GioA" HW_revision="" XML_version="1.0.1b" description="General Purpose Input Output">
 
 <!-- (c) Texas Instruments 2003-2012, All rights reserved. -->
 <!-- Filename:Hercules_GIO_portA_spec_1.2.xml                -->
@@ -95,7 +95,3 @@
   </register>
   <register id="Srs" acronym="Srs" offset="0x134" width="32" description="Slew Rate Select Gio A"></register>
 </module>
-
-      <bitfield id="" width="" begin="" end="" resetval="0" description="" range="" rwaccess="RW">
-         <bitenum id="" value="0" token="" description=""/>
-      </bitfield>
