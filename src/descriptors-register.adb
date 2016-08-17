@@ -69,16 +69,19 @@ package body Descriptors.Register is
       Bitfield_List := DOM.Core.Elements.Get_Elements_By_Tag_Name (Register_Element, "bitfield");
 
       if Length (Bitfield_List) > 0 then
-         --Ada.Text_IO.Put_Line ("Reg [" & Value (Get_Named_Item (Attributes (Register_Element), "id")) & "] had bitfields defined.");
+         if not Bitfields_Valid (Bitfield_List, Ret.Reg_Properties.Size) then
+            raise Constraint_Error with "Register " & To_String(Ret.Name) &
+              " contains an invalid bitfield layout.";
+         end if;
+
          for K in 0 .. Length (Bitfield_List) - 1 loop
             declare
                Field : Field_T;
             begin
-               --Ada.Text_IO.Put_Line ("      - " & Value (Get_Named_Item (Attributes (Item (Bitfield_List, K)), "id")));
                Field := Read_Field (Item (Bitfield_List, K),
-               Ret.Fields,
-               Ret.Reg_Properties.Reg_Access,
-               Ret.Read_Action);
+                                    Ret.Fields,
+                                    Ret.Reg_Properties.Reg_Access,
+                                    Ret.Read_Action);
                if not Ret.Fields.Contains (Field) then
                   Ret.Fields.Append (Field);
                end if;

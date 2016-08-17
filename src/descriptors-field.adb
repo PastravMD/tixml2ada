@@ -94,6 +94,60 @@ package body Descriptors.Field is
       return Ret;
    end Read_Field;
 
+   ---------------------
+   -- Bitfields_Valid --
+   ---------------------
+
+   function Bitfields_Valid
+     (Bitfield_List     : DOM.Core.Node_List;
+      Register_Width    : Natural)
+      return Boolean
+   is
+      Valid             : Boolean := True;
+      Bit_Count         : Natural := 0;
+      Previous_Last_Bit : Natural := 0;
+   begin
+      for K in 0 .. Length (Bitfield_List) - 1 loop
+         declare
+            Field_Node : constant DOM.Core.Node := Item (Bitfield_List, K);
+            Field_Name : Unbounded.Unbounded_String;
+            First_Bit : Natural := 0;
+            Last_Bit  : Natural := 0;
+            Field_Width : Natural := 0;
+
+         begin
+            Field_Name := Apply_Naming_Rules(To_Unbounded_String (Value (Get_Named_Item (Attributes (Field_Node), "id"))));
+            First_Bit := Natural'Value (Value (Get_Named_Item (Attributes (Field_Node), "begin")));
+ 	    Last_Bit := Natural'Value (Value (Get_Named_Item (Attributes (Field_Node), "end")));
+            Field_Width := Natural'Value (Value (Get_Named_Item (Attributes (Field_Node), "width")));
+
+            -- check if all bitfields are contiguous
+            if K > 0 and First_Bit /= Previous_Last_Bit + 1 then
+               Valid := False;
+            end if;
+            Previous_Last_Bit := Last_Bit;
+
+            -- check size, begin and end bit positions
+            if First_Bit > Register_Width - 1
+              or else Last_Bit > Register_Width - 1
+              or else (Last_Bit < First_Bit)
+              or else (Field_Width /= Last_Bit - First_Bit + 1) then
+               Valid := False;
+            end if;
+
+            Bit_Count := Bit_Count + Field_Width;
+
+         end;
+         end loop;
+         -- check if all the bit positions have been covered
+         if Bit_Count /= Register_Width then
+            Valid := False;
+         end if;
+
+      return Valid;
+   end Bitfields_Valid;
+
+
    ---------
    -- "=" --
    ---------

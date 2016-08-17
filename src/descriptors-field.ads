@@ -71,4 +71,9 @@ package Descriptors.Field is
       Reg_Fields   : Field_Vectors.Vector;
       Properties   : Register_Properties_T);
 
+   function Bitfields_Valid
+     (Bitfield_List  : DOM.Core.Node_List;
+      Register_Width : Natural)
+     return Boolean;
+
 end Descriptors.Field;
