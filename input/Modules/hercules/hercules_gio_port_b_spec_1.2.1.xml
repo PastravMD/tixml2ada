@@ -6,92 +6,92 @@
 <!-- Version:1.0                                           -->
 
   <register id="Dir" acronym="Dir" offset="0x54" width="32" description="Data Direction Gio B">
-      <bitfield id="GioDir0" width="1" begin="0" end="0" resetval="0" description="GIO data direction of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDir1" width="1" begin="1" end="1" resetval="0" description="GIO data direction of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDir2" width="1" begin="2" end="2" resetval="0" description="GIO data direction of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDir3" width="1" begin="3" end="3" resetval="0" description="GIO data direction of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDir4" width="1" begin="4" end="4" resetval="0" description="GIO data direction of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDir5" width="1" begin="5" end="5" resetval="0" description="GIO data direction of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDir6" width="1" begin="6" end="6" resetval="0" description="GIO data direction of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="24" begin="31" end="8" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
       <bitfield id="GioDir7" width="1" begin="7" end="7" resetval="0" description="GIO data direction of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="Reserved" width="24" begin="8" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="GioDir6" width="1" begin="6" end="6" resetval="0" description="GIO data direction of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDir5" width="1" begin="5" end="5" resetval="0" description="GIO data direction of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDir4" width="1" begin="4" end="4" resetval="0" description="GIO data direction of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDir3" width="1" begin="3" end="3" resetval="0" description="GIO data direction of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDir2" width="1" begin="2" end="2" resetval="0" description="GIO data direction of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDir1" width="1" begin="1" end="1" resetval="0" description="GIO data direction of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDir0" width="1" begin="0" end="0" resetval="0" description="GIO data direction of port n" range="" rwaccess="RW"></bitfield>
   </register>
   <register id="DIn" acronym="DIn" offset="0x58" width="32" description="Data Input Gio B">
-      <bitfield id="GioDIn0" width="1" begin="0" end="0" resetval="0" description="GIO data input of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDIn1" width="1" begin="1" end="1" resetval="0" description="GIO data input of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDIn2" width="1" begin="2" end="2" resetval="0" description="GIO data input of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDIn3" width="1" begin="3" end="3" resetval="0" description="GIO data input of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDIn4" width="1" begin="4" end="4" resetval="0" description="GIO data input of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDIn5" width="1" begin="5" end="5" resetval="0" description="GIO data input of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDIn6" width="1" begin="6" end="6" resetval="0" description="GIO data input of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="24" begin="31" end="8" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
       <bitfield id="GioDIn7" width="1" begin="7" end="7" resetval="0" description="GIO data input of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="Reserved" width="24" begin="8" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="GioDIn6" width="1" begin="6" end="6" resetval="0" description="GIO data input of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDIn5" width="1" begin="5" end="5" resetval="0" description="GIO data input of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDIn4" width="1" begin="4" end="4" resetval="0" description="GIO data input of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDIn3" width="1" begin="3" end="3" resetval="0" description="GIO data input of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDIn2" width="1" begin="2" end="2" resetval="0" description="GIO data input of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDIn1" width="1" begin="1" end="1" resetval="0" description="GIO data input of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDIn0" width="1" begin="0" end="0" resetval="0" description="GIO data input of port n" range="" rwaccess="RW"></bitfield>
   </register>
   <register id="DOut" acronym="DOut" offset="0x5C" width="32" description="Data Output Gio B">
-      <bitfield id="GioDOut0" width="1" begin="0" end="0" resetval="0" description="GIO data output of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDOut1" width="1" begin="1" end="1" resetval="0" description="GIO data output of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDOut2" width="1" begin="2" end="2" resetval="0" description="GIO data output of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDOut3" width="1" begin="3" end="3" resetval="0" description="GIO data output of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDOut4" width="1" begin="4" end="4" resetval="0" description="GIO data output of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDOut5" width="1" begin="5" end="5" resetval="0" description="GIO data output of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDOut6" width="1" begin="6" end="6" resetval="0" description="GIO data output of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="24" begin="31" end="8" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
       <bitfield id="GioDOut7" width="1" begin="7" end="7" resetval="0" description="GIO data output of port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="Reserved" width="24" begin="8" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="GioDOut6" width="1" begin="6" end="6" resetval="0" description="GIO data output of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDOut5" width="1" begin="5" end="5" resetval="0" description="GIO data output of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDOut4" width="1" begin="4" end="4" resetval="0" description="GIO data output of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDOut3" width="1" begin="3" end="3" resetval="0" description="GIO data output of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDOut2" width="1" begin="2" end="2" resetval="0" description="GIO data output of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDOut1" width="1" begin="1" end="1" resetval="0" description="GIO data output of port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDOut0" width="1" begin="0" end="0" resetval="0" description="GIO data output of port n" range="" rwaccess="RW"></bitfield>
   </register>
   <register id="DSet" acronym="DSet" offset="0x60" width="32" description="Data Set Gio B">
-      <bitfield id="GioDSet0" width="1" begin="0" end="0" resetval="0" description="GIO data set for port n. Drives the output of GIO pin high." range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDSet1" width="1" begin="1" end="1" resetval="0" description="GIO data set for port n. Drives the output of GIO pin high." range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDSet2" width="1" begin="2" end="2" resetval="0" description="GIO data set for port n. Drives the output of GIO pin high." range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDSet3" width="1" begin="3" end="3" resetval="0" description="GIO data set for port n. Drives the output of GIO pin high." range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDSet4" width="1" begin="4" end="4" resetval="0" description="GIO data set for port n. Drives the output of GIO pin high." range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDSet5" width="1" begin="5" end="5" resetval="0" description="GIO data set for port n. Drives the output of GIO pin high." range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDSet6" width="1" begin="6" end="6" resetval="0" description="GIO data set for port n. Drives the output of GIO pin high." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="24" begin="31" end="8" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
       <bitfield id="GioDSet7" width="1" begin="7" end="7" resetval="0" description="GIO data output of port n. Drives the output of GIO pin high." range="" rwaccess="RW"></bitfield>
-      <bitfield id="Reserved" width="24" begin="8" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="GioDSet6" width="1" begin="6" end="6" resetval="0" description="GIO data set for port n. Drives the output of GIO pin high." range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDSet5" width="1" begin="5" end="5" resetval="0" description="GIO data set for port n. Drives the output of GIO pin high." range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDSet4" width="1" begin="4" end="4" resetval="0" description="GIO data set for port n. Drives the output of GIO pin high." range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDSet3" width="1" begin="3" end="3" resetval="0" description="GIO data set for port n. Drives the output of GIO pin high." range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDSet2" width="1" begin="2" end="2" resetval="0" description="GIO data set for port n. Drives the output of GIO pin high." range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDSet1" width="1" begin="1" end="1" resetval="0" description="GIO data set for port n. Drives the output of GIO pin high." range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDSet0" width="1" begin="0" end="0" resetval="0" description="GIO data set for port n. Drives the output of GIO pin high." range="" rwaccess="RW"></bitfield>
   </register>
   <register id="DClr" acronym="DClr" offset="0x64" width="32" description="Data Clear Gio B">
-      <bitfield id="GioDClr0" width="1" begin="0" end="0" resetval="0" description="GIO data clear for port n. Drives the output of GIO pin low." range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDClr1" width="1" begin="1" end="1" resetval="0" description="GIO data clear for port n. Drives the output of GIO pin low." range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDClr2" width="1" begin="2" end="2" resetval="0" description="GIO data clear for port n. Drives the output of GIO pin low." range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDClr3" width="1" begin="3" end="3" resetval="0" description="GIO data clear for port n. Drives the output of GIO pin low." range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDClr4" width="1" begin="4" end="4" resetval="0" description="GIO data clear for port n. Drives the output of GIO pin low." range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDClr5" width="1" begin="5" end="5" resetval="0" description="GIO data clear for port n. Drives the output of GIO pin low." range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioDClr6" width="1" begin="6" end="6" resetval="0" description="GIO data clear for port n. Drives the output of GIO pin low." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="24" begin="31" end="8" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
       <bitfield id="GioDClr7" width="1" begin="7" end="7" resetval="0" description="GIO data output of port n. Drives the output of GIO pin low." range="" rwaccess="RW"></bitfield>
-      <bitfield id="Reserved" width="24" begin="8" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="GioDClr6" width="1" begin="6" end="6" resetval="0" description="GIO data clear for port n. Drives the output of GIO pin low." range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDClr5" width="1" begin="5" end="5" resetval="0" description="GIO data clear for port n. Drives the output of GIO pin low." range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDClr4" width="1" begin="4" end="4" resetval="0" description="GIO data clear for port n. Drives the output of GIO pin low." range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDClr3" width="1" begin="3" end="3" resetval="0" description="GIO data clear for port n. Drives the output of GIO pin low." range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDClr2" width="1" begin="2" end="2" resetval="0" description="GIO data clear for port n. Drives the output of GIO pin low." range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDClr1" width="1" begin="1" end="1" resetval="0" description="GIO data clear for port n. Drives the output of GIO pin low." range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioDClr0" width="1" begin="0" end="0" resetval="0" description="GIO data clear for port n. Drives the output of GIO pin low." range="" rwaccess="RW"></bitfield>
   </register>
   <register id="PDr" acronym="PDr" offset="0x68" width="32" description="Open Drain Gio B">
-      <bitfield id="GioPDr0" width="1" begin="0" end="0" resetval="0" description="GIO open drain for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPDr1" width="1" begin="1" end="1" resetval="0" description="GIO open drain for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPDr2" width="1" begin="2" end="2" resetval="0" description="GIO open drain for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPDr3" width="1" begin="3" end="3" resetval="0" description="GIO open drain for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPDr4" width="1" begin="4" end="4" resetval="0" description="GIO open drain for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPDr5" width="1" begin="5" end="5" resetval="0" description="GIO open drain for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPDr6" width="1" begin="6" end="6" resetval="0" description="GIO open drain for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="24" begin="31" end="8" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
       <bitfield id="GioPDr7" width="1" begin="7" end="7" resetval="0" description="GIO open drain for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="Reserved" width="24" begin="8" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="GioPDr6" width="1" begin="6" end="6" resetval="0" description="GIO open drain for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPDr5" width="1" begin="5" end="5" resetval="0" description="GIO open drain for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPDr4" width="1" begin="4" end="4" resetval="0" description="GIO open drain for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPDr3" width="1" begin="3" end="3" resetval="0" description="GIO open drain for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPDr2" width="1" begin="2" end="2" resetval="0" description="GIO open drain for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPDr1" width="1" begin="1" end="1" resetval="0" description="GIO open drain for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPDr0" width="1" begin="0" end="0" resetval="0" description="GIO open drain for port n" range="" rwaccess="RW"></bitfield>
   </register>
   <register id="PDis" acronym="PDis" offset="0x6C" width="32" description="Pull Disable Gio B">
-      <bitfield id="GioPDis0" width="1" begin="0" end="0" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPDis1" width="1" begin="1" end="1" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPDis2" width="1" begin="2" end="2" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPDis3" width="1" begin="3" end="3" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPDis4" width="1" begin="4" end="4" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPDis5" width="1" begin="5" end="5" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPDis6" width="1" begin="6" end="6" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="24" begin="31" end="8" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
       <bitfield id="GioPDis7" width="1" begin="7" end="7" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="Reserved" width="24" begin="8" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="GioPDis6" width="1" begin="6" end="6" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPDis5" width="1" begin="5" end="5" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPDis4" width="1" begin="4" end="4" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPDis3" width="1" begin="3" end="3" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPDis2" width="1" begin="2" end="2" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPDis1" width="1" begin="1" end="1" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPDis0" width="1" begin="0" end="0" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
   </register>
   <register id="PSel" acronym="PSel" offset="0x70" width="32" description="Pull Select Gio B">
-      <bitfield id="GioPSel0" width="1" begin="0" end="0" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPSel1" width="1" begin="1" end="1" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPSel2" width="1" begin="2" end="2" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPSel3" width="1" begin="3" end="3" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPSel4" width="1" begin="4" end="4" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPSel5" width="1" begin="5" end="5" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="GioPSel6" width="1" begin="6" end="6" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved" width="24" begin="31" end="8" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
       <bitfield id="GioPSel7" width="1" begin="7" end="7" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
-      <bitfield id="Reserved" width="24" begin="8" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
+      <bitfield id="GioPSel6" width="1" begin="6" end="6" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPSel5" width="1" begin="5" end="5" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPSel4" width="1" begin="4" end="4" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPSel3" width="1" begin="3" end="3" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPSel2" width="1" begin="2" end="2" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPSel1" width="1" begin="1" end="1" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
+      <bitfield id="GioPSel0" width="1" begin="0" end="0" resetval="0" description="GIO pull disable for port n" range="" rwaccess="RW"></bitfield>
   </register>
   <register id="Srs" acronym="Srs" offset="0x138" width="32" description="Slew Rate Select Gio B"></register>
 </module>

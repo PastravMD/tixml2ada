@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module id="Rti" HW_revision="" XML_version="1" description="Real Time Interrupt">
+<module id="Rti" HW_revision="" XML_version="1.6.1b" description="Real Time Interrupt">
 
 <!-- (c) Texas Instruments 2003-2014, All rights reserved. -->
 <!-- Filename:Hercules_RTI_spec_3.2.1.xml                    -->
