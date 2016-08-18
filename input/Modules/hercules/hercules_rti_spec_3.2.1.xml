@@ -104,10 +104,10 @@
   		<bitfield id="SETDMA1"    width="1"  begin="9"  end="9"  resetval="0"  description="Set Compare DMA Request 1 Enable, W12S" range="" rwaccess="RW" />
   		<bitfield id="SETDMA0"    width="1"  begin="8"  end="8"  resetval="0"  description="Set Compare DMA Request 0 Enable, W12S" range="" rwaccess="RW" />
   		<bitfield id="Rsv3"       width="4"  begin="7"  end="4"  resetval="0"  description="Reserved" range="" rwaccess="R" />
-  		<bitfield id="SETINT3"    width="1"  begin="11" end="11" resetval="0"  description="Set Compare Interrupt Request 3 Enable, W12S" range="" rwaccess="RW" />
-  		<bitfield id="SETINT2"    width="1"  begin="10" end="10" resetval="0"  description="Set Compare Interrupt Request 2 Enable, W12S" range="" rwaccess="RW" />
-  		<bitfield id="SETINT1"    width="1"  begin="9"  end="9"  resetval="0"  description="Set Compare Interrupt Request 1 Enable, W12S" range="" rwaccess="RW" />
-  		<bitfield id="SETINT0"    width="1"  begin="8"  end="8"  resetval="0"  description="Set Compare Interrupt Request 0 Enable, W12S" range="" rwaccess="RW" />
+  		<bitfield id="SETINT3"    width="1"  begin="3" end="3" resetval="0"  description="Set Compare Interrupt Request 3 Enable, W12S" range="" rwaccess="RW" />
+  		<bitfield id="SETINT2"    width="1"  begin="2" end="2" resetval="0"  description="Set Compare Interrupt Request 2 Enable, W12S" range="" rwaccess="RW" />
+  		<bitfield id="SETINT1"    width="1"  begin="1"  end="1"  resetval="0"  description="Set Compare Interrupt Request 1 Enable, W12S" range="" rwaccess="RW" />
+  		<bitfield id="SETINT0"    width="1"  begin="0"  end="0"  resetval="0"  description="Set Compare Interrupt Request 0 Enable, W12S" range="" rwaccess="RW" />
   </register>
   <register id="RTICLEARINTENA" acronym="RTICLEARINTENA" offset="0x84" width="32" description="RTI Clear Interrupt Enable Register">
   		<bitfield id="Rsv1"         width="13" begin="31" end="19" resetval="0"  description="Reserved" range="" rwaccess="R" />
@@ -120,10 +120,10 @@
   		<bitfield id="CLEARDMA1"    width="1"  begin="9"  end="9"  resetval="0"  description="CLEAR Compare DMA Request 1 Enable, W12C" range="" rwaccess="RW" />
   		<bitfield id="CLEARDMA0"    width="1"  begin="8"  end="8"  resetval="0"  description="CLEAR Compare DMA Request 0 Enable, W12C" range="" rwaccess="RW" />
   		<bitfield id="Rsv3"         width="4"  begin="7"  end="4"  resetval="0"  description="Reserved" range="" rwaccess="R" />
-  		<bitfield id="CLEARINT3"    width="1"  begin="11" end="11" resetval="0"  description="CLEAR Compare Interrupt Request 3 Enable, W12C" range="" rwaccess="RW" />
-  		<bitfield id="CLEARINT2"    width="1"  begin="10" end="10" resetval="0"  description="CLEAR Compare Interrupt Request 2 Enable, W12C" range="" rwaccess="RW" />
-  		<bitfield id="CLEARINT1"    width="1"  begin="9"  end="9"  resetval="0"  description="CLEAR Compare Interrupt Request 1 Enable, W12C" range="" rwaccess="RW" />
-  		<bitfield id="CLEARINT0"    width="1"  begin="8"  end="8"  resetval="0"  description="CLEAR Compare Interrupt Request 0 Enable, W12C" range="" rwaccess="RW" />
+  		<bitfield id="CLEARINT3"    width="1"  begin="3" end="3" resetval="0"  description="CLEAR Compare Interrupt Request 3 Enable, W12C" range="" rwaccess="RW" />
+  		<bitfield id="CLEARINT2"    width="1"  begin="2" end="2" resetval="0"  description="CLEAR Compare Interrupt Request 2 Enable, W12C" range="" rwaccess="RW" />
+  		<bitfield id="CLEARINT1"    width="1"  begin="1"  end="1"  resetval="0"  description="CLEAR Compare Interrupt Request 1 Enable, W12C" range="" rwaccess="RW" />
+  		<bitfield id="CLEARINT0"    width="1"  begin="0"  end="0"  resetval="0"  description="CLEAR Compare Interrupt Request 0 Enable, W12C" range="" rwaccess="RW" />
   </register>
   <register id="RTIINTFLAG" acronym="RTIINTFLAG" offset="0x88" width="32" description="RTI Interrupt Flag Register">
   		<bitfield id="Rsv1"    width="13" begin="31" end="19" resetval="0"  description="Reserved" range="" rwaccess="R" />
