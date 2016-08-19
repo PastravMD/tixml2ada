@@ -22,7 +22,6 @@ with System;
 -- XML dependencies
 with DOM.Core;             use DOM.Core;
 with DOM.Core.Elements;    use DOM.Core.Elements;
-with DOM.Core.Attrs;       use DOM.Core.Attrs;
 with DOM.Core.Nodes;       use DOM.Core.Nodes;
 
 -- TIXML2Ada dependencies
@@ -36,36 +35,41 @@ package body Descriptors.Register is
    -------------------
 
    function Read_Register
-     (Register_Element            : DOM.Core.Element;
+     (Register       : DOM.Core.Element;
       Prepend        : Unbounded.Unbounded_String;
       Append         : Unbounded.Unbounded_String;
-      Reg_Properties : Register_Properties_T) return Register_Access
+      Reg_Properties : Register_Properties_T)
+      return Register_Access
    is
-      Ret          : Register_T;
+      Ret           : Register_T;
       Bitfield_List : Node_List;
    begin
       Ret.Reg_Properties := Reg_Properties;
 
-      Ret.Name := Apply_Naming_Rules(To_Unbounded_String (Value (Get_Named_Item (Attributes (Register_Element), "id"))));
-      Ret.Xml_Id := Ret.Name;
-      Ret.Description  := To_Unbounded_String (Value (Get_Named_Item (Attributes (Register_Element), "description")));
+      Ret.Name             := Get_Id(Register);
+      Ret.Xml_Id           := Ret.Name;
+      Ret.Description      := Get_Description(Register);
       Ret.Mod_Write_Values := Modify;
-      Ret.Read_Action := Undefined_Read_Action;
-      Ret.Type_Name := Prepend & Ret.Name & Append;
+      Ret.Read_Action      := Undefined_Read_Action;
+      Ret.Type_Name        := Prepend & Ret.Name & Append;
 
-      Ret.Reg_Properties.Size := Natural'Value (Value (Get_Named_Item (Attributes (Register_Element), "width")));
-      Ret.Reg_Properties.Reg_Access := Read_Write;
+      Ret.Reg_Properties.Size        := Get_Width (Register);
+      Ret.Reg_Properties.Reg_Access  := Read_Write;
       Ret.Reg_Properties.Reset_Value := 16#0000_0000#;
-      Ret.Reg_Properties.Reset_Mask := 16#0000_0000#;
+      Ret.Reg_Properties.Reset_Mask  := 16#0000_0000#;
 
-      if Get_Named_Item (Attributes (Register_Element), "offset") /= null then
-         Ret.Address_Offset := Get_Offset(Register_Element);
+      if Get_Named_Item (Attributes (Register), "offset") /= null then
+         Ret.Address_Offset := Get_Offset(Register);
       else
-         --Ada.Text_IO.Put_Line ("Reg [" & Value (Get_Named_Item (Attributes (Register_Element), "id")) & "]    -> " & Value (Get_Named_Item (Attributes (Register_Element), "description")) & " has no offset attribute !");
-         Ret.Address_Offset := 0; -- proper handling TBD
+         -- Ada.Text_IO.Put_Line ("Reg [" &
+         -- Value (Get_Named_Item (Attributes (Register), "id")) &
+         -- "]    -> " & Value (Get_Named_Item
+         --  (Attributes (Register), "description")) &
+         -- " has no offset attribute !");
+         Ret.Address_Offset := 0; -- better handling TBD
       end if;
 
-      Bitfield_List := DOM.Core.Elements.Get_Elements_By_Tag_Name (Register_Element, "bitfield");
+      Bitfield_List := Get_Elements_By_Tag_Name (Register, "bitfield");
 
       if Length (Bitfield_List) > 0 then
          if not Bitfields_Valid (Bitfield_List, Ret.Reg_Properties.Size) then

@@ -188,6 +188,7 @@ package Base_Types is
    function Get_Blockset (Elt : in DOM.Core.Element)
                           return Address_Block_Type;
    function Get_Offset (Elt: DOM.Core.Element) return Natural;
+   function Get_Width (Elt: DOM.Core.Element) return Natural;
 
    function Common_Prefix
      (Name1, Name2 : Unbounded.Unbounded_String)

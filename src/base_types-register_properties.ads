@@ -19,7 +19,7 @@
 
 with Ada.Strings.Unbounded;
 
---  Decodes the register properties group from an SVD element.
+--  Decodes the register properties group from an XML element.
 --  This group is used in Device, Peripherals and Registers descriptors.
 package Base_Types.Register_Properties is
 
@@ -41,7 +41,5 @@ package Base_Types.Register_Properties is
                                Reset_Mask  => 0,
                                Endianess   => Undefined_Endian,
                                Module_Xml  => Unbounded.Null_Unbounded_String);
-
-   function Is_Register_Property (Tag : String) return Boolean;
 
 end Base_Types.Register_Properties;

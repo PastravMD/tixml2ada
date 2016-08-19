@@ -313,6 +313,19 @@ package body Base_Types is
         (Value (Get_Named_Item (Attributes (Elt), "offset"))));
    end Get_Offset;
 
+   ----------------
+   -- Get_Width --
+   ----------------
+
+   function Get_Width (Elt: DOM.Core.Element) return Natural
+   is
+      use DOM.Core.Attrs;
+      use DOM.Core.Nodes;
+   begin
+      return Natural'Value (Value (Get_Named_Item
+                            (Attributes (Elt), "width")));
+   end Get_Width;
+
    ------------------
    -- Gen_DOM_Iter --
    ------------------

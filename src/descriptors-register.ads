@@ -17,20 +17,21 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+-- common Ada dependencies
 with Ada.Containers.Vectors;
 with Ada.Strings.Unbounded;          use Ada.Strings.Unbounded;
 use Ada.Strings;
 
+-- XML dependencies
 with DOM.Core;
 
+-- TIXML2Ada dependencies
 with Base_Types;                     use Base_Types;
 with Base_Types.Register_Properties; use Base_Types.Register_Properties;
-
 with Descriptors.Field;              use Descriptors.Field;
-
 with Ada_Gen;
 
---  Decodes and then dumps the <register> elements of the SVD file.
+--  Decodes and then dumps the <register> elements of the XML file.
 package Descriptors.Register is
 
    type Register_T;
@@ -86,7 +87,7 @@ package Descriptors.Register is
    procedure Find_Common_Types (Reg_Set : Register_Vectors.Vector);
 
    function Read_Register
-     (Register_Element            : DOM.Core.Element;
+     (Register       : DOM.Core.Element;
       Prepend        : Unbounded.Unbounded_String;
       Append         : Unbounded.Unbounded_String;
       Reg_Properties : Register_Properties_T)
