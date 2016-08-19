@@ -59,7 +59,7 @@ package body Descriptors.Register is
       Ret.Reg_Properties.Reset_Mask := 16#0000_0000#;
 
       if Get_Named_Item (Attributes (Register_Element), "offset") /= null then
-         Ret.Address_Offset := Get_Value (Get_Named_Item (Attributes (Register_Element), "offset"));
+         Ret.Address_Offset := Get_Offset(Register_Element);
       else
          --Ada.Text_IO.Put_Line ("Reg [" & Value (Get_Named_Item (Attributes (Register_Element), "id")) & "]    -> " & Value (Get_Named_Item (Attributes (Register_Element), "description")) & " has no offset attribute !");
          Ret.Address_Offset := 0; -- proper handling TBD

@@ -21,7 +21,7 @@ with Ada.Strings.Unbounded;          use Ada.Strings;
 
 with DOM.Core;
 
-with Base_Types;                     use Base_Types;
+with Base_Types;
 with Base_Types.Register_Properties;
 
 with Descriptors.Peripheral;
@@ -37,14 +37,14 @@ package Descriptors.Device is
 
       --  BUS interface properties:
       --  adressable unit
-      Address_Unit_Bits : Unsigned := 0;
+      Address_Unit_Bits : Base_Types.Unsigned := 0;
       --  maximum data bit width accessbile within a single transfer
       Width             : Natural := 0;
 
       Has_FPU           : Boolean := True;
 
       --  REGISTERS properties
-      Reg_Properties    : Register_Properties.Register_Properties_T;
+      Reg_Properties    : Base_Types.Register_Properties.Register_Properties_T;
 
       Peripherals       : Descriptors.Peripheral.Peripheral_Vectors.Vector;
    end record;

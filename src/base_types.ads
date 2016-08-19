@@ -171,14 +171,7 @@ package Base_Types is
       Fully_Qualified : Boolean := True) return String;
    --  Returns the name of the type on the target given the size of the int
 
-   function Get_Value (Elt : DOM.Core.Element) return String;
-   function Get_Value
-     (Elt : DOM.Core.Element) return Unbounded.Unbounded_String;
-   function Get_Value (Elt : DOM.Core.Element) return Boolean;
-
-   function Get_Value (Attribute_Node : DOM.Core.Attr) return Unsigned;
-   function Get_Value (Attribute_Node : DOM.Core.Attr) return Natural;
-
+   function Convert_Address (Value: String) return Unsigned;
    function Get_Id (Elt: DOM.Core.Element)
                     return Unbounded.Unbounded_String;
    function Get_Base_Address (Elt: DOM.Core.Element)
@@ -189,8 +182,12 @@ package Base_Types is
                              return Unbounded.Unbounded_String;
    function Get_Description (Elt: DOM.Core.Element)
                              return Unbounded.Unbounded_String;
+   function Get_Value (Elt: DOM.Core.Element)
+                       return Unbounded.Unbounded_String;
+   function Get_Size (Elt: DOM.Core.Element) return Unsigned;
    function Get_Blockset (Elt : in DOM.Core.Element)
-                                  return Address_Block_Type;
+                          return Address_Block_Type;
+   function Get_Offset (Elt: DOM.Core.Element) return Natural;
 
    function Common_Prefix
      (Name1, Name2 : Unbounded.Unbounded_String)

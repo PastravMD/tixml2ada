@@ -140,68 +140,13 @@ package body Base_Types is
       end if;
    end To_String;
 
-   ---------------
-   -- Get_Value --
-   ---------------
+   ----------------------
+   -- Convert_Address --
+   ----------------------
 
-   function Get_Value (Elt : DOM.Core.Element) return String
-   is
-      use DOM.Core;
-      List : constant Node_List := Nodes.Child_Nodes (Elt);
-
-   begin
-      for J in 0 .. Nodes.Length (List) - 1 loop
-         if Nodes.Node_Type (Nodes.Item (List, J)) = Text_Node then
-            return String (Nodes.Node_Value (Nodes.Item (List, J)));
-         end if;
-      end loop;
-
-      return "";
-   end Get_Value;
-
-   ---------------
-   -- Get_Value --
-   ---------------
-
-   function Get_Value (Elt : DOM.Core.Element) return Boolean is
-      Value : String renames Get_Value (Elt);
-   begin
-      return Value = "true" or Value = "1";
-   end Get_Value;
-
-   ---------------
-   -- Get_Value --
-   ---------------
-
-   function Get_Value
-     (Elt : DOM.Core.Element) return Unbounded.Unbounded_String
-   is
-      Value : String renames Get_Value (Elt);
-   begin
-      return Unbounded.To_Unbounded_String (Value);
-   end Get_Value;
-
-   ---------------
-   -- Get_Value --
-   ---------------
-
-   function Get_Value
-     (Attribute_Node : DOM.Core.Attr) return Natural
-   is
-      U : constant Unsigned := Get_Value (Attribute_Node);
-   begin
-      return Natural (U);
-   end Get_Value;
-
-   ---------------
-   -- Get_Value --
-   ---------------
-
-   function Get_Value (Attribute_Node : DOM.Core.Attr) return Unsigned is
-      Value      : constant String := DOM.Core.Attrs.Value (Attribute_Node);
+   function Convert_Address (Value: String) return Unsigned is
       Multiplier : Unsigned := 1;
       Last       : Natural := Value'Last;
-
    begin
       --  First pass: we check the presence of a multiplier
       if Value (Value'Last) = 'k' or else Value (Value'Last) = 'K' then
@@ -228,14 +173,26 @@ package body Base_Types is
          return Unsigned'Value ("16#" & Value (Value'First + 2 .. Last) & "#")
            * Multiplier;
       elsif Value'Length > 1
-        and then Value (1) = '#'
+        and then Value (Value'First) = '#'
       then
          return Unsigned'Value ("2#" & Value (Value'First + 1 .. Last) & "#")
            * Multiplier;
       else
-         return Unsigned'Value (Value (1 .. Last)) * Multiplier;
+         return Unsigned'Value (Value (Value'First .. Value'Last)) * Multiplier;
       end if;
-   end Get_Value;
+   end Convert_Address;
+
+   ----------------------
+   -- Get_Base_Address --
+   ----------------------
+
+   function Get_Base_Address (Elt: DOM.Core.Element) return Unsigned is
+      use DOM.Core.Attrs;
+      use DOM.Core.Nodes;
+   begin
+      return Convert_Address
+        (Value (Get_Named_Item (Attributes (Elt), "baseaddr")));
+   end Get_Base_Address;
 
    ------------
    -- Get_Id --
@@ -252,19 +209,6 @@ package body Base_Types is
         (To_Unbounded_String (Value (
          Get_Named_Item (Attributes (Elt), "id"))));
    end Get_Id;
-
-   ----------------------
-   -- Get_Base_Address --
-   ----------------------
-   function Get_Base_Address (Elt: DOM.Core.Element)
-                    return Unsigned
-   is
-      use DOM.Core.Attrs;
-      use DOM.Core.Nodes;
-   begin
-      return Get_Value (Get_Named_Item
-                        (Attributes (Elt), "baseaddr"));
-   end Get_Base_Address;
 
    --------------
    -- Get_Href --
@@ -311,7 +255,33 @@ package body Base_Types is
         (Value (Get_Named_Item (Attributes (Elt), "description")));
    end Get_Description;
 
+   ---------------
+   -- Get_Value --
+   ---------------
 
+   function Get_Value (Elt: DOM.Core.Element)
+                             return Unbounded.Unbounded_String
+   is
+      use Ada.Strings.Unbounded;
+      use DOM.Core.Attrs;
+      use DOM.Core.Nodes;
+   begin
+      return To_Unbounded_String
+        (Value (Get_Named_Item (Attributes (Elt), "Value")));
+   end Get_Value;
+
+   --------------
+   -- Get_Size --
+   --------------
+
+   function Get_Size (Elt: DOM.Core.Element) return Unsigned
+   is
+      use DOM.Core.Attrs;
+      use DOM.Core.Nodes;
+   begin
+      return Convert_Address
+        (Value (Get_Named_Item (Attributes (Elt), "size")));
+   end Get_Size;
 
    ------------------
    -- Get_Blockset --
@@ -324,12 +294,24 @@ package body Base_Types is
       use DOM.Core.Nodes;
    begin
       Address_Block.Offset := 16#0#;
-      Address_Block.Size := Get_Value
-        (Get_Named_Item (Attributes (Elt), "size"));
+      Address_Block.Size := Get_Size (Elt);
       Address_Block.Usage := Registers_Usage;
       Address_Block.Protection := Undefined_Protection;
       return Address_Block;
    end Get_Blockset;
+
+   ----------------
+   -- Get_Offset --
+   ----------------
+
+   function Get_Offset (Elt: DOM.Core.Element) return Natural
+   is
+      use DOM.Core.Attrs;
+      use DOM.Core.Nodes;
+   begin
+      return Natural(Convert_Address
+        (Value (Get_Named_Item (Attributes (Elt), "offset"))));
+   end Get_Offset;
 
    ------------------
    -- Gen_DOM_Iter --

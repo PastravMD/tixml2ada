@@ -18,7 +18,7 @@
 ------------------------------------------------------------------------------
 
 -- common Ada dependencies
-with Ada.Text_IO;            use Ada.Text_IO;
+--with Ada.Text_IO;
 with Ada.Strings.Unbounded;  use Ada.Strings.Unbounded;
 with Ada.Strings.Fixed;
 with Ada.Strings.Maps;
@@ -27,13 +27,13 @@ with GNAT.Directory_Operations;
 -- XML dependencies
 with DOM.Core;               use DOM.Core;
 with DOM.Core.Nodes;         use DOM.Core.Nodes;
-with DOM.Core.Attrs;         use DOM.Core.Attrs;
-with DOM.Core.Elements;      use DOM.Core.Elements;
+with DOM.Core.Elements;
 
 -- TIXML2Ada dependencies
+with Base_Types;             use Base_Types;
 with Descriptors.Peripheral; use Descriptors.Peripheral;
-with Ada_Gen;                use Ada_Gen;
-with SVD2Ada_Utils;          use SVD2Ada_Utils;
+with Ada_Gen;
+with SVD2Ada_Utils;
 
 package body Descriptors.Device is
 
@@ -46,15 +46,15 @@ package body Descriptors.Device is
    is
       Ret  : Device_T;
       Device_List : Node_List :=
-        Get_Elements_By_Tag_Name(Top_Xml_Element,"device");
+        Elements.Get_Elements_By_Tag_Name(Top_Xml_Element,"device");
       Cpu_List : Node_List :=
-        Get_Elements_By_Tag_Name(Top_Xml_Element,"cpu");
-      Device_Element : constant DOM.Core.Element :=
-        Item(Get_Elements_By_Tag_Name(Top_Xml_Element,"device") , 0);
-      Cpu_Element : constant DOM.Core.Element :=
-        Item(Get_Elements_By_Tag_Name(Top_Xml_Element,"cpu") , 0);
+        Elements.Get_Elements_By_Tag_Name(Top_Xml_Element,"cpu");
+      Device : constant DOM.Core.Element :=
+        Item(Elements.Get_Elements_By_Tag_Name(Top_Xml_Element,"device") , 0);
+      Cpu : constant DOM.Core.Element :=
+        Item(Elements.Get_Elements_By_Tag_Name(Top_Xml_Element,"cpu") , 0);
       Hw_Module_List : constant Node_List :=
-                         DOM.Core.Elements.Get_Elements_By_Tag_Name (Cpu_Element, "instance");
+                         Elements.Get_Elements_By_Tag_Name (Cpu, "instance");
    begin
 
       if Length(Device_List) /= 1 then raise Constraint_Error with
@@ -75,92 +75,95 @@ package body Descriptors.Device is
            "a hardware module";
       end if;
 
-      Ret.Name := Apply_Naming_Rules
-        (Ada.Strings.Unbounded.To_Unbounded_String
-        (Value(Get_Named_Item (Attributes (Device_Element), "id"))));
-
-      Ret.Version := Ada.Strings.Unbounded.To_Unbounded_String
-        (Value(Get_Named_Item (Attributes (Device_Element), "XML_version")));
-
-      Ret.Description := Ada.Strings.Unbounded.To_Unbounded_String
-        (Value(Get_Named_Item (Attributes (Device_Element), "description")));
-
+      Ret.Name := Get_Id (Device);
+      Ret.Version := Get_Xml_Version(Device);
+      Ret.Description := Get_Description(Device);
       Ret.Address_Unit_Bits := 8;
-
       Ret.Width := 32;
-
       Ret.Has_FPU := True;
 
-      SVD2Ada_Utils.Set_Root_Package
-        (Ada.Strings.Unbounded.To_String (Ret.Name));
+      SVD2Ada_Utils.Set_Root_Package (To_String (Ret.Name));
 
       -- try to determine device endianess
       declare
-         Properties_List  : constant Node_List   := DOM.Core.Elements.Get_Elements_By_Tag_Name (Cpu_Element, "property");
-         Device_Endianess : Endian_Type := Big_Endian;
+         Properties  : constant Node_List :=
+                         Elements.Get_Elements_By_Tag_Name (Cpu, "property");
+         Endianess : Endian_Type := Big_Endian;
       begin
-         for K in 0 .. Length (Properties_List) - 1 loop
+         for K in 0 .. Length (Properties) - 1 loop
             declare
-               Property_Elt   : constant DOM.Core.Element := DOM.Core.Element (Nodes.Item (Properties_List, K));
-               Property_Id    : constant String := Value (Get_Named_Item (Attributes (Property_Elt), "id"));
-               Property_Value : constant String := Value (Get_Named_Item (Attributes (Property_Elt), "Value"));
+               Property_Elt   : constant DOM.Core.Element :=
+                                  DOM.Core.Element (Nodes.Item (Properties, K));
+               Property_Id    : constant String :=
+                                  Unbounded.To_String (Get_Id (Property_Elt));
+               Property_Value : constant String :=
+                                  Unbounded.To_String (Get_Value(Property_Elt));
                First_Idx      : Positive := 1;
                Last_Idx       : Natural  := 0;
                Little_Endian_Flag : constant String := "--little";
             begin
                if Property_Id = "Endianness" then
                   if Property_Value = "little" then
-                     Device_Endianess := Little_Endian;
+                     Endianess := Little_Endian;
                   elsif Property_Value = "big" then
-                     Device_Endianess := Big_Endian;
+                     Endianess := Big_Endian;
                   end if;
                elsif Property_Id = "CompilerBuildOptions" then
-                  Ada.Strings.Fixed.Find_Token (Source           => Property_Value,
-                              Set              => Ada.Strings.Maps.To_Set(Little_Endian_Flag),
-                              Test             => Inside,
-                              First            => First_Idx,
-                              Last             => Last_Idx);
+                  Ada.Strings.Fixed.Find_Token
+                    (Source           => Property_Value,
+                     Set              =>
+                       Ada.Strings.Maps.To_Set(Little_Endian_Flag),
+                     Test             => Inside,
+                     First            => First_Idx,
+                     Last             => Last_Idx);
                   if Last_Idx = (First_Idx + Little_Endian_Flag'Length - 1) then
-                     Device_Endianess := Little_Endian;
+                     Endianess := Little_Endian;
                   end if;
                end if;
             end;
          end loop;
-         Ret.Reg_Properties.Endianess := Device_Endianess;
+         Ret.Reg_Properties.Endianess := Endianess;
       end;
 
       for J in 0 .. Length (Hw_Module_List) - 1 loop
          declare
-            Module_Element  : constant DOM.Core.Element :=
-                                DOM.Core.Element (Nodes.Item (Hw_Module_List, J));
-            Module_href     : constant String := Value (Get_Named_Item (Attributes (Module_Element), "href"));
+            Module          : constant DOM.Core.Element :=
+                                DOM.Core.Element (Nodes.Item
+                                                  (Hw_Module_List, J));
+            Module_href     : constant Unbounded_String := Get_Href(Module);
             Is_Derived_From : Unbounded_String := Null_Unbounded_String;
             Peripheral      : Peripheral_T;
          begin
             if J > 1 then
                for K in 0 .. (J - 1) loop
                   declare
-                     Predecessor_Element : constant DOM.Core.Element := DOM.Core.Element (Nodes.Item (Hw_Module_List, K));
-                     Predecessor_href    : constant String := Value (Get_Named_Item (Attributes (Predecessor_Element), "href"));
+                     Predecessor : constant DOM.Core.Element :=
+                                     DOM.Core.Element (Nodes.Item
+                                                       (Hw_Module_List, K));
+                     Predecessor_href : constant Unbounded_String :=
+                                          Get_Href(Predecessor);
                   begin
                      if Module_href = Predecessor_href then
-                        Is_Derived_From := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Predecessor_Element), "id"))));
+                        Is_Derived_From := Get_Id (Predecessor);
 
-                        Ada.Text_IO.Put_Line ("        " & To_String (Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "id"))))) &
-                                                " is derived from " &
-                                                To_String (Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Predecessor_Element), "id")))))
-                                             );
+--                          Ada.Text_IO.Put_Line ("        "
+--                                                & To_String (Get_Id (Module)) &
+--                                                  " is derived from " &
+--                                                  To_String (Is_Derived_From)
+--                                               );
                         exit;
                      end if;
                   end;
                end loop;
             end if;
 
-            Ret.Reg_Properties.Module_Xml := To_Unbounded_String(GNAT.Directory_Operations.Base_Name (Module_href));
+            Ret.Reg_Properties.Module_Xml :=
+              To_Unbounded_String(GNAT.Directory_Operations.Base_Name
+                                  (To_String(Module_href)));
 
             Peripheral :=
               Read_Peripheral
-                (Module_Element,
+                (Module,
                  Ret.Reg_Properties,
                  Ret.Peripherals,
                  Is_Derived_From);
@@ -187,9 +190,10 @@ package body Descriptors.Device is
    is
       Peripherals : Peripheral_Vectors.Vector;
       Spec        : Ada_Gen.Ada_Spec :=
-                      New_Spec (To_String (Device.Name),
-                                To_String (Device.Description),
-                                True);
+                      Ada_Gen.New_Spec (To_String (Device.Name),
+                                        To_String (Device.Description),
+                                        True);
+      use Ada_Gen;
    begin
       ----------------------------
       --  Base types definition --
@@ -250,7 +254,8 @@ package body Descriptors.Device is
          begin
             Peripherals.Delete_First;
 
-            Ada_Gen.Set_Input_File_Name (To_String(P.Reg_Properties.Module_Xml));
+            Ada_Gen.Set_Input_File_Name
+              (To_String(P.Reg_Properties.Module_Xml));
 
             if Ada.Strings.Unbounded.Length (P.Group_Name) = 0 then
                Dump (P,
