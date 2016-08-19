@@ -18,9 +18,9 @@
 ------------------------------------------------------------------------------
 
 -- common Ada dependencies
-with Interfaces;               use Interfaces;
+with Interfaces;            use Interfaces;
 with Ada.Containers.Vectors;
-with Ada.Strings.Unbounded;    use Ada.Strings;
+with Ada.Strings.Unbounded; use Ada.Strings;
 
 -- XML dependencies
 with DOM.Core;
@@ -73,11 +73,7 @@ package Base_Types is
 
    --  Access_Type specfies the pre-defined tokens for the available accesses
    type Access_Type is
-     (Read_Only,
-      Write_Only,
-      Read_Write,
-      Write_Once,
-      Read_Write_Once);
+     (Read_Only, Write_Only, Read_Write, Write_Once, Read_Write_Once);
 
    --  Modified_Write_Values_Type specifies the pre-defined tokens for the
    --  write side effects
@@ -94,19 +90,11 @@ package Base_Types is
 
    --  Read_Action_Type specifies the pre-defined tokens for read side effects
    type Read_Action_Type is
-     (Undefined_Read_Action,
-      Clear,
-      Set,
-      Modify,
-      Modify_Exernal);
+     (Undefined_Read_Action, Clear, Set, Modify, Modify_Exernal);
 
    --  Enum_Usage_Type specifies the pre-defined tokens for selecting what
    --  access types an enumeratedValues set is associated with
-   type Enum_Usage_Type is
-     (Undefined_Enum_Usage,
-      Read,
-      Write,
-      Read_Write);
+   type Enum_Usage_Type is (Undefined_Enum_Usage, Read, Write, Read_Write);
 
    --  Bit_Range_Type specifies the bit numbers to be restricted values
    --  from 0 - 69
@@ -124,9 +112,7 @@ package Base_Types is
    end record;
 
    type Address_Block_Usage_Type is
-     (Registers_Usage,
-      Buffer_Usage,
-      Reserved_Usage);
+     (Registers_Usage, Buffer_Usage, Reserved_Usage);
 
    --  Address_Block_Type specifies the elements to describe an address block
    type Address_Block_Type is record
@@ -137,7 +123,8 @@ package Base_Types is
    end record;
 
    package Address_Block_Vectors is new Ada.Containers.Vectors
-     (Positive, Address_Block_Type);
+     (Positive,
+      Address_Block_Type);
 
    type Interrupt_Type is record
       Name        : Unbounded.Unbounded_String;
@@ -150,17 +137,16 @@ package Base_Types is
    function "<" (I1, I2 : Interrupt_Type) return Boolean;
 
    package Interrupt_Vectors is new Ada.Containers.Vectors
-     (Positive, Interrupt_Type);
+     (Positive,
+      Interrupt_Type);
 
    generic
       type T is private;
       with procedure Read_Elt
-        (Tag   : String;
-         Elt   : DOM.Core.Element;
+        (Tag   :        String;
+         Elt   :        DOM.Core.Element;
          Value : in out T);
-   procedure Gen_DOM_Iter
-     (Elt : DOM.Core.Element;
-      Obj : in out T);
+   procedure Gen_DOM_Iter (Elt : DOM.Core.Element; Obj : in out T);
 
    function To_Hex (Val : Natural) return String;
    function To_Hex (Val : Unsigned) return String;
@@ -172,38 +158,36 @@ package Base_Types is
       Fully_Qualified : Boolean := True) return String;
    --  Returns the name of the type on the target given the size of the int
 
-   function Convert_Address (Value: String) return Unsigned;
-   function Get_Id (Elt: DOM.Core.Element)
-                    return Unbounded.Unbounded_String;
-   function Get_Base_Address (Elt: DOM.Core.Element)
-                              return Unsigned;
-   function Get_Href (Elt: DOM.Core.Element)
-                      return Unbounded.Unbounded_String;
-   function Get_Xml_Version (Elt : DOM.Core.Element)
-                             return Unbounded.Unbounded_String;
-   function Get_Description (Elt: DOM.Core.Element)
-                             return Unbounded.Unbounded_String;
-   function Get_Value (Elt: DOM.Core.Element)
-                       return Unbounded.Unbounded_String;
-   function Get_Value (Elt: DOM.Core.Element) return Unsigned;
-   function Get_Size (Elt: DOM.Core.Element) return Unsigned;
-   function Get_Blockset (Elt : in DOM.Core.Element)
-                          return Address_Block_Type;
-   function Get_Offset (Elt: DOM.Core.Element) return Natural;
-   function Get_Width (Elt: DOM.Core.Element) return Natural;
-   function Get_Lsb (Elt: DOM.Core.Element) return Natural;
-   function Get_Msb (Elt: DOM.Core.Element) return Natural;
-   function Get_R_W_Access (Elt: DOM.Core.Element) return String;
+   function Convert_Address (Value : String) return Unsigned;
+   function Get_Id (Elt : DOM.Core.Element) return Unbounded.Unbounded_String;
+   function Get_Base_Address (Elt : DOM.Core.Element) return Unsigned;
+   function Get_Href
+     (Elt : DOM.Core.Element) return Unbounded.Unbounded_String;
+   function Get_Xml_Version
+     (Elt : DOM.Core.Element) return Unbounded.Unbounded_String;
+   function Get_Description
+     (Elt : DOM.Core.Element) return Unbounded.Unbounded_String;
+   function Get_Value
+     (Elt : DOM.Core.Element) return Unbounded.Unbounded_String;
+   function Get_Value (Elt : DOM.Core.Element) return Unsigned;
+   function Get_Size (Elt : DOM.Core.Element) return Unsigned;
+   function Get_Blockset (Elt : in DOM.Core.Element) return Address_Block_Type;
+   function Get_Offset (Elt : DOM.Core.Element) return Natural;
+   function Get_Width (Elt : DOM.Core.Element) return Natural;
+   function Get_Lsb (Elt : DOM.Core.Element) return Natural;
+   function Get_Msb (Elt : DOM.Core.Element) return Natural;
+   function Get_R_W_Access (Elt : DOM.Core.Element) return String;
 
    function Common_Prefix
-     (Name1, Name2 : Unbounded.Unbounded_String)
+     (Name1,
+      Name2 : Unbounded.Unbounded_String)
       return Unbounded.Unbounded_String;
    --  Returns the prefix common to Name1 and Name2 if any, or
    --  Null_Unbounded_String
 
-   function Apply_Naming_Rules (Variable_Name : String)
-                                return String;
-   function Apply_Naming_Rules (Variable_Name : Unbounded.Unbounded_String)
-                                return Unbounded.Unbounded_String;
+   function Apply_Naming_Rules (Variable_Name : String) return String;
+   function Apply_Naming_Rules
+     (Variable_Name : Unbounded.Unbounded_String)
+      return Unbounded.Unbounded_String;
 
 end Base_Types;

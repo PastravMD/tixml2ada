@@ -19,7 +19,7 @@
 
 -- common Ada dependencies
 with Ada.Containers.Vectors;
-with Ada.Strings.Unbounded;          use Ada.Strings.Unbounded;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 use Ada.Strings;
 
 -- XML dependencies
@@ -48,30 +48,29 @@ package Descriptors.Register is
       Address_Offset   : Natural;
       Reg_Properties   : Register_Properties_T;
       Mod_Write_Values : Modified_Write_Values_Type := Modify;
-      Read_Action      : Read_Action_Type := Undefined_Read_Action;
+      Read_Action      : Read_Action_Type           := Undefined_Read_Action;
       Fields           : Descriptors.Field.Field_Vectors.Vector;
 
       --  By default, equal to Name. In case similar types are found, then
       --  this holds the common prefix to be used to the type definition
-      Type_Name        : Unbounded.Unbounded_String;
+      Type_Name : Unbounded.Unbounded_String;
 
       --  When two registers are at the same location, we specify a shared
       --  common union type name here to support this overlapping
-      Is_Overlapping   : Boolean := False;
-      Overlap_Suffix   : Unbounded.Unbounded_String;
-
+      Is_Overlapping : Boolean := False;
+      Overlap_Suffix : Unbounded.Unbounded_String;
 
       --  When two registers are identical, the second register will not
       --  generate an Ada type. We reference the first register here to
       --  keep track of the type name.
-      Type_Holder      : Register_Access := null;
+      Type_Holder : Register_Access := null;
       --  This holds the Ada type as generated in the spec file.
       --  Only available when Type_Holder is null.
-      Ada_Type         : Unbounded.Unbounded_String;
+      Ada_Type : Unbounded.Unbounded_String;
 
-      Dim              : Positive := 1;
-      Dim_Increment    : Natural := 4;
-      Dim_Index        : Unbounded.Unbounded_String;
+      Dim           : Positive := 1;
+      Dim_Increment : Natural  := 4;
+      Dim_Index     : Unbounded.Unbounded_String;
    end record;
 
    function Equal (R1, R2 : Register_Access) return Boolean;
@@ -82,7 +81,9 @@ package Descriptors.Register is
    --  else, return an empty string
 
    package Register_Vectors is new Ada.Containers.Vectors
-     (Positive, Register_Access, Equal);
+     (Positive,
+      Register_Access,
+      Equal);
 
    procedure Find_Common_Types (Reg_Set : Register_Vectors.Vector);
 
@@ -90,8 +91,7 @@ package Descriptors.Register is
      (Register       : DOM.Core.Element;
       Prepend        : Unbounded.Unbounded_String;
       Append         : Unbounded.Unbounded_String;
-      Reg_Properties : Register_Properties_T)
-      return Register_Access;
+      Reg_Properties : Register_Properties_T) return Register_Access;
 
    function Get_Ada_Type (Reg : Register_Access) return String;
 

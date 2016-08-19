@@ -18,11 +18,11 @@
 ------------------------------------------------------------------------------
 
 with Ada.Containers.Vectors;
-with Ada.Strings.Unbounded;          use Ada.Strings;
+with Ada.Strings.Unbounded; use Ada.Strings;
 
 with DOM.Core;
 
-with Base_Types;                     use Base_Types;
+with Base_Types; use Base_Types;
 
 package Descriptors.Enumerate is
 
@@ -34,7 +34,8 @@ package Descriptors.Enumerate is
    end record;
 
    package Enumerate_Values_Vectors is new Ada.Containers.Vectors
-     (Positive, Enumerate_Value);
+     (Positive,
+      Enumerate_Value);
 
    type Enumerate_T is record
       Name   : Unbounded.Unbounded_String;
@@ -43,9 +44,9 @@ package Descriptors.Enumerate is
    end record;
 
    package Enumerate_Vectors is new Ada.Containers.Vectors
-     (Positive, Enumerate_T);
+     (Positive,
+      Enumerate_T);
 
-   function Read_Enumerate
-     (Elt    : DOM.Core.Element) return Enumerate_T;
+   function Read_Enumerate (Elt : DOM.Core.Element) return Enumerate_T;
 
 end Descriptors.Enumerate;

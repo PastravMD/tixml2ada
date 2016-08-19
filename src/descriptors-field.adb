@@ -18,24 +18,23 @@
 ------------------------------------------------------------------------------
 
 with Ada.Text_IO;
-with Ada.Strings.Unbounded;          use Ada.Strings.Unbounded;
-with Interfaces;                     use Interfaces;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
+with Interfaces;            use Interfaces;
 
 -- XML dependencies
-with DOM.Core;                       use DOM.Core;
-with DOM.Core.Nodes;                 use DOM.Core.Nodes;
-with DOM.Core.Elements;              use DOM.Core.Elements;
+with DOM.Core;          use DOM.Core;
+with DOM.Core.Nodes;    use DOM.Core.Nodes;
+with DOM.Core.Elements; use DOM.Core.Elements;
 
 -- TIXML2Ada dependencies
 with Descriptors.Register;
 with SVD2Ada_Utils;
 with Base_Types.Register_Properties; use Base_Types.Register_Properties;
 
-
 package body Descriptors.Field is
 
    function Similar_Field
-     (F1, F2     : Field_T;
+     (F1, F2     :        Field_T;
       Prefix_Idx : in out Natural;
       First      : in out Natural) return Boolean;
    --  Checks if two fields are similar (Identical type and similar prefix,
@@ -50,12 +49,11 @@ package body Descriptors.Field is
      (Field          : DOM.Core.Element;
       Vec            : Field_Vectors.Vector;
       Default_Access : Access_Type;
-      Default_Read   : Read_Action_Type)
-      return Field_T
+      Default_Read   : Read_Action_Type) return Field_T
    is
-      Ret             : Field_T;
-      Derived_From    : constant String :=
-                             Elements.Get_Attribute (Field, "derivedFrom");
+      Ret          : Field_T;
+      Derived_From : constant String :=
+        Elements.Get_Attribute (Field, "derivedFrom");
 
    begin
       if Derived_From /= "" then
@@ -64,22 +62,22 @@ package body Descriptors.Field is
          begin
             for F of Vec loop
                if Unbounded.To_String (F.Name) = Derived_From then
-                  Ret := F;
+                  Ret   := F;
                   Found := True;
                   exit;
                end if;
             end loop;
 
             if not Found then
-               raise Constraint_Error with
-                 "field 'derivedFrom' is not known: " & Derived_From;
+               raise Constraint_Error
+                 with "field 'derivedFrom' is not known: " & Derived_From;
             end if;
          end;
       end if;
 
       Ret.Name             := Get_Id (Field);
-      Ret.Description      := Get_Description(Field);
-      Ret.LSB              := Get_LSB (Field);
+      Ret.Description      := Get_Description (Field);
+      Ret.LSB              := Get_Lsb (Field);
       Ret.Size             := Get_Width (Field);
       Ret.Acc              := Default_Access;
       Ret.Read_Action      := Default_Read;
@@ -93,21 +91,20 @@ package body Descriptors.Field is
    ---------------------
 
    function Bitfields_Valid
-     (Bitfield_List     : DOM.Core.Node_List;
-      Register_Width    : Natural)
-      return Boolean
+     (Bitfield_List  : DOM.Core.Node_List;
+      Register_Width : Natural) return Boolean
    is
-      Valid             : Boolean := True;
-      Bit_Count         : Natural := 0;
-      Previous_Msb      : Natural := 0;
+      Valid        : Boolean := True;
+      Bit_Count    : Natural := 0;
+      Previous_Msb : Natural := 0;
    begin
       for K in 0 .. Length (Bitfield_List) - 1 loop
          declare
             Field_Node  : constant Node := Item (Bitfield_List, K);
             Field_Name  : Unbounded_String;
-            Lsb         : Natural := 0;
-            Msb         : Natural := 0;
-            Field_Width : Natural := 0;
+            Lsb         : Natural       := 0;
+            Msb         : Natural       := 0;
+            Field_Width : Natural       := 0;
          begin
             Field_Name  := Get_Id (Field_Node);
             Lsb         := Get_Lsb (Field_Node);
@@ -117,11 +114,14 @@ package body Descriptors.Field is
             -- check if all bitfields are contiguous
             if K > 0 and Lsb /= Previous_Msb - 1 then
                Valid := False;
-               ADA.Text_IO.Put_Line(To_String(Field_Name)
-                                    & " bitfield is invalid " &
-                                      " due to contiguity: [" &
-                                      Natural'Image(Lsb) & "] [" &
-                                      Natural'Image(Previous_Msb-1) & "]");
+               Ada.Text_IO.Put_Line
+                 (To_String (Field_Name) &
+                  " bitfield is invalid " &
+                  " due to contiguity: [" &
+                  Natural'Image (Lsb) &
+                  "] [" &
+                  Natural'Image (Previous_Msb - 1) &
+                  "]");
             end if;
             Previous_Msb := Msb;
 
@@ -129,40 +129,40 @@ package body Descriptors.Field is
             if Lsb > Register_Width - 1
               or else Msb > Register_Width - 1
               or else (Msb > Lsb)
-              or else (Field_Width /= Lsb - Msb + 1) then
+              or else (Field_Width /= Lsb - Msb + 1)
+            then
                Valid := False;
-               ADA.Text_IO.Put_Line(" - " & To_String(Field_Name));
-               ADA.Text_IO.Put_Line(" first(ending) bit = " &
-                                      Natural'Image(Lsb));
-               ADA.Text_IO.Put_Line(" last(starting) bit = " &
-                                      Natural'Image(Msb));
-               ADA.Text_IO.Put_Line(" Register_Width - 1 = " &
-                                      Natural'Image(Register_Width - 1));
-               ADA.Text_IO.Put_Line(" Field_Width = " &
-                                      Natural'Image(Field_Width));
+               Ada.Text_IO.Put_Line (" - " & To_String (Field_Name));
+               Ada.Text_IO.Put_Line
+                 (" first(ending) bit = " & Natural'Image (Lsb));
+               Ada.Text_IO.Put_Line
+                 (" last(starting) bit = " & Natural'Image (Msb));
+               Ada.Text_IO.Put_Line
+                 (" Register_Width - 1 = " &
+                  Natural'Image (Register_Width - 1));
+               Ada.Text_IO.Put_Line
+                 (" Field_Width = " & Natural'Image (Field_Width));
             end if;
 
             Bit_Count := Bit_Count + Field_Width;
 
          end;
-         end loop;
-         -- check if all the bit positions have been covered
-         if Bit_Count /= Register_Width then
+      end loop;
+      -- check if all the bit positions have been covered
+      if Bit_Count /= Register_Width then
          Valid := False;
-         ADA.Text_IO.Put_Line(" Sum of bitfields = " &
-                                Natural'Image(Bit_Count));
-         end if;
+         Ada.Text_IO.Put_Line
+           (" Sum of bitfields = " & Natural'Image (Bit_Count));
+      end if;
 
       return Valid;
    end Bitfields_Valid;
-
 
    ---------
    -- "=" --
    ---------
 
-   function "=" (F1, F2 : Field_T) return Boolean
-   is
+   function "=" (F1, F2 : Field_T) return Boolean is
    begin
       return F1.LSB = F2.LSB
         and then F1.Size = F2.Size
@@ -174,7 +174,7 @@ package body Descriptors.Field is
    ------------------------
 
    function Similar_Field
-     (F1, F2     : Field_T;
+     (F1, F2     :        Field_T;
       Prefix_Idx : in out Natural;
       First      : in out Natural) return Boolean
    is
@@ -238,11 +238,11 @@ package body Descriptors.Field is
    ----------
 
    procedure Dump
-     (Spec         : in out Ada_Gen.Ada_Spec;
-      Reg          : Descriptors.Register.Register_Access;
-      Rec          : in out Ada_Gen.Ada_Type_Record;
-      Reg_Fields   : Field_Vectors.Vector;
-      Properties   : Register_Properties_T)
+     (Spec       : in out Ada_Gen.Ada_Spec;
+      Reg        :        Descriptors.Register.Register_Access;
+      Rec        : in out Ada_Gen.Ada_Type_Record;
+      Reg_Fields :        Field_Vectors.Vector;
+      Properties :        Register_Properties_T)
    is
       use Ada_Gen;
 
@@ -253,8 +253,7 @@ package body Descriptors.Field is
       -- Get_Default --
       -----------------
 
-      function Get_Default (Index : Natural; Size : Natural) return Unsigned
-      is
+      function Get_Default (Index : Natural; Size : Natural) return Unsigned is
          Default : Unsigned;
          Mask    : Unsigned;
       begin
@@ -262,20 +261,19 @@ package body Descriptors.Field is
             --  Most common case
             return 0;
          else
-            Default :=
-              Shift_Right (Properties.Reset_Value, Index);
-            Mask := 0;
+            Default := Shift_Right (Properties.Reset_Value, Index);
+            Mask    := 0;
 
             for J in 0 .. Size - 1 loop
-               Mask := Mask or 2 ** J;
+               Mask := Mask or 2**J;
             end loop;
 
             return Default and Mask;
          end if;
       end Get_Default;
 
-      Fields        : array (0 .. Properties.Size - 1) of Field_T :=
-                        (others => Null_Field);
+      Fields : array (0 .. Properties.Size - 1) of Field_T :=
+        (others => Null_Field);
       Index         : Natural;
       Index2        : Natural;
       Length        : Natural;
@@ -295,7 +293,7 @@ package body Descriptors.Field is
          Fields (Field.LSB) := Field;
       end loop;
 
-      Index        := 0;
+      Index := 0;
 
       while Index < Properties.Size loop
          if Fields (Index) /= Null_Field
@@ -308,7 +306,7 @@ package body Descriptors.Field is
          Index := Index + 1;
       end loop;
 
-      Index        := 0;
+      Index := 0;
       while Index < Properties.Size loop
          Ada_Type := Null_Unbounded_String;
 
@@ -330,27 +328,31 @@ package body Descriptors.Field is
             if not All_RO then
                Ada_Gen.Add_Field
                  (Rec,
-                  "Reserved_" & To_String (Index) &
-                    "_" & To_String (Index + Length - 1),
+                  "Reserved_" &
+                  To_String (Index) &
+                  "_" &
+                  To_String (Index + Length - 1),
                   Target_Type (Length),
-                  Offset      => 0,
-                  LSB         => Index,
-                  MSB         => Index + Length - 1,
-                  Default     => Default,
-                  Comment     => "unspecified");
+                  Offset  => 0,
+                  LSB     => Index,
+                  MSB     => Index + Length - 1,
+                  Default => Default,
+                  Comment => "unspecified");
             else
                Ada_Gen.Add_Field
                  (Rec,
-                  "Reserved_" & To_String (Index) &
-                    "_" & To_String (Index + Length - 1),
+                  "Reserved_" &
+                  To_String (Index) &
+                  "_" &
+                  To_String (Index + Length - 1),
                   Target_Type (Length),
-                  Offset      => 0,
-                  LSB         => Index,
-                  MSB         => Index + Length - 1,
-                  Comment     => "unspecified");
+                  Offset  => 0,
+                  LSB     => Index,
+                  MSB     => Index + Length - 1,
+                  Comment => "unspecified");
             end if;
 
-            Index    := Index + Length;
+            Index := Index + Length;
 
          else --  Not a reserved field case:
 
@@ -359,55 +361,54 @@ package body Descriptors.Field is
 
             if not All_RO then
                --  Retrieve the reset value
-               Default :=
-                 Get_Default (Index, Fields (Index).Size);
+               Default    := Get_Default (Index, Fields (Index).Size);
                Default_Id := Null_Unbounded_String;
             end if;
 
             Ada_Type_Size := Fields (Index).Size;
-            Ada_Name := Fields (Index).Name;
+            Ada_Name      := Fields (Index).Name;
 
             --  First check if some enumerate is defined for the field
             if not Fields (Index).Enums.Is_Empty then
                for Enum of Fields (Index).Enums loop
                   declare
-                     Enum_Name   : constant String :=
-                                     (if Unbounded.Length (Enum.Name) > 0
-                                      then To_String (Enum.Name)
-                                      else To_String (Fields (Index).Name) &
-                                        "_Field");
+                     Enum_Name : constant String :=
+                       (if
+                          Unbounded.Length (Enum.Name) > 0
+                        then
+                          To_String (Enum.Name)
+                        else To_String (Fields (Index).Name) & "_Field");
 
-                     Enum_T      : Ada_Type_Enum :=
-                                     New_Type_Enum
-                                       (Id      => Enum_Name,
-                                        Size    => Ada_Type_Size,
-                                        Comment =>
-                                          To_String
-                                            (Fields (Index).Description));
-                     Enum_Val    : Ada_Enum_Value;
+                     Enum_T : Ada_Type_Enum :=
+                       New_Type_Enum
+                         (Id      => Enum_Name,
+                          Size    => Ada_Type_Size,
+                          Comment => To_String (Fields (Index).Description));
+                     Enum_Val      : Ada_Enum_Value;
                      Found_Default : Boolean := False;
-                     --  True when the enumerate contains the default field
-                     --  value. Set to true by default in case of read-only
-                     --  registers as in this case the notion of default value
-                     --  (e.g. reset value) has no sense.
-                     --  In case the enumerate does not contain the reset
-                     --  value, we add it manually.
+                  --  True when the enumerate contains the default field
+                  --  value. Set to true by default in case of read-only
+                  --  registers as in this case the notion of default value
+                  --  (e.g. reset value) has no sense.
+                  --  In case the enumerate does not contain the reset
+                  --  value, we add it manually.
 
                   begin
                      Add_Size_Aspect (Enum_T, Ada_Type_Size);
 
                      for Val of Enum.Values loop
-                        Enum_Val := Add_Enum_Id
-                          (Enum_T,
-                           Id      => To_String (Val.Name),
-                           Repr    => Val.Value,
-                           Comment => To_String (Val.Descr));
+                        Enum_Val :=
+                          Add_Enum_Id
+                            (Enum_T,
+                             Id      => To_String (Val.Name),
+                             Repr    => Val.Value,
+                             Comment => To_String (Val.Descr));
 
                         if not All_RO
                           and then not Found_Default
                           and then Val.Value = Default
                         then
-                           Default_Id := Id (Enum_Val);
+                           Default_Id    := Id (Enum_Val);
                            Found_Default := True;
                         end if;
 
@@ -416,11 +417,12 @@ package body Descriptors.Field is
                      if not All_RO and then not Found_Default then
                         --  Reset value not found in the enumerate.
                         --  Let's create an enumerate value for it
-                        Enum_Val := Add_Enum_Id
-                          (Enum_T,
-                           Id      => Enum_Name & "_Reset",
-                           Repr    => Default,
-                           Comment => "Reset value for the field");
+                        Enum_Val :=
+                          Add_Enum_Id
+                            (Enum_T,
+                             Id      => Enum_Name & "_Reset",
+                             Repr    => Default,
+                             Comment => "Reset value for the field");
                         Default_Id := Id (Enum_Val);
                      end if;
 
@@ -441,7 +443,10 @@ package body Descriptors.Field is
             Index2 := Index + Fields (Index).Size;
             while Index2 < Properties.Size loop
                if Similar_Field
-                 (Fields (Index), Fields (Index2), Prefix, First)
+                   (Fields (Index),
+                    Fields (Index2),
+                    Prefix,
+                    First)
                then
                   Length := Length + 1;
                else
@@ -475,38 +480,40 @@ package body Descriptors.Field is
 
                   declare
                      Sub_T : Ada_Subtype_Scalar :=
-                               New_Subype_Scalar
-                                 (Id  => To_String (Reg.Name) &
-                                         "_" &
-                                         To_String (Fields (Index).Name) &
-                                         "_Field",
-                                  Typ => To_String (Ada_Type));
+                       New_Subype_Scalar
+                         (Id =>
+                            To_String (Reg.Name) &
+                            "_" &
+                            To_String (Fields (Index).Name) &
+                            "_Field",
+                          Typ => To_String (Ada_Type));
                   begin
                      Add (Spec, Sub_T);
                      Ada_Type := Id (Sub_T);
                   end;
                end if;
-               --  If Ada_Type is not Null_Unbounded_String, then the Field
-               --  type has already been generated
+            --  If Ada_Type is not Null_Unbounded_String, then the Field
+            --  type has already been generated
 
             else
                --  We have an array of values
                declare
-                  F_Name  : constant String :=
-                              Slice (Fields (Index).Name, 1, Prefix);
-                  T_Name  : constant String :=
-                              (if To_String (Reg.Name) /= F_Name
-                               then To_String (Reg.Name) & "_" & F_Name
-                               else F_Name);
+                  F_Name : constant String :=
+                    Slice (Fields (Index).Name, 1, Prefix);
+                  T_Name : constant String :=
+                    (if
+                       To_String (Reg.Name) /= F_Name
+                     then
+                       To_String (Reg.Name) & "_" & F_Name
+                     else F_Name);
 
                   Union_T : Ada_Type_Union :=
-                              New_Type_Union
-                                (Id        => T_Name & "_Field",
-                                 Disc_Name => "As_Array",
-                                 Disc_Type => Ada_Gen.Get_Boolean,
-                                 Comment   =>
-                                   "Type definition for " & T_Name);
-                  Array_T  : Ada_Type_Array;
+                    New_Type_Union
+                      (Id        => T_Name & "_Field",
+                       Disc_Name => "As_Array",
+                       Disc_Type => Ada_Gen.Get_Boolean,
+                       Comment   => "Type definition for " & T_Name);
+                  Array_T : Ada_Type_Array;
 
                begin
                   if Index /= 0
@@ -517,9 +524,9 @@ package body Descriptors.Field is
                      --  becomes a bit too verbose with one boxed comment to
                      --  start the register definition, and one boxed comment
                      --  for the unique register's field definition
-                     Add (Spec,
-                          New_Comment_Box
-                            (To_String (Reg.Name) & "." & F_Name));
+                     Add
+                       (Spec,
+                        New_Comment_Box (To_String (Reg.Name) & "." & F_Name));
                   end if;
 
                   if Ada_Type_Size = 1 and then As_Boolean then
@@ -530,11 +537,10 @@ package body Descriptors.Field is
                   elsif Ada_Type = Null_Unbounded_String then
                      declare
                         Scalar_T : Ada_Subtype_Scalar :=
-                                     New_Subype_Scalar
-                                       (Id      => T_Name & "_Element",
-                                        Typ     =>
-                                          Target_Type (Ada_Type_Size),
-                                        Comment => T_Name & " array element");
+                          New_Subype_Scalar
+                            (Id      => T_Name & "_Element",
+                             Typ     => Target_Type (Ada_Type_Size),
+                             Comment => T_Name & " array element");
                      begin
                         Add (Spec, Scalar_T);
                         Ada_Type := Id (Scalar_T);
@@ -552,15 +558,12 @@ package body Descriptors.Field is
 
                   Add_Aspect
                     (Array_T,
-                     "Component_Size => " &
-                       To_String (Fields (Index).Size));
-                  Add_Size_Aspect
-                    (Array_T, Fields (Index).Size * Length);
+                     "Component_Size => " & To_String (Fields (Index).Size));
+                  Add_Size_Aspect (Array_T, Fields (Index).Size * Length);
 
                   Add (Spec, Array_T);
 
-                  Add_Size_Aspect
-                    (Union_T, Fields (Index).Size * Length);
+                  Add_Size_Aspect (Union_T, Fields (Index).Size * Length);
 
                   Add_Field
                     (Rec      => Union_T,
@@ -575,8 +578,7 @@ package body Descriptors.Field is
                     (Rec      => Union_T,
                      Enum_Val => "False",
                      Id       => "Val",
-                     Typ      =>
-                       Target_Type (Fields (Index).Size * Length),
+                     Typ      => Target_Type (Fields (Index).Size * Length),
                      Offset   => 0,
                      LSB      => 0,
                      MSB      => Fields (Index).Size * Length - 1,
@@ -584,14 +586,16 @@ package body Descriptors.Field is
 
                   Add (Spec, Union_T);
 
-                  Ada_Type := Id (Union_T);
+                  Ada_Type      := Id (Union_T);
                   Ada_Type_Size := Fields (Index).Size * Length;
-                  Ada_Name := To_Unbounded_String (F_Name);
+                  Ada_Name      := To_Unbounded_String (F_Name);
 
                   if not All_RO then
-                     Default_Id := To_Unbounded_String
-                       ("(As_Array => False, Val => " &
-                          To_Hex (Default) & ")");
+                     Default_Id :=
+                       To_Unbounded_String
+                         ("(As_Array => False, Val => " &
+                          To_Hex (Default) &
+                          ")");
                   end if;
                end;
             end if;
@@ -605,22 +609,26 @@ package body Descriptors.Field is
                   Description :=
                     To_Unbounded_String
                       ("*** This field is cleared (set to zero) following a" &
-                         " read operation ***. ") & Description;
+                       " read operation ***. ") &
+                    Description;
                when Set =>
                   Description :=
                     To_Unbounded_String
                       ("*** This field is set (set to one) following a" &
-                         " read operation ***. ") & Description;
+                       " read operation ***. ") &
+                    Description;
                when Modify =>
                   Description :=
                     To_Unbounded_String
                       ("*** This field is modified following a" &
-                         " read operation ***. ") & Description;
+                       " read operation ***. ") &
+                    Description;
                when Modify_Exernal =>
                   Description :=
                     To_Unbounded_String
                       ("*** Reading this field has side effects on other " &
-                         "resources ***. ") & Description;
+                       "resources ***. ") &
+                    Description;
             end case;
 
             case Fields (Index).Acc is
@@ -642,37 +650,53 @@ package body Descriptors.Field is
 
             case Fields (Index).Mod_Write_Values is
                when One_To_Clear =>
-                  Description := To_Unbounded_String
-                    ("Write data bit of one shall clear (set to zero) the" &
-                       " corresponding bit in the field. ") & Description;
+                  Description :=
+                    To_Unbounded_String
+                      ("Write data bit of one shall clear (set to zero) the" &
+                       " corresponding bit in the field. ") &
+                    Description;
                when One_To_Set =>
-                  Description := To_Unbounded_String
-                    ("Write data bit of one shall set (set to one) the" &
-                       " corresponding bit in the field. ") & Description;
+                  Description :=
+                    To_Unbounded_String
+                      ("Write data bit of one shall set (set to one) the" &
+                       " corresponding bit in the field. ") &
+                    Description;
                when One_To_Toggle =>
-                  Description := To_Unbounded_String
-                    ("Write data bit of one shall toggle (invert) the" &
-                       " corresponding bit in the field. ") & Description;
+                  Description :=
+                    To_Unbounded_String
+                      ("Write data bit of one shall toggle (invert) the" &
+                       " corresponding bit in the field. ") &
+                    Description;
                when Zero_To_Clear =>
-                  Description := To_Unbounded_String
-                    ("Write data bit of zero shall clear (set to zero) the" &
-                       " corresponding bit in the field. ") & Description;
+                  Description :=
+                    To_Unbounded_String
+                      ("Write data bit of zero shall clear (set to zero) the" &
+                       " corresponding bit in the field. ") &
+                    Description;
                when Zero_To_Set =>
-                  Description := To_Unbounded_String
-                    ("Write data bit of zero shall set (set to one) the" &
-                       " corresponding bit in the field. ") & Description;
+                  Description :=
+                    To_Unbounded_String
+                      ("Write data bit of zero shall set (set to one) the" &
+                       " corresponding bit in the field. ") &
+                    Description;
                when Zero_To_Toggle =>
-                  Description := To_Unbounded_String
-                    ("Write data bit of zero shall toggle (invert) the" &
-                       " corresponding bit in the field. ") & Description;
+                  Description :=
+                    To_Unbounded_String
+                      ("Write data bit of zero shall toggle (invert) the" &
+                       " corresponding bit in the field. ") &
+                    Description;
                when Clear =>
-                  Description := To_Unbounded_String
-                    ("After a write operation all bits in the field are" &
-                       " cleared (set to zero). ") & Description;
+                  Description :=
+                    To_Unbounded_String
+                      ("After a write operation all bits in the field are" &
+                       " cleared (set to zero). ") &
+                    Description;
                when Set =>
-                  Description := To_Unbounded_String
-                    ("After a write operation all bits in the field are" &
-                       " set (set to one). ") & Description;
+                  Description :=
+                    To_Unbounded_String
+                      ("After a write operation all bits in the field are" &
+                       " set (set to one). ") &
+                    Description;
                when Modify =>
                   null;
             end case;

@@ -17,7 +17,7 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Strings.Unbounded;          use Ada.Strings;
+with Ada.Strings.Unbounded; use Ada.Strings;
 
 with DOM.Core;
 
@@ -31,28 +31,26 @@ with Descriptors.Peripheral;
 package Descriptors.Device is
 
    type Device_T is record
-      Name              : Unbounded.Unbounded_String;
-      Version           : Unbounded.Unbounded_String;
-      Description       : Unbounded.Unbounded_String;
+      Name        : Unbounded.Unbounded_String;
+      Version     : Unbounded.Unbounded_String;
+      Description : Unbounded.Unbounded_String;
 
       --  BUS interface properties:
       --  adressable unit
       Address_Unit_Bits : Base_Types.Unsigned := 0;
       --  maximum data bit width accessbile within a single transfer
-      Width             : Natural := 0;
+      Width : Natural := 0;
 
-      Has_FPU           : Boolean := True;
+      Has_FPU : Boolean := True;
 
       --  REGISTERS properties
-      Reg_Properties    : Base_Types.Register_Properties.Register_Properties_T;
+      Reg_Properties : Base_Types.Register_Properties.Register_Properties_T;
 
-      Peripherals       : Descriptors.Peripheral.Peripheral_Vectors.Vector;
+      Peripherals : Descriptors.Peripheral.Peripheral_Vectors.Vector;
    end record;
 
    function Read_Device (Top_Xml_Element : DOM.Core.Element) return Device_T;
 
-   procedure Dump
-     (Device     : Device_T;
-      Output_Dir : String);
+   procedure Dump (Device : Device_T; Output_Dir : String);
 
 end Descriptors.Device;

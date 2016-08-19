@@ -22,37 +22,37 @@ with Ada.Text_IO;
 with Ada.Containers.Indefinite_Vectors;
 with Input_Sources.File;
 with Interfaces;
-With Ada.Strings.Unbounded;        use Ada.Strings.Unbounded;
+with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 
 -- XML dependencies
-with DOM.Core;                     use DOM.Core;
+with DOM.Core; use DOM.Core;
 with DOM.Core.Documents;
 with DOM.Core.Nodes;
 with DOM.Core.Elements;
 with DOM.Readers;
 
 -- TIXML2Ada dependencies
-with Ada_Gen;                      use Ada_Gen;
+with Ada_Gen; use Ada_Gen;
 
 package body Descriptors.Peripheral is
 
-   procedure Insert_Register (Periph : in out Peripheral_T;
-                              Reg    : Register_Access);
+   procedure Insert_Register
+     (Periph : in out Peripheral_T;
+      Reg    :        Register_Access);
 
    function Less (P1, P2 : Peripheral_T) return Boolean;
 
-   package Peripheral_Sort is new Peripheral_Vectors.Generic_Sorting
-     (Less);
+   package Peripheral_Sort is new Peripheral_Vectors.Generic_Sorting (Less);
 
    package String_List is new Ada.Containers.Indefinite_Vectors
-     (Positive, String);
+     (Positive,
+      String);
 
    ----------
    -- Less --
    ----------
 
-   function Less (P1, P2 : Peripheral_T) return Boolean
-   is
+   function Less (P1, P2 : Peripheral_T) return Boolean is
       use Interfaces;
    begin
       return P1.Base_Address < P2.Base_Address;
@@ -68,15 +68,15 @@ package body Descriptors.Peripheral is
       Vector          : Peripheral_Vectors.Vector;
       Is_Derived_From : Unbounded_String) return Peripheral_T
    is
-      Ret             : Peripheral_T;
-      Xml_File        : Input_Sources.File.File_Input;
-      Xml_Reader      : DOM.Readers.Tree_Reader;
-      Xml_Doc         : Document;
+      Ret        : Peripheral_T;
+      Xml_File   : Input_Sources.File.File_Input;
+      Xml_Reader : DOM.Readers.Tree_Reader;
+      Xml_Doc    : Document;
 
-      Xml_Href        : Unbounded_String;
-      Module_List     : Node_List;
-      Register_List   : Node_List;
-      Module_Element  : DOM.Core.Element;
+      Xml_Href       : Unbounded_String;
+      Module_List    : Node_List;
+      Register_List  : Node_List;
+      Module_Element : DOM.Core.Element;
    begin
 
       Ret.Reg_Properties := Reg_Properties;
@@ -99,50 +99,54 @@ package body Descriptors.Peripheral is
             end loop;
 
             if not Found then
-               raise Constraint_Error with
-                 "peripheral 'Is_Derived_From' is not known: " &
-                 To_String(Is_Derived_From);
+               raise Constraint_Error
+                 with "peripheral 'Is_Derived_From' is not known: " &
+                 To_String (Is_Derived_From);
             end if;
          end;
 
          Ret.Name         := Get_Id (Peripheral);
-         Ret.Base_Address := Get_Base_Address(Peripheral);
-         Xml_Href         := Get_href(Peripheral);
+         Ret.Base_Address := Get_Base_Address (Peripheral);
+         Xml_Href         := Get_Href (Peripheral);
       else
          Ret.Name         := Get_Id (Peripheral);
-         Ret.Base_Address := Get_Base_Address(Peripheral);
-         Xml_Href         := Get_href(Peripheral);
-         Ret.Address_Blocks.Append (Get_Blockset(Peripheral));
+         Ret.Base_Address := Get_Base_Address (Peripheral);
+         Xml_Href         := Get_Href (Peripheral);
+         Ret.Address_Blocks.Append (Get_Blockset (Peripheral));
 
          -- reading input file
          Input_Sources.File.Open
-           ("input/Devices/" & To_String(Xml_Href), Xml_File);
+           ("input/Devices/" & To_String (Xml_Href),
+            Xml_File);
 
          -- parse xml document and get top element
          Xml_Reader.Parse (Xml_File);
-         Input_Sources.File.Close(Xml_File);
-         Xml_Doc := DOM.Readers.Get_Tree(Xml_Reader);
-         Module_List := Documents.Get_Elements_By_Tag_Name
-           (Xml_Doc, "module");
+         Input_Sources.File.Close (Xml_File);
+         Xml_Doc     := DOM.Readers.Get_Tree (Xml_Reader);
+         Module_List := Documents.Get_Elements_By_Tag_Name (Xml_Doc, "module");
 
-         if Nodes.Length(Module_List) /= 1 then raise Constraint_Error with
-              "Read_Peripheral(" & To_String(Xml_Href) & ") failed: " &
+         if Nodes.Length (Module_List) /= 1 then
+            raise Constraint_Error
+              with "Read_Peripheral(" &
+              To_String (Xml_Href) &
+              ") failed: " &
               "Input XML document must contain exactly 1 Module element." &
-              "Current one has " & Integer'Image(Nodes.Length(Module_List));
+              "Current one has " &
+              Integer'Image (Nodes.Length (Module_List));
          end if;
 
          Module_Element := Nodes.Item (Module_List, 0);
 
-         Ret.Version := Get_Xml_Version (Module_Element);
+         Ret.Version     := Get_Xml_Version (Module_Element);
          Ret.Description := Get_Description (Module_Element);
-         Ret.Group_Name := Get_Id(Module_Element);
+         Ret.Group_Name  := Get_Id (Module_Element);
 
 --           Ada.Text_IO.Put_Line
 --             (" Group [" & To_String (Ret.Group_Name) & "] Module = " &
 --                Value (Get_Named_Item (Attributes (Peripheral), "id")));
 
-         Register_List := Elements.Get_Elements_By_Tag_Name
-           (Module_Element, "register");
+         Register_List :=
+           Elements.Get_Elements_By_Tag_Name (Module_Element, "register");
          for K in 0 .. Nodes.Length (Register_List) - 1 loop
             declare
                Register : Register_Access;
@@ -164,8 +168,9 @@ package body Descriptors.Peripheral is
    -- Insert_Register --
    ---------------------
 
-   procedure Insert_Register (Periph : in out Peripheral_T;
-                              Reg    : Register_Access)
+   procedure Insert_Register
+     (Periph : in out Peripheral_T;
+      Reg    :        Register_Access)
    is
       Added : Boolean;
    begin
@@ -206,15 +211,14 @@ package body Descriptors.Peripheral is
       -- Image --
       -----------
 
-      function Image (N : Natural) return String
-      is
+      function Image (N : Natural) return String is
          S : constant String := N'Img;
       begin
          return S (S'First + 1 .. S'Last);
       end Image;
 
    begin
-      For J in Reg_Set.First_Index .. Reg_Set.Last_Index - 1 loop
+      for J in Reg_Set.First_Index .. Reg_Set.Last_Index - 1 loop
          declare
             Reg1 : Register_Access renames Reg_Set (J);
          begin
@@ -225,7 +229,7 @@ package body Descriptors.Peripheral is
                   exit when Reg1.Address_Offset /= Reg2.Address_Offset;
                   Reg_Set (J).Is_Overlapping := True;
                   Reg_Set (K).Is_Overlapping := True;
-                  Ret := True;
+                  Ret                        := True;
                end;
             end loop;
          end;
@@ -242,7 +246,7 @@ package body Descriptors.Peripheral is
          if Reg_Set (Idx).Is_Overlapping then
             declare
                Reg    : constant Register_Access := Reg_Set (Idx);
-               Prefix : constant String := To_String (Reg.Name);
+               Prefix : constant String          := To_String (Reg.Name);
             begin
                Last := Prefix'Last;
                --  First loop: look of another register at the same offset
@@ -252,7 +256,8 @@ package body Descriptors.Peripheral is
                   exit when Reg_Set (K).Address_Offset /= Reg.Address_Offset;
 
                   for J in 1 .. Last loop
-                     if Prefix (J) /= Unbounded.Element (Reg_Set (K).Name, J)
+                     if Prefix (J) /=
+                       Unbounded.Element (Reg_Set (K).Name, J)
                      then
                         if Last /= 0 then
                            Last := J - 1;
@@ -276,7 +281,7 @@ package body Descriptors.Peripheral is
 
                declare
                   Reg    : constant Register_Access := Reg_Set (Idx);
-                  Prefix : constant String := To_String (Reg.Name);
+                  Prefix : constant String          := To_String (Reg.Name);
                begin
                   if Last = 0 then
                      --  No common name found: let's imagine one
@@ -309,8 +314,8 @@ package body Descriptors.Peripheral is
 
    procedure Dump_Periph_Type
      (Spec       : in out Ada_Gen.Ada_Spec;
-      Peripheral : Peripheral_T;
-      Type_Name  : String)
+      Peripheral :        Peripheral_T;
+      Type_Name  :        String)
    is
       function Create_Record return Ada_Type_Record'Class;
 
@@ -324,9 +329,8 @@ package body Descriptors.Peripheral is
       function Get_Discriminent_Type
         (Reg_Set : Register_Vectors.Vector) return Ada_Type_Enum
       is
-         Ret    : Ada_Type_Enum :=
-                    New_Type_Enum
-                      (Id      => To_String (Peripheral.Name) & "_Disc");
+         Ret : Ada_Type_Enum :=
+           New_Type_Enum (Id => To_String (Peripheral.Name) & "_Disc");
          Values : String_List.Vector;
          Val    : Ada_Enum_Value;
 
@@ -364,26 +368,25 @@ package body Descriptors.Peripheral is
       -- Create_Record --
       -------------------
 
-      function Create_Record return Ada_Type_Record'Class
-      is
+      function Create_Record return Ada_Type_Record'Class is
       begin
          if Find_Overlapping_Registers (Peripheral.Registers) then
             declare
                Enum : Ada_Type_Enum :=
-                        Get_Discriminent_Type (Peripheral.Registers);
+                 Get_Discriminent_Type (Peripheral.Registers);
             begin
                Add (Spec, Enum);
                return New_Type_Union
-                 (Type_Name,
-                  "Discriminent",
-                  Enum,
-                  To_String (Peripheral.Description));
+                   (Type_Name,
+                    "Discriminent",
+                    Enum,
+                    To_String (Peripheral.Description));
             end;
          else
             --  No overlapping register: generate a simple record
             return New_Type_Record
-              (Type_Name,
-               To_String (Peripheral.Description));
+                (Type_Name,
+                 To_String (Peripheral.Description));
          end if;
       end Create_Record;
 
@@ -401,20 +404,20 @@ package body Descriptors.Peripheral is
                Typ      => Get_Ada_Type (Reg),
                Offset   => Reg.Address_Offset,
                LSB      => 0,
-               MSB      => (if Reg.Dim = 1
-                            then Reg.Reg_Properties.Size - 1
-                            else Reg.Dim * Reg.Dim_Increment * 8 - 1),
-               Comment  => To_String (Reg.Description));
+               MSB      =>
+                 (if Reg.Dim = 1 then Reg.Reg_Properties.Size - 1
+                  else Reg.Dim * Reg.Dim_Increment * 8 - 1),
+               Comment => To_String (Reg.Description));
          else
             Add_Field
               (Rec,
-               Id      => To_String (Reg.Name),
-               Typ     => Get_Ada_Type (Reg),
-               Offset  => Reg.Address_Offset,
-               LSB     => 0,
-               MSB     => (if Reg.Dim = 1
-                           then Reg.Reg_Properties.Size - 1
-                           else Reg.Dim * Reg.Dim_Increment * 8 - 1),
+               Id     => To_String (Reg.Name),
+               Typ    => Get_Ada_Type (Reg),
+               Offset => Reg.Address_Offset,
+               LSB    => 0,
+               MSB    =>
+                 (if Reg.Dim = 1 then Reg.Reg_Properties.Size - 1
+                  else Reg.Dim * Reg.Dim_Increment * 8 - 1),
                Comment => To_String (Reg.Description));
          end if;
       end loop;
@@ -428,20 +431,20 @@ package body Descriptors.Peripheral is
 
    procedure Dump
      (Peripheral : in out Peripheral_T;
-      Dev_Name   : String;
-      Output_Dir : String)
+      Dev_Name   :        String;
+      Output_Dir :        String)
    is
       Spec : Ada_Spec;
 
    begin
-      Ada.Text_IO.Put_Line
-        ("Generate " & To_String (Peripheral.Name));
+      Ada.Text_IO.Put_Line ("Generate " & To_String (Peripheral.Name));
 
-      Spec := New_Child_Spec
-        (To_String (Peripheral.Name),
-         Parent        => Dev_Name,
-         Descr         => To_String (Peripheral.Description),
-         Preelaborated => True);
+      Spec :=
+        New_Child_Spec
+          (To_String (Peripheral.Name),
+           Parent        => Dev_Name,
+           Descr         => To_String (Peripheral.Description),
+           Preelaborated => True);
 
       if not Register_Vectors.Is_Empty (Peripheral.Registers) then
          Add (Spec, New_Comment_Box ("Registers"));
@@ -456,15 +459,17 @@ package body Descriptors.Peripheral is
       Add (Spec, New_Comment_Box ("Peripherals"));
 
       Dump_Periph_Type
-        (Spec, Peripheral, To_String (Peripheral.Name) & "_Peripheral");
+        (Spec,
+         Peripheral,
+         To_String (Peripheral.Name) & "_Peripheral");
 
       declare
          Inst : Ada_Instance :=
-                  New_Instance
-                    (To_String (Peripheral.Name) & "_Periph",
-                     To_String (Peripheral.Name) & "_Peripheral",
-                     True,
-                     To_String (Peripheral.Description));
+           New_Instance
+             (To_String (Peripheral.Name) & "_Periph",
+              To_String (Peripheral.Name) & "_Peripheral",
+              True,
+              To_String (Peripheral.Description));
       begin
          Add_Aspect (Inst, "Import");
          Add_Address_Aspect (Inst, To_String (Peripheral.Name) & "_Base");
@@ -487,18 +492,19 @@ package body Descriptors.Peripheral is
       use type Ada.Containers.Count_Type;
       Regs               : Register_Vectors.Vector;
       Sorted             : Peripheral_Vectors.Vector := Group;
-      Partial_Similarity : Boolean := False;
+      Partial_Similarity : Boolean                   := False;
       Spec               : Ada_Spec;
 
    begin
       Ada.Text_IO.Put_Line
         ("Generate " & To_String (Group.First_Element.Group_Name));
 
-      Spec := New_Child_Spec
-        (To_String (Sorted.First_Element.Group_Name),
-         Dev_Name,
-         "",
-         True);
+      Spec :=
+        New_Child_Spec
+          (To_String (Sorted.First_Element.Group_Name),
+           Dev_Name,
+           "",
+           True);
 
       --  Registers
 
@@ -542,15 +548,17 @@ package body Descriptors.Peripheral is
 
             if List.Length = 1 then
                Dump_Periph_Type
-                 (Spec, First, To_String (First.Name) & "_Peripheral");
+                 (Spec,
+                  First,
+                  To_String (First.Name) & "_Peripheral");
 
                declare
                   Inst : Ada_Instance :=
-                           New_Instance
-                             (To_String (First.Name) & "_Periph",
-                              To_String (First.Name) & "_Peripheral",
-                              True,
-                              To_String (First.Description));
+                    New_Instance
+                      (To_String (First.Name) & "_Periph",
+                       To_String (First.Name) & "_Peripheral",
+                       True,
+                       To_String (First.Description));
                begin
                   Add_Aspect (Inst, "Import");
                   Add_Address_Aspect (Inst, To_String (First.Name) & "_Base");
@@ -559,20 +567,23 @@ package body Descriptors.Peripheral is
 
             elsif Sorted.Is_Empty and then not Partial_Similarity then
                Dump_Periph_Type
-                 (Spec, First, To_String (First.Group_Name) & "_Peripheral");
+                 (Spec,
+                  First,
+                  To_String (First.Group_Name) & "_Peripheral");
 
                for Periph of List loop
                   declare
                      Inst : Ada_Instance :=
-                              New_Instance
-                                (To_String (Periph.Name) & "_Periph",
-                                 To_String (First.Group_Name) & "_Peripheral",
-                                 True,
-                                 To_String (Periph.Description));
+                       New_Instance
+                         (To_String (Periph.Name) & "_Periph",
+                          To_String (First.Group_Name) & "_Peripheral",
+                          True,
+                          To_String (Periph.Description));
                   begin
                      Add_Aspect (Inst, "Import");
                      Add_Address_Aspect
-                       (Inst, To_String (Periph.Name) & "_Base");
+                       (Inst,
+                        To_String (Periph.Name) & "_Base");
                      Add (Spec, Inst);
                   end;
                end loop;
@@ -580,20 +591,23 @@ package body Descriptors.Peripheral is
             else
                Partial_Similarity := True;
                Dump_Periph_Type
-                 (Spec, First, To_String (First.Name) & "_Peripheral");
+                 (Spec,
+                  First,
+                  To_String (First.Name) & "_Peripheral");
 
                for Periph of List loop
                   declare
                      Inst : Ada_Instance :=
-                              New_Instance
-                                (To_String (Periph.Name) & "_Periph",
-                                 To_String (First.Name) & "_Peripheral",
-                                 True,
-                                 To_String (Periph.Description));
+                       New_Instance
+                         (To_String (Periph.Name) & "_Periph",
+                          To_String (First.Name) & "_Peripheral",
+                          True,
+                          To_String (Periph.Description));
                   begin
                      Add_Aspect (Inst, "Import");
                      Add_Address_Aspect
-                       (Inst, To_String (Periph.Name) & "_Base");
+                       (Inst,
+                        To_String (Periph.Name) & "_Base");
                      Add (Spec, Inst);
                   end;
                end loop;

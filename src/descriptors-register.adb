@@ -20,9 +20,9 @@
 with System;
 
 -- XML dependencies
-with DOM.Core;             use DOM.Core;
-with DOM.Core.Elements;    use DOM.Core.Elements;
-with DOM.Core.Nodes;       use DOM.Core.Nodes;
+with DOM.Core;          use DOM.Core;
+with DOM.Core.Elements; use DOM.Core.Elements;
+with DOM.Core.Nodes;    use DOM.Core.Nodes;
 
 -- TIXML2Ada dependencies
 with Ada_Gen;              use Ada_Gen;
@@ -38,17 +38,16 @@ package body Descriptors.Register is
      (Register       : DOM.Core.Element;
       Prepend        : Unbounded.Unbounded_String;
       Append         : Unbounded.Unbounded_String;
-      Reg_Properties : Register_Properties_T)
-      return Register_Access
+      Reg_Properties : Register_Properties_T) return Register_Access
    is
       Ret           : Register_T;
       Bitfield_List : Node_List;
    begin
       Ret.Reg_Properties := Reg_Properties;
 
-      Ret.Name             := Get_Id(Register);
+      Ret.Name             := Get_Id (Register);
       Ret.Xml_Id           := Ret.Name;
-      Ret.Description      := Get_Description(Register);
+      Ret.Description      := Get_Description (Register);
       Ret.Mod_Write_Values := Modify;
       Ret.Read_Action      := Undefined_Read_Action;
       Ret.Type_Name        := Prepend & Ret.Name & Append;
@@ -59,7 +58,7 @@ package body Descriptors.Register is
       Ret.Reg_Properties.Reset_Mask  := 16#0000_0000#;
 
       if Get_Named_Item (Attributes (Register), "offset") /= null then
-         Ret.Address_Offset := Get_Offset(Register);
+         Ret.Address_Offset := Get_Offset (Register);
       else
          -- Ada.Text_IO.Put_Line ("Reg [" &
          -- Value (Get_Named_Item (Attributes (Register), "id")) &
@@ -73,7 +72,9 @@ package body Descriptors.Register is
 
       if Length (Bitfield_List) > 0 then
          if not Bitfields_Valid (Bitfield_List, Ret.Reg_Properties.Size) then
-            raise Constraint_Error with "Register " & To_String(Ret.Name) &
+            raise Constraint_Error
+              with "Register " &
+              To_String (Ret.Name) &
               " contains an invalid bitfield layout.";
          end if;
 
@@ -81,10 +82,12 @@ package body Descriptors.Register is
             declare
                Field : Field_T;
             begin
-               Field := Read_Field (Item (Bitfield_List, K),
-                                    Ret.Fields,
-                                    Ret.Reg_Properties.Reg_Access,
-                                    Ret.Read_Action);
+               Field :=
+                 Read_Field
+                   (Item (Bitfield_List, K),
+                    Ret.Fields,
+                    Ret.Reg_Properties.Reg_Access,
+                    Ret.Read_Action);
                if not Ret.Fields.Contains (Field) then
                   Ret.Fields.Append (Field);
                end if;
@@ -100,8 +103,7 @@ package body Descriptors.Register is
    -- "=" --
    ---------
 
-   function Equal (R1, R2 : Register_Access) return Boolean
-   is
+   function Equal (R1, R2 : Register_Access) return Boolean is
       use type Field_Vectors.Vector;
    begin
       if R1 = null then
@@ -136,13 +138,13 @@ package body Descriptors.Register is
                else
                   declare
                      Prefix : constant Unbounded.Unbounded_String :=
-                                Similar_Type (Reg_Set (J), Reg_Set (K));
+                       Similar_Type (Reg_Set (J), Reg_Set (K));
                   begin
                      if Unbounded.Length (Prefix) > 0 then
                         --  We have similar types, but with different names.
                         --  In such situation, it'd be nice to generate a
                         --  common type definition.
-                        Reg_Set (J).Type_Name := Prefix;
+                        Reg_Set (J).Type_Name   := Prefix;
                         Reg_Set (K).Type_Holder := Reg_Set (J);
                      end if;
                   end;
@@ -184,8 +186,7 @@ package body Descriptors.Register is
    -- Get_Ada_Type --
    ------------------
 
-   function Get_Ada_Type (Reg : Register_Access) return String
-   is
+   function Get_Ada_Type (Reg : Register_Access) return String is
       use type Ada.Containers.Count_Type;
    begin
       if Reg.Type_Holder /= null then
@@ -195,8 +196,8 @@ package body Descriptors.Register is
          return To_String (Reg.Ada_Type);
 
       else
-         raise Constraint_Error with "No ada type defined yet for " &
-           To_String (Reg.Name);
+         raise Constraint_Error
+           with "No ada type defined yet for " & To_String (Reg.Name);
       end if;
    end Get_Ada_Type;
 
@@ -204,10 +205,7 @@ package body Descriptors.Register is
    -- Dump --
    ----------
 
-   procedure Dump
-     (Spec : in out Ada_Gen.Ada_Spec;
-      Reg  : Register_Access)
-   is
+   procedure Dump (Spec : in out Ada_Gen.Ada_Spec; Reg : Register_Access) is
       use type Ada.Containers.Count_Type;
    begin
       if Reg.Type_Holder /= null then
@@ -215,14 +213,14 @@ package body Descriptors.Register is
          return;
       end if;
 
-      if (Reg.Fields.Length = 1
-          and then Reg.Fields.First_Element.Size = Reg.Reg_Properties.Size)
+      if
+        (Reg.Fields.Length = 1
+         and then Reg.Fields.First_Element.Size = Reg.Reg_Properties.Size)
         or else Reg.Fields.Is_Empty
       then
          --  Don't generate anything here: we use a base type
-         Reg.Ada_type :=
-           To_Unbounded_String
-             (Target_Type (Reg.Reg_Properties.Size));
+         Reg.Ada_Type :=
+           To_Unbounded_String (Target_Type (Reg.Reg_Properties.Size));
 
          if Reg.Dim > 1 then
             --  Just generate a comment to document the array that's going
@@ -235,12 +233,14 @@ package body Descriptors.Register is
             Rec : Ada_Type_Record;
 
          begin
-            Add (Spec,
-                 New_Comment_Box (To_String (Reg.Type_Name) & "_Register"));
-            Rec := Ada_Type_Record
-              (New_Type_Record
-                 (To_String (Reg.Type_Name) & "_Register",
-                  To_String (Reg.Description)));
+            Add
+              (Spec,
+               New_Comment_Box (To_String (Reg.Type_Name) & "_Register"));
+            Rec :=
+              Ada_Type_Record
+                (New_Type_Record
+                   (To_String (Reg.Type_Name) & "_Register",
+                    To_String (Reg.Description)));
 
             Descriptors.Field.Dump
               (Spec,
@@ -272,14 +272,13 @@ package body Descriptors.Register is
       if Reg.Dim > 1 then
          declare
             Array_T : Ada_Type_Array :=
-                        New_Type_Array
-                          (Id           =>
-                                    To_String (Reg.Type_Name) & "_Registers",
-                           Index_Type   => "",
-                           Index_First  => 0,
-                           Index_Last   => Reg.Dim - 1,
-                           Element_Type => Get_Ada_Type (reg),
-                           Comment      => To_String (Reg.Description));
+              New_Type_Array
+                (Id           => To_String (Reg.Type_Name) & "_Registers",
+                 Index_Type   => "",
+                 Index_First  => 0,
+                 Index_Last   => Reg.Dim - 1,
+                 Element_Type => Get_Ada_Type (Reg),
+                 Comment      => To_String (Reg.Description));
          begin
             Add (Spec, Array_T);
             Reg.Ada_Type := Id (Array_T);

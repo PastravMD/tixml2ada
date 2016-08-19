@@ -19,7 +19,7 @@
 
 -- common Ada dependencies
 with Ada.Containers.Vectors;
-with Ada.Strings.Unbounded;          use Ada.Strings;
+with Ada.Strings.Unbounded; use Ada.Strings;
 
 -- XML dependencies
 with DOM.Core;
@@ -28,8 +28,6 @@ with DOM.Core;
 with Descriptors.Register;           use Descriptors.Register;
 with Base_Types;                     use Base_Types;
 with Base_Types.Register_Properties; use Base_Types.Register_Properties;
-
-
 
 --  Decodes and then dumps the <peripheral> elements of the xml file.
 package Descriptors.Peripheral is
@@ -41,7 +39,7 @@ package Descriptors.Peripheral is
       Group_Name      : Unbounded.Unbounded_String;
       Prepend_To_Name : Unbounded.Unbounded_String;
       Append_To_Name  : Unbounded.Unbounded_String;
-      Base_Address    : Unsigned := 0;
+      Base_Address    : Unsigned              := 0;
       Reg_Properties  : Register_Properties_T := Null_Register_Property;
       Address_Blocks  : Address_Block_Vectors.Vector;
       Interrupts      : Interrupt_Vectors.Vector;
@@ -49,19 +47,19 @@ package Descriptors.Peripheral is
    end record;
 
    package Peripheral_Vectors is new Ada.Containers.Vectors
-     (Positive, Peripheral_T);
+     (Positive,
+      Peripheral_T);
 
    function Read_Peripheral
-     (Peripheral         : DOM.Core.Element;
-      Reg_Properties     : Register_Properties_T;
-      Vector             : Peripheral_Vectors.Vector;
-      Is_Derived_From    : Unbounded.Unbounded_String)
-      return Peripheral_T;
+     (Peripheral      : DOM.Core.Element;
+      Reg_Properties  : Register_Properties_T;
+      Vector          : Peripheral_Vectors.Vector;
+      Is_Derived_From : Unbounded.Unbounded_String) return Peripheral_T;
 
    procedure Dump
      (Peripheral : in out Peripheral_T;
-      Dev_Name   : String;
-      Output_Dir : String);
+      Dev_Name   :        String;
+      Output_Dir :        String);
 
    procedure Dump
      (Group      : Peripheral_Vectors.Vector;

@@ -40,10 +40,12 @@ package body Base_Types is
       Fully_Qualified : Boolean := True) return String
    is
       Pkg : constant String :=
-              (if not Fully_Qualified then ""
-               elsif not SVD2Ada_Utils.External_Base_Types_Package
-               then SVD2Ada_Utils.Root_Package & "."
-               else SVD2Ada_Utils.Base_Types_Package & ".");
+        (if not Fully_Qualified then ""
+         elsif
+           not SVD2Ada_Utils.External_Base_Types_Package
+         then
+           SVD2Ada_Utils.Root_Package & "."
+         else SVD2Ada_Utils.Base_Types_Package & ".");
 
    begin
       if Size = 1 then
@@ -63,8 +65,7 @@ package body Base_Types is
    -- "=" --
    ---------
 
-   function "=" (I1, I2 : Interrupt_Type) return Boolean
-   is
+   function "=" (I1, I2 : Interrupt_Type) return Boolean is
       use Unbounded;
    begin
       return I1.Name = I2.Name;
@@ -74,21 +75,19 @@ package body Base_Types is
    -- Less --
    ----------
 
-   function "<" (I1, I2 : Interrupt_Type) return Boolean
-   is
+   function "<" (I1, I2 : Interrupt_Type) return Boolean is
       use Unbounded;
    begin
-      return (if I1.Value = I2.Value
-              then To_String (I1.Name) < To_String (I2.Name)
-              else I1.Value < I2.Value);
+      return
+        (if I1.Value = I2.Value then To_String (I1.Name) < To_String (I2.Name)
+         else I1.Value < I2.Value);
    end "<";
 
    ------------
    -- To_Hex --
    ------------
 
-   function To_Hex (Val : Natural) return String
-   is
+   function To_Hex (Val : Natural) return String is
    begin
       return To_Hex (Unsigned (Val));
    end To_Hex;
@@ -97,8 +96,7 @@ package body Base_Types is
    -- To_Hex --
    ------------
 
-   function To_Hex (Val : Unsigned) return String
-   is
+   function To_Hex (Val : Unsigned) return String is
       Ret : String (1 .. 12); --  16#01234567#
    begin
       Unsigned_IO.Put (Ret, Val, 16);
@@ -116,8 +114,7 @@ package body Base_Types is
    -- To_String --
    ---------------
 
-   function To_String (Val : Integer) return String
-   is
+   function To_String (Val : Integer) return String is
       S : constant String := Integer'Image (Val);
    begin
       if S (S'First) = ' ' then
@@ -131,8 +128,7 @@ package body Base_Types is
    -- To_String --
    ---------------
 
-   function To_String (Val : Unsigned) return String
-   is
+   function To_String (Val : Unsigned) return String is
       S : constant String := Unsigned'Image (Val);
    begin
       if S (S'First) = ' ' then
@@ -146,41 +142,42 @@ package body Base_Types is
    -- Convert_Address --
    ----------------------
 
-   function Convert_Address (Value: String) return Unsigned is
+   function Convert_Address (Value : String) return Unsigned is
       Multiplier : Unsigned := 1;
-      Last       : Natural := Value'Last;
+      Last       : Natural  := Value'Last;
    begin
       --  First pass: we check the presence of a multiplier
       if Value (Value'Last) = 'k' or else Value (Value'Last) = 'K' then
          Multiplier := 1024;
-         Last := Last - 1;
+         Last       := Last - 1;
       elsif Value (Value'Last) = 'm' or else Value (Value'Last) = 'M' then
-         Multiplier := 1024 ** 2;
-         Last := Last - 1;
+         Multiplier := 1024**2;
+         Last       := Last - 1;
       elsif Value (Value'Last) = 'g' or else Value (Value'Last) = 'G' then
-         Multiplier := 1024 ** 3;
-         Last := Last - 1;
+         Multiplier := 1024**3;
+         Last       := Last - 1;
       elsif Value (Value'Last) = 't' or else Value (Value'Last) = 'T' then
-         Multiplier := 1024 ** 4;
-         Last := Last - 1;
+         Multiplier := 1024**4;
+         Last       := Last - 1;
       else
          Multiplier := 1;
       end if;
 
       --  we check if the value is expressed in hexa
       if Value'Length > 2
-        and then (Value (Value'First .. Value'First + 1) = "0x"
-                  or else Value (Value'First .. Value'First + 1) = "0X")
+        and then
+        (Value (Value'First .. Value'First + 1) = "0x"
+         or else Value (Value'First .. Value'First + 1) = "0X")
       then
-         return Unsigned'Value ("16#" & Value (Value'First + 2 .. Last) & "#")
-           * Multiplier;
-      elsif Value'Length > 1
-        and then Value (Value'First) = '#'
-      then
-         return Unsigned'Value ("2#" & Value (Value'First + 1 .. Last) & "#")
-           * Multiplier;
+         return Unsigned'Value
+             ("16#" & Value (Value'First + 2 .. Last) & "#") *
+           Multiplier;
+      elsif Value'Length > 1 and then Value (Value'First) = '#' then
+         return Unsigned'Value ("2#" & Value (Value'First + 1 .. Last) & "#") *
+           Multiplier;
       else
-         return Unsigned'Value (Value (Value'First .. Value'Last)) * Multiplier;
+         return Unsigned'Value (Value (Value'First .. Value'Last)) *
+           Multiplier;
       end if;
    end Convert_Address;
 
@@ -188,129 +185,125 @@ package body Base_Types is
    -- Get_Base_Address --
    ----------------------
 
-   function Get_Base_Address (Elt: DOM.Core.Element) return Unsigned is
+   function Get_Base_Address (Elt : DOM.Core.Element) return Unsigned is
       use DOM.Core.Attrs;
       use DOM.Core.Nodes;
    begin
       return Convert_Address
-        (Value (Get_Named_Item (Attributes (Elt), "baseaddr")));
+          (Value (Get_Named_Item (Attributes (Elt), "baseaddr")));
    end Get_Base_Address;
 
    ------------
    -- Get_Id --
    ------------
 
-   function Get_Id (Elt: DOM.Core.Element)
-                    return Unbounded.Unbounded_String
+   function Get_Id
+     (Elt : DOM.Core.Element) return Unbounded.Unbounded_String
    is
       use Ada.Strings.Unbounded;
       use DOM.Core.Attrs;
       use DOM.Core.Nodes;
    begin
       return Apply_Naming_Rules
-        (To_Unbounded_String (Value (
-         Get_Named_Item (Attributes (Elt), "id"))));
+          (To_Unbounded_String
+             (Value (Get_Named_Item (Attributes (Elt), "id"))));
    end Get_Id;
 
    --------------
    -- Get_Href --
    --------------
 
-   function Get_Href (Elt: DOM.Core.Element)
-                    return Unbounded.Unbounded_String
+   function Get_Href
+     (Elt : DOM.Core.Element) return Unbounded.Unbounded_String
    is
       use Ada.Strings.Unbounded;
       use DOM.Core.Attrs;
       use DOM.Core.Nodes;
    begin
-      return To_Unbounded_String (Value (Get_Named_Item
-                           (Attributes (Elt), "href")));
+      return To_Unbounded_String
+          (Value (Get_Named_Item (Attributes (Elt), "href")));
    end Get_Href;
 
    ---------------------
    -- Get_Xml_Version --
    ---------------------
-   function Get_Xml_Version (Elt : DOM.Core.Element)
-                             return Unbounded.Unbounded_String
+   function Get_Xml_Version
+     (Elt : DOM.Core.Element) return Unbounded.Unbounded_String
    is
       use Ada.Strings.Unbounded;
       use DOM.Core.Attrs;
       use DOM.Core.Nodes;
    begin
-      return To_Unbounded_String (Value (Get_Named_Item
-                                  (Attributes (Elt),
-                                     "XML_version")));
+      return To_Unbounded_String
+          (Value (Get_Named_Item (Attributes (Elt), "XML_version")));
    end Get_Xml_Version;
 
    ---------------------
    -- Get_Description --
    ---------------------
 
-   function Get_Description (Elt: DOM.Core.Element)
-                      return Unbounded.Unbounded_String
+   function Get_Description
+     (Elt : DOM.Core.Element) return Unbounded.Unbounded_String
    is
       use Ada.Strings.Unbounded;
       use DOM.Core.Attrs;
       use DOM.Core.Nodes;
    begin
       return To_Unbounded_String
-        (Value (Get_Named_Item (Attributes (Elt), "description")));
+          (Value (Get_Named_Item (Attributes (Elt), "description")));
    end Get_Description;
 
    ---------------
    -- Get_Value --
    ---------------
 
-   function Get_Value (Elt: DOM.Core.Element)
-                             return Unbounded.Unbounded_String
+   function Get_Value
+     (Elt : DOM.Core.Element) return Unbounded.Unbounded_String
    is
       use Ada.Strings.Unbounded;
       use DOM.Core.Attrs;
       use DOM.Core.Nodes;
    begin
       return To_Unbounded_String
-        (Value (Get_Named_Item (Attributes (Elt), "Value")));
+          (Value (Get_Named_Item (Attributes (Elt), "Value")));
    end Get_Value;
 
    ---------------
    -- Get_Value --
    ---------------
 
-   function Get_Value (Elt: DOM.Core.Element) return Unsigned
-   is
+   function Get_Value (Elt : DOM.Core.Element) return Unsigned is
       use Ada.Strings.Unbounded;
       use DOM.Core.Attrs;
       use DOM.Core.Nodes;
    begin
-      return Unsigned'Value (Value (Get_Named_Item (Attributes (Elt), "value")));
+      return Unsigned'Value
+          (Value (Get_Named_Item (Attributes (Elt), "value")));
    end Get_Value;
 
    --------------
    -- Get_Size --
    --------------
 
-   function Get_Size (Elt: DOM.Core.Element) return Unsigned
-   is
+   function Get_Size (Elt : DOM.Core.Element) return Unsigned is
       use DOM.Core.Attrs;
       use DOM.Core.Nodes;
    begin
       return Convert_Address
-        (Value (Get_Named_Item (Attributes (Elt), "size")));
+          (Value (Get_Named_Item (Attributes (Elt), "size")));
    end Get_Size;
 
    ------------------
    -- Get_Blockset --
    ------------------
 
-   function Get_Blockset(Elt : DOM.Core.Element)
-     return Address_Block_Type
-   is
+   function Get_Blockset (Elt : DOM.Core.Element) return Address_Block_Type is
       Address_Block : Address_Block_Type;
       use DOM.Core.Nodes;
    begin
-      Address_Block.Offset := 16#0#;
-      Address_Block.Size := Get_Size (Elt);
-      Address_Block.Usage := Registers_Usage;
+      Address_Block.Offset     := 16#0#;
+      Address_Block.Size       := Get_Size (Elt);
+      Address_Block.Usage      := Registers_Usage;
       Address_Block.Protection := Undefined_Protection;
       return Address_Block;
    end Get_Blockset;
@@ -319,46 +312,44 @@ package body Base_Types is
    -- Get_Offset --
    ----------------
 
-   function Get_Offset (Elt: DOM.Core.Element) return Natural
-   is
+   function Get_Offset (Elt : DOM.Core.Element) return Natural is
       use DOM.Core.Attrs;
       use DOM.Core.Nodes;
    begin
-      return Natural(Convert_Address
-        (Value (Get_Named_Item (Attributes (Elt), "offset"))));
+      return Natural
+          (Convert_Address
+             (Value (Get_Named_Item (Attributes (Elt), "offset"))));
    end Get_Offset;
 
    ----------------
    -- Get_Width --
    ----------------
 
-   function Get_Width (Elt: DOM.Core.Element) return Natural
-   is
+   function Get_Width (Elt : DOM.Core.Element) return Natural is
       use DOM.Core.Attrs;
       use DOM.Core.Nodes;
    begin
-      return Natural'Value (Value (Get_Named_Item
-                            (Attributes (Elt), "width")));
+      return Natural'Value
+          (Value (Get_Named_Item (Attributes (Elt), "width")));
    end Get_Width;
 
    -------------
    -- Get_Lsb --
    -------------
 
-   function Get_Lsb (Elt: DOM.Core.Element) return Natural
-   is
+   function Get_Lsb (Elt : DOM.Core.Element) return Natural is
       use DOM.Core.Attrs;
       use DOM.Core.Nodes;
    begin
-      return Natural'Value (Value (Get_Named_Item (Attributes (Elt), "begin")));
+      return Natural'Value
+          (Value (Get_Named_Item (Attributes (Elt), "begin")));
    end Get_Lsb;
 
    -------------
    -- Get_Msb --
    -------------
 
-   function Get_Msb (Elt: DOM.Core.Element) return Natural
-   is
+   function Get_Msb (Elt : DOM.Core.Element) return Natural is
       use DOM.Core.Attrs;
       use DOM.Core.Nodes;
    begin
@@ -369,8 +360,7 @@ package body Base_Types is
    -- Get_R_W_Access --
    --------------------
 
-   function Get_R_W_Access (Elt: DOM.Core.Element) return String
-   is
+   function Get_R_W_Access (Elt : DOM.Core.Element) return String is
       use DOM.Core.Attrs;
       use DOM.Core.Nodes;
    begin
@@ -381,9 +371,7 @@ package body Base_Types is
    -- Gen_DOM_Iter --
    ------------------
 
-   procedure Gen_DOM_Iter (Elt : DOM.Core.Element;
-                           Obj : in out T)
-   is
+   procedure Gen_DOM_Iter (Elt : DOM.Core.Element; Obj : in out T) is
       use DOM.Core;
       List : constant Node_List := Nodes.Child_Nodes (Elt);
    begin
@@ -391,7 +379,7 @@ package body Base_Types is
          if Nodes.Node_Type (Nodes.Item (List, J)) = Element_Node then
             declare
                Child : constant Element := Element (Nodes.Item (List, J));
-               Tag   : String renames Elements.Get_Tag_Name (Child);
+               Tag : String renames Elements.Get_Tag_Name (Child);
             begin
                Read_Elt (Tag, Child, Obj);
             end;
@@ -404,7 +392,8 @@ package body Base_Types is
    -------------------
 
    function Common_Prefix
-     (Name1, Name2 : Unbounded.Unbounded_String)
+     (Name1,
+      Name2 : Unbounded.Unbounded_String)
       return Unbounded.Unbounded_String
    is
       use Unbounded;
@@ -447,40 +436,40 @@ package body Base_Types is
    -- Apply_Naming_Rules --
    ------------------------
 
-   function Apply_Naming_Rules (Variable_Name : Unbounded.Unbounded_String)
-                                return Unbounded.Unbounded_String
+   function Apply_Naming_Rules
+     (Variable_Name : Unbounded.Unbounded_String)
+      return Unbounded.Unbounded_String
    is
-      Clean_Name  : Unbounded.Unbounded_String := Variable_Name;
+      Clean_Name : Unbounded.Unbounded_String := Variable_Name;
       use DOM.Core.Elements;
       use Ada.Strings.Unbounded;
    begin
       -- Check if 1st character is anything other than an alphabetic letter
       while Element (Clean_Name, 1) not in 'a' .. 'z' and
-        Element (Clean_Name, 1) not in 'A' .. 'Z' loop
+        Element (Clean_Name, 1) not in 'A' .. 'Z'
+      loop
          Delete (Clean_Name, 1, 1);
       end loop;
 
       -- replace any white spaces with underscores
       for J in 1 .. Length (Clean_Name) loop
          if Element (Clean_Name, J) = ' ' then
-            Replace_Element(Clean_Name, J, '_');
+            Replace_Element (Clean_Name, J, '_');
          end if;
       end loop;
 
       return Clean_Name;
-   end;
+   end Apply_Naming_Rules;
 
    ------------------------
    -- Apply_Naming_Rules --
    ------------------------
 
-   function Apply_Naming_Rules (Variable_Name : String) return String
-   is
+   function Apply_Naming_Rules (Variable_Name : String) return String is
       use Ada.Strings.Unbounded;
    begin
-      return
-        To_String (Apply_Naming_Rules (To_Unbounded_String(Variable_Name)));
-   end;
-
+      return To_String
+          (Apply_Naming_Rules (To_Unbounded_String (Variable_Name)));
+   end Apply_Naming_Rules;
 
 end Base_Types;
