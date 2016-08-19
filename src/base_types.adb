@@ -17,8 +17,10 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+-- common Ada dependencies
 with Ada.Text_IO;
 
+-- XML dependencies
 with DOM.Core.Nodes;
 with DOM.Core.Attrs;
 with DOM.Core.Elements;
@@ -270,6 +272,19 @@ package body Base_Types is
         (Value (Get_Named_Item (Attributes (Elt), "Value")));
    end Get_Value;
 
+   ---------------
+   -- Get_Value --
+   ---------------
+
+   function Get_Value (Elt: DOM.Core.Element) return Unsigned
+   is
+      use Ada.Strings.Unbounded;
+      use DOM.Core.Attrs;
+      use DOM.Core.Nodes;
+   begin
+      return Unsigned'Value (Value (Get_Named_Item (Attributes (Elt), "value")));
+   end Get_Value;
+
    --------------
    -- Get_Size --
    --------------
@@ -325,6 +340,42 @@ package body Base_Types is
       return Natural'Value (Value (Get_Named_Item
                             (Attributes (Elt), "width")));
    end Get_Width;
+
+   -------------
+   -- Get_Lsb --
+   -------------
+
+   function Get_Lsb (Elt: DOM.Core.Element) return Natural
+   is
+      use DOM.Core.Attrs;
+      use DOM.Core.Nodes;
+   begin
+      return Natural'Value (Value (Get_Named_Item (Attributes (Elt), "begin")));
+   end Get_Lsb;
+
+   -------------
+   -- Get_Msb --
+   -------------
+
+   function Get_Msb (Elt: DOM.Core.Element) return Natural
+   is
+      use DOM.Core.Attrs;
+      use DOM.Core.Nodes;
+   begin
+      return Natural'Value (Value (Get_Named_Item (Attributes (Elt), "end")));
+   end Get_Msb;
+
+   --------------------
+   -- Get_R_W_Access --
+   --------------------
+
+   function Get_R_W_Access (Elt: DOM.Core.Element) return String
+   is
+      use DOM.Core.Attrs;
+      use DOM.Core.Nodes;
+   begin
+      return Value (Get_Named_Item (Attributes (Elt), "rwaccess"));
+   end Get_R_W_Access;
 
    ------------------
    -- Gen_DOM_Iter --

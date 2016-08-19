@@ -24,12 +24,12 @@ with DOM.Core;
 
 with Ada_Gen;
 with Base_Types;                     use Base_Types;
-with Base_Types.Register_Properties; use Base_Types.Register_Properties;
+with Base_Types.Register_Properties;
 
 limited with Descriptors.Register;
 with Descriptors.Enumerate;
 
---  Decodes the <field> elements of the SVD file.
+--  Decodes the <field> elements of the module xml file.
 package Descriptors.Field is
 
    type Field_T is record
@@ -38,8 +38,7 @@ package Descriptors.Field is
       LSB              : Natural;
       Size             : Natural;
       Acc              : Access_Type;
-      Mod_Write_Values : Modified_Write_Values_Type :=
-                           Modify;
+      Mod_Write_Values : Modified_Write_Values_Type := Modify;
       Read_Action      : Read_Action_Type := Undefined_Read_Action;
       Enums            : Descriptors.Enumerate.Enumerate_Vectors.Vector;
    end record;
@@ -58,7 +57,7 @@ package Descriptors.Field is
      (Positive, Field_T);
 
    function Read_Field
-     (Elt            : DOM.Core.Element;
+     (Field          : DOM.Core.Element;
       Vec            : Field_Vectors.Vector;
       Default_Access : Access_Type;
       Default_Read   : Read_Action_Type)
@@ -69,7 +68,7 @@ package Descriptors.Field is
       Reg          : Descriptors.Register.Register_Access;
       Rec          : in out Ada_Gen.Ada_Type_Record;
       Reg_Fields   : Field_Vectors.Vector;
-      Properties   : Register_Properties_T);
+      Properties   : Register_Properties.Register_Properties_T);
 
    function Bitfields_Valid
      (Bitfield_List  : DOM.Core.Node_List;

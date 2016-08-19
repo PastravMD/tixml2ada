@@ -17,11 +17,12 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+-- common Ada dependencies
 with Interfaces;               use Interfaces;
-
 with Ada.Containers.Vectors;
 with Ada.Strings.Unbounded;    use Ada.Strings;
 
+-- XML dependencies
 with DOM.Core;
 
 --  Package responsible for defining and decoding the basic types of a TI xml
@@ -184,11 +185,15 @@ package Base_Types is
                              return Unbounded.Unbounded_String;
    function Get_Value (Elt: DOM.Core.Element)
                        return Unbounded.Unbounded_String;
+   function Get_Value (Elt: DOM.Core.Element) return Unsigned;
    function Get_Size (Elt: DOM.Core.Element) return Unsigned;
    function Get_Blockset (Elt : in DOM.Core.Element)
                           return Address_Block_Type;
    function Get_Offset (Elt: DOM.Core.Element) return Natural;
    function Get_Width (Elt: DOM.Core.Element) return Natural;
+   function Get_Lsb (Elt: DOM.Core.Element) return Natural;
+   function Get_Msb (Elt: DOM.Core.Element) return Natural;
+   function Get_R_W_Access (Elt: DOM.Core.Element) return String;
 
    function Common_Prefix
      (Name1, Name2 : Unbounded.Unbounded_String)
