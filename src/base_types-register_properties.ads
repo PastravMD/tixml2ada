@@ -17,7 +17,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with DOM.Core;                 use DOM.Core;
 with Ada.Strings.Unbounded;
 
 --  Decodes the register properties group from an SVD element.
@@ -44,9 +43,5 @@ package Base_Types.Register_Properties is
                                Module_Xml  => Unbounded.Null_Unbounded_String);
 
    function Is_Register_Property (Tag : String) return Boolean;
-
-   procedure Read_Register_Property
-     (Child : Element;
-      Props : in out Register_Properties_T);
 
 end Base_Types.Register_Properties;

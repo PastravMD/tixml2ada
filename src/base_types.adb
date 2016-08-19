@@ -17,11 +17,11 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+with Ada.Text_IO;
+
 with DOM.Core.Nodes;
 with DOM.Core.Attrs;
 with DOM.Core.Elements;
-
-with Ada.Text_IO;
 
 with SVD2Ada_Utils;
 
@@ -197,187 +197,6 @@ package body Base_Types is
    -- Get_Value --
    ---------------
 
-   function Get_Value (Elt : DOM.Core.Element) return Access_Type is
-      Value : constant String := Get_Value (Elt);
-
-   begin
-      if Value = "read-only" then
-         return Read_Only;
-      elsif Value = "write-only" then
-         return Write_Only;
-      elsif Value = "read-write" then
-         return Read_Write;
-      elsif Value = "writeOnce" then
-         return Write_Once;
-      elsif Value = "read-writeOnce" then
-         return Read_Write_Once;
-      else
-         raise Constraint_Error
-           with "Invalid access value " & Value;
-      end if;
-   end Get_Value;
-
-   ---------------
-   -- Get_Value --
-   ---------------
-
-   function Get_Value (Attribute_Node : DOM.Core.Attr) return Protection_Type is
-      Value : String renames DOM.Core.Attrs.Value (Attribute_Node);
-   begin
-      if Value = "s" then
-         return Secure_Protection;
-      elsif Value = "n" then
-         return Non_Secure_Protection;
-      elsif Value = "p" then
-         return Privileged_Protection;
-      else
-         raise Constraint_Error
-           with "Invalid protection value " & Value;
-      end if;
-   end Get_Value;
-
-   ---------------
-   -- Get_Value --
-   ---------------
-
-   function Get_Value (Elt : DOM.Core.Element) return Endian_Type is
-      Value : String renames Get_Value (Elt);
-   begin
-      if Value = "little" then
-         return Little_Endian;
-      elsif Value = "big" then
-         return Big_Endian;
-      elsif Value = "selectable" then
-         return Selectable_Endian;
-      elsif Value = "other" then
-         return Other_Endian;
-      else
-         raise Constraint_Error
-           with "Invalid endian value " & Value;
-      end if;
-   end Get_Value;
-
-   ---------------
-   -- Get_Value --
-   ---------------
-
-   function Get_Value (Elt : DOM.Core.Element) return Data_Type is
-      Value : String renames Get_Value (Elt);
-   begin
-      if Value = "uint8_t" then
-         return uint8_t_Data;
-      elsif Value = "uint16_t" then
-         return uint16_t_Data;
-      elsif Value = "uint32_t" then
-         return uint32_t_Data;
-      elsif Value = "uint64_t" then
-         return uint64_t_Data;
-      elsif Value = "int8_t" then
-         return int8_t_Data;
-      elsif Value = "int16_t" then
-         return int16_t_Data;
-      elsif Value = "int32_t" then
-         return int32_t_Data;
-      elsif Value = "int64_t" then
-         return int64_t_Data;
-      elsif Value = "uint8_t *" then
-         return puint8_t_Data;
-      elsif Value = "uint16_t *" then
-         return puint16_t_Data;
-      elsif Value = "uint32_t *" then
-         return puint32_t_Data;
-      elsif Value = "uint64_t *" then
-         return puint64_t_Data;
-      elsif Value = "int8_t *" then
-         return pint8_t_Data;
-      elsif Value = "int16_t *" then
-         return pint16_t_Data;
-      elsif Value = "int32_t *" then
-         return pint32_t_Data;
-      elsif Value = "int64_t *" then
-         return pint64_t_Data;
-      else
-         raise Constraint_Error
-           with "Invalid data type value " & Value;
-      end if;
-   end Get_Value;
-
-   ---------------
-   -- Get_Value --
-   ---------------
-
-   function Get_Value
-     (Elt : DOM.Core.Element) return Modified_Write_Values_Type
-   is
-      Value : String renames Get_Value (Elt);
-   begin
-      if Value = "oneToClear" then
-         return One_To_Clear;
-      elsif Value = "oneToSet" then
-         return One_To_Set;
-      elsif Value = "oneToToggle" then
-         return One_To_Toggle;
-      elsif Value = "zeroToClear" then
-         return Zero_To_Clear;
-      elsif Value = "zeroToSet" then
-         return Zero_To_Set;
-      elsif Value = "zeroToToggle" then
-         return Zero_To_Toggle;
-      elsif Value = "clear" then
-         return Clear;
-      elsif Value = "set" then
-         return Set;
-      elsif Value = "modify" then
-         return Modify;
-      else
-         raise Constraint_Error
-           with "Invalid modified write value type value " & Value;
-      end if;
-   end Get_Value;
-
-   ---------------
-   -- Get_Value --
-   ---------------
-
-   function Get_Value (Elt : DOM.Core.Element) return Read_Action_Type is
-      Value : String renames Get_Value (Elt);
-   begin
-      if Value = "clear" then
-         return Clear;
-      elsif Value = "set" then
-         return Set;
-      elsif Value = "modify" then
-         return Modify;
-      elsif Value = "modifyExternal" then
-         return Modify_Exernal;
-      else
-         raise Constraint_Error
-           with "Invalid read action type value " & Value;
-      end if;
-   end Get_Value;
-
-   ---------------
-   -- Get_Value --
-   ---------------
-
-   function Get_Value (Elt : DOM.Core.Element) return Bit_Range_Type is
-      Value : String renames Get_Value (Elt);
-   begin
-      for J in Value'Range loop
-         if Value (J) = ':' then
-            return (From => Natural'Value (Value (1 .. J - 1)),
-                    To   => Natural'Value (Value (J + 1 .. Value'Last)));
-         end if;
-      end loop;
-
-      raise Constraint_Error
-        with "Invalid bit range type value " & Value;
-   end Get_Value;
-
-   ---------------
-   -- Get_Value --
-   ---------------
-
    function Get_Value (Attribute_Node : DOM.Core.Attr) return Unsigned is
       Value      : constant String := DOM.Core.Attrs.Value (Attribute_Node);
       Multiplier : Unsigned := 1;
@@ -418,6 +237,100 @@ package body Base_Types is
       end if;
    end Get_Value;
 
+   ------------
+   -- Get_Id --
+   ------------
+
+   function Get_Id (Elt: DOM.Core.Element)
+                    return Unbounded.Unbounded_String
+   is
+      use Ada.Strings.Unbounded;
+      use DOM.Core.Attrs;
+      use DOM.Core.Nodes;
+   begin
+      return Apply_Naming_Rules
+        (To_Unbounded_String (Value (
+         Get_Named_Item (Attributes (Elt), "id"))));
+   end Get_Id;
+
+   ----------------------
+   -- Get_Base_Address --
+   ----------------------
+   function Get_Base_Address (Elt: DOM.Core.Element)
+                    return Unsigned
+   is
+      use DOM.Core.Attrs;
+      use DOM.Core.Nodes;
+   begin
+      return Get_Value (Get_Named_Item
+                        (Attributes (Elt), "baseaddr"));
+   end Get_Base_Address;
+
+   --------------
+   -- Get_Href --
+   --------------
+
+   function Get_Href (Elt: DOM.Core.Element)
+                    return Unbounded.Unbounded_String
+   is
+      use Ada.Strings.Unbounded;
+      use DOM.Core.Attrs;
+      use DOM.Core.Nodes;
+   begin
+      return To_Unbounded_String (Value (Get_Named_Item
+                           (Attributes (Elt), "href")));
+   end Get_Href;
+
+   ---------------------
+   -- Get_Xml_Version --
+   ---------------------
+   function Get_Xml_Version (Elt : DOM.Core.Element)
+                             return Unbounded.Unbounded_String
+   is
+      use Ada.Strings.Unbounded;
+      use DOM.Core.Attrs;
+      use DOM.Core.Nodes;
+   begin
+      return To_Unbounded_String (Value (Get_Named_Item
+                                  (Attributes (Elt),
+                                     "XML_version")));
+   end Get_Xml_Version;
+
+   ---------------------
+   -- Get_Description --
+   ---------------------
+
+   function Get_Description (Elt: DOM.Core.Element)
+                      return Unbounded.Unbounded_String
+   is
+      use Ada.Strings.Unbounded;
+      use DOM.Core.Attrs;
+      use DOM.Core.Nodes;
+   begin
+      return To_Unbounded_String
+        (Value (Get_Named_Item (Attributes (Elt), "description")));
+   end Get_Description;
+
+
+
+   ------------------
+   -- Get_Blockset --
+   ------------------
+
+   function Get_Blockset(Elt : DOM.Core.Element)
+     return Address_Block_Type
+   is
+      Address_Block : Address_Block_Type;
+      use DOM.Core.Nodes;
+   begin
+      Address_Block.Offset := 16#0#;
+      Address_Block.Size := Get_Value
+        (Get_Named_Item (Attributes (Elt), "size"));
+      Address_Block.Usage := Registers_Usage;
+      Address_Block.Protection := Undefined_Protection;
+      return Address_Block;
+   end Get_Blockset;
+
    ------------------
    -- Gen_DOM_Iter --
    ------------------
@@ -439,166 +352,6 @@ package body Base_Types is
          end if;
       end loop;
    end Gen_DOM_Iter;
-
-   ---------------------
-   -- Read_Range_Elts --
-   ---------------------
-
-   procedure Read_Range_Elts
-     (Tag : String;
-      Elt : DOM.Core.Element;
-      Val : in out Write_Constraint_Type) is
-   begin
-      if Tag = "minimum" then
-         Val.Minimum := Get_Value (Elt);
-      elsif Tag = "maximum" then
-         Val.Maximum := Get_Value (Elt);
-      else
-         raise Constraint_Error with "Unexpected range tag " & Tag;
-      end if;
-   end Read_Range_Elts;
-
-   procedure Read_Range is new Gen_DOM_Iter
-     (T        => Write_Constraint_Type,
-      Read_Elt => Read_Range_Elts);
-
-   --------------------------------
-   -- Read_Write_Constraint_Elts --
-   --------------------------------
-
-   procedure Read_Write_Constraint_Elts
-     (Tag : String;
-      Elt : DOM.Core.Element;
-      Val : in out Write_Constraint_Type)
-   is
-   begin
-      if Tag = "writeAsRead" then
-         Val.Write_As_Read := Get_Value (Elt);
-      elsif Tag = "useEnumeratedValues" then
-         Val.Use_Enumerated_Values := Get_Value (Elt);
-      elsif Tag = "range" then
-         Read_Range (Elt, Val);
-      else
-         raise Constraint_Error with "Unexpected write constraint tag " & Tag;
-      end if;
-   end Read_Write_Constraint_Elts;
-
-   procedure Read_Write_Constraint is new Gen_DOM_Iter
-     (T        => Write_Constraint_Type,
-      Read_Elt => Read_Write_Constraint_Elts);
-
-   ---------------
-   -- Get_Value --
-   ---------------
-
-   function Get_Value (Elt : DOM.Core.Element) return Write_Constraint_Type is
-      Ret  : Write_Constraint_Type;
-
-   begin
-      Read_Write_Constraint (Elt, Ret);
-      return Ret;
-   end Get_Value;
-
-   ---------------
-   -- Get_Value --
-   ---------------
-
-   procedure Read_Address_Block_Elts
-     (Tag : String;
-      Elt : DOM.Core.Element;
-      Val : in out Address_Block_Type)
-   is
-   begin
-      if Tag = "offset" then
-         Val.Offset := Get_Value (Elt);
-      elsif Tag = "size" then
-         Val.Size := Get_Value (Elt);
-      elsif Tag = "usage" then
-         declare
-            Str : constant String := Get_Value (Elt);
-         begin
-            if Str = "registers" then
-               Val.Usage := Registers_Usage;
-            elsif Str = "buffer" then
-               Val.Usage := Buffer_Usage;
-            elsif Str = "reserved" then
-               Val.Usage := Reserved_Usage;
-            else
-               raise Constraint_Error with "invalid usage value " & Str;
-            end if;
-         end;
-      elsif Tag = "protection" then
-         Val.Protection := Get_Value (Elt);
-      else
-         raise Constraint_Error with "Unexpected address block tag " & Tag;
-      end if;
-   end Read_Address_Block_Elts;
-
-   procedure Read_Address_Block is new Gen_DOM_Iter
-     (T        => Address_Block_Type,
-      Read_Elt => Read_Address_Block_Elts);
-
-   function Get_Value (Elt : DOM.Core.Element) return Address_Block_Type is
-      Ret : Address_Block_Type;
-   begin
-      Read_Address_Block (Elt, Ret);
-      return Ret;
-   end Get_Value;
-
-   ---------------
-   -- Get_Value --
-   ---------------
-
-   procedure Read_Interrupt_Elts
-     (Tag : String;
-      Elt : DOM.Core.Element;
-      Val : in out Interrupt_Type)
-   is
-   begin
-      if Tag = "name" then
-         Val.Name := Get_Value (Elt);
-      elsif Tag = "description" then
-         Val.Description := Get_Value (Elt);
-      elsif Tag = "value" then
-         --  GNAT re-numbers the interrupt to add the Sys_Tick interrupt
-         --  which is a core interrupt. So we need to take this re-numbering
-         --  here by adding 2 to the constants extracted from the SVD
-         Val.Value := Get_Value (Elt) + 2;
-      else
-         raise Constraint_Error with "Unexpected interrupt tag " & Tag;
-      end if;
-   end Read_Interrupt_Elts;
-
-   procedure Read_Interrupt is new Gen_DOM_Iter
-     (T        => Interrupt_Type,
-      Read_Elt => Read_Interrupt_Elts);
-
-   function Get_Value (Elt : DOM.Core.Element) return Interrupt_Type is
-      Ret : Interrupt_Type;
-   begin
-      Read_Interrupt (Elt, Ret);
-      return Ret;
-   end Get_Value;
-
-   ---------------
-   -- Get_Value --
-   ---------------
-
-   function Get_Value (Elt : DOM.Core.Element) return Enum_Usage_Type
-   is
-      Value : String renames Get_Value (Elt);
-   begin
-      if Value = "read" then
-         return Read;
-      elsif Value = "write" then
-         return Write;
-      elsif Value = "read-write" then
-         return Read_Write;
-      else
-         raise Constraint_Error
-           with "Invalid 'enum-usage' type value " & Value;
-      end if;
-   end Get_Value;
 
    -------------------
    -- Common_Prefix --
@@ -643,5 +396,45 @@ package body Base_Types is
 
       return To_Unbounded_String (Slice (Name1, 1, Prefix));
    end Common_Prefix;
+
+   ------------------------
+   -- Apply_Naming_Rules --
+   ------------------------
+
+   function Apply_Naming_Rules (Variable_Name : Unbounded.Unbounded_String)
+                                return Unbounded.Unbounded_String
+   is
+      Clean_Name  : Unbounded.Unbounded_String := Variable_Name;
+      use DOM.Core.Elements;
+      use Ada.Strings.Unbounded;
+   begin
+      -- Check if 1st character is anything other than an alphabetic letter
+      while Element (Clean_Name, 1) not in 'a' .. 'z' and
+        Element (Clean_Name, 1) not in 'A' .. 'Z' loop
+         Delete (Clean_Name, 1, 1);
+      end loop;
+
+      -- replace any white spaces with underscores
+      for J in 1 .. Length (Clean_Name) loop
+         if Element (Clean_Name, J) = ' ' then
+            Replace_Element(Clean_Name, J, '_');
+         end if;
+      end loop;
+
+      return Clean_Name;
+   end;
+
+   ------------------------
+   -- Apply_Naming_Rules --
+   ------------------------
+
+   function Apply_Naming_Rules (Variable_Name : String) return String
+   is
+      use Ada.Strings.Unbounded;
+   begin
+      return
+        To_String (Apply_Naming_Rules (To_Unbounded_String(Variable_Name)));
+   end;
+
 
 end Base_Types;

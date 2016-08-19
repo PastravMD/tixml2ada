@@ -27,7 +27,6 @@ with DOM.Core.Nodes;       use DOM.Core.Nodes;
 
 -- TIXML2Ada dependencies
 with Ada_Gen;              use Ada_Gen;
-with SVD2Ada_Utils;        use SVD2Ada_Utils;
 with Descriptors.Register; use Descriptors.Register;
 
 package body Descriptors.Register is

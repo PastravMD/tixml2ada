@@ -19,8 +19,6 @@
 
 with Ada.Command_Line;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
-with Ada.Strings.Maps;
-with Ada.Text_IO;
 
 with GNAT.Case_Util;
 with GNAT.OS_Lib;           use GNAT.OS_Lib;
@@ -203,57 +201,5 @@ package body SVD2Ada_Utils is
          return True;
       end if;
    end In_Runtime;
-
-   ------------------------
-   -- Apply_Naming_Rules --
-   ------------------------
-
-   function Apply_Naming_Rules (Variable_Name : String) return String
-   is
-      Clean_Name : Unbounded_String := To_Unbounded_String (Variable_Name);
-      Begin_Index : Positive := 1;
-      End_Index   : Natural := 0;
-   begin
-      -- Check if 1st character is aything other than an alphabetic letter
-      while Element (Clean_Name, 1) not in 'a' .. 'z' and
-        Element (Clean_Name, 1) not in 'A' .. 'Z' loop
-         Delete (Clean_Name, 1, 1);
-      end loop;
-
-      -- replace any white spaces with underscores
-      for J in 1 .. Length (Clean_Name) loop
-         if Element (Clean_Name, J) = ' ' then
-            Replace_Element(Clean_Name, J, '_');
-         end if;
-      end loop;
-
-      return To_String(Clean_Name);
-   end;
-
-   ------------------------
-   -- Apply_Naming_Rules --
-   ------------------------
-
-   function Apply_Naming_Rules (Variable_Name : Unbounded_String) return Unbounded_String
-   is
-      Clean_Name  : Unbounded_String := Variable_Name;
-      Begin_Index : Positive := 1;
-      End_Index   : Natural := 0;
-   begin
-      -- Check if 1st character is anything other than an alphabetic letter
-      while Element (Clean_Name, 1) not in 'a' .. 'z' and
-        Element (Clean_Name, 1) not in 'A' .. 'Z' loop
-         Delete (Clean_Name, 1, 1);
-      end loop;
-
-      -- replace any white spaces with underscores
-      for J in 1 .. Length (Clean_Name) loop
-         if Element (Clean_Name, J) = ' ' then
-            Replace_Element(Clean_Name, J, '_');
-         end if;
-      end loop;
-
-      return Clean_Name;
-   end;
 
 end SVD2Ada_Utils;

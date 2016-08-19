@@ -87,11 +87,7 @@ package body Descriptors.Field is
       Ret.Acc              := Default_Access;
       Ret.Read_Action      := Default_Read;
       Ret.Mod_Write_Values := Modify;
-
-
-
-      Ret.Enums.Append (Descriptors.Enumerate.Read_Enumerate (Elt, Ret.Enums));
-
+      Ret.Enums.Append (Descriptors.Enumerate.Read_Enumerate (Elt));
       return Ret;
    end Read_Field;
 

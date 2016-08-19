@@ -17,14 +17,14 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Interfaces; use Interfaces;
+with Interfaces;               use Interfaces;
 
 with Ada.Containers.Vectors;
-with Ada.Strings.Unbounded;  use Ada.Strings;
+with Ada.Strings.Unbounded;    use Ada.Strings;
 
 with DOM.Core;
 
---  Package responsible for defining and decoding the basic types of a SVD
+--  Package responsible for defining and decoding the basic types of a TI xml
 --  file.
 package Base_Types is
 
@@ -175,26 +175,32 @@ package Base_Types is
    function Get_Value
      (Elt : DOM.Core.Element) return Unbounded.Unbounded_String;
    function Get_Value (Elt : DOM.Core.Element) return Boolean;
-   function Get_Value (Elt : DOM.Core.Element) return Access_Type;
-   function Get_Value (Elt : DOM.Core.Element) return Endian_Type;
-   function Get_Value (Elt : DOM.Core.Element) return Data_Type;
-   function Get_Value
-     (Elt : DOM.Core.Element) return Modified_Write_Values_Type;
-   function Get_Value (Elt : DOM.Core.Element) return Read_Action_Type;
-   function Get_Value (Elt : DOM.Core.Element) return Bit_Range_Type;
-   function Get_Value (Elt : DOM.Core.Element) return Write_Constraint_Type;
-   function Get_Value (Elt : DOM.Core.Element) return Address_Block_Type;
-   function Get_Value (Elt : DOM.Core.Element) return Interrupt_Type;
-   function Get_Value (Elt : DOM.Core.Element) return Enum_Usage_Type;
 
    function Get_Value (Attribute_Node : DOM.Core.Attr) return Unsigned;
    function Get_Value (Attribute_Node : DOM.Core.Attr) return Natural;
-   function Get_Value (Attribute_Node : DOM.Core.Attr) return Protection_Type;
+
+   function Get_Id (Elt: DOM.Core.Element)
+                    return Unbounded.Unbounded_String;
+   function Get_Base_Address (Elt: DOM.Core.Element)
+                              return Unsigned;
+   function Get_Href (Elt: DOM.Core.Element)
+                      return Unbounded.Unbounded_String;
+   function Get_Xml_Version (Elt : DOM.Core.Element)
+                             return Unbounded.Unbounded_String;
+   function Get_Description (Elt: DOM.Core.Element)
+                             return Unbounded.Unbounded_String;
+   function Get_Blockset (Elt : in DOM.Core.Element)
+                                  return Address_Block_Type;
 
    function Common_Prefix
      (Name1, Name2 : Unbounded.Unbounded_String)
       return Unbounded.Unbounded_String;
    --  Returns the prefix common to Name1 and Name2 if any, or
    --  Null_Unbounded_String
+
+   function Apply_Naming_Rules (Variable_Name : String)
+                                return String;
+   function Apply_Naming_Rules (Variable_Name : Unbounded.Unbounded_String)
+                                return Unbounded.Unbounded_String;
 
 end Base_Types;

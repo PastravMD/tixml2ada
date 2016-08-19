@@ -17,34 +17,23 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Text_IO;
 
-with DOM.Core;           use DOM.Core;
-with DOM.Core.Elements;  use DOM.Core.Elements;
-with DOM.Core.Nodes;
+
 
 ----------------------- Temporary use/with -------------------------------------
 -- XML dependencies
-with Input_Sources.File;
-with DOM.Core.Documents;
-with DOM.Readers;
-
-with DOM.Core;               use DOM.Core;
+with DOM.Core;           use DOM.Core;
+with DOM.Core.Elements;  use DOM.Core.Elements;
 with DOM.Core.Nodes;         use DOM.Core.Nodes;
 with DOM.Core.Attrs;         use DOM.Core.Attrs;
-with DOM.Core.Elements;      use DOM.Core.Elements;
 
 -- TIXML2Ada dependencies
 with Descriptors;            use Descriptors;
-with Descriptors.Device;     use Descriptors.Device;
-with Descriptors.Peripheral; use Descriptors.Peripheral;
-with Descriptors.Register;   use Descriptors.Register;
 with Descriptors.Field;      use Descriptors.Field;
 with Descriptors.Enumerate;  use Descriptors.Enumerate;
 
 with Ada.Strings.Unbounded;  use Ada.Strings.Unbounded;
 with Ada_Gen;                use Ada_Gen;
-with SVD2Ada_Utils;          use SVD2Ada_Utils;
 --------------------------------------------------------------------------------
 
 package body Descriptors.Enumerate is
@@ -74,15 +63,12 @@ package body Descriptors.Enumerate is
    --------------------
 
    function Read_Enumerate
-     (Elt    : DOM.Core.Element;
-      Vector : Enumerate_Vectors.Vector)
+     (Elt    : DOM.Core.Element)
       return Enumerate_T
    is
-      Enum_Value_List : Node_List := DOM.Core.Elements.Get_Elements_By_Tag_Name (Elt, "bitenum");
+      Enum_Value_List : constant Node_List := DOM.Core.Elements.Get_Elements_By_Tag_Name (Elt, "bitenum");
       Ret             : Enumerate_T;
-      R_W_Acess       : String := Value (Get_Named_Item (Attributes (Elt), "rwaccess"));
-      Derived_From : constant String :=
-                       Elements.Get_Attribute (Elt, "derivedFrom");
+      R_W_Acess       : constant String := Value (Get_Named_Item (Attributes (Elt), "rwaccess"));
    begin
 
       Ret.Name := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Elt), "id")))) & "_enum";
@@ -103,9 +89,6 @@ package body Descriptors.Enumerate is
             Ret.Values.Append (Read_Value (Item (Enum_Value_List, J)));
          end loop;
       end if;
-
-
-
       return Ret;
    end Read_Enumerate;
 

@@ -19,8 +19,7 @@
 
 -- common Ada dependencies
 with Ada.Containers.Vectors;
-with Ada.Strings.Unbounded;          use Ada.Strings.Unbounded;
-with Ada.Strings;                    use Ada.Strings;
+with Ada.Strings.Unbounded;          use Ada.Strings;
 
 -- XML dependencies
 with DOM.Core;
@@ -36,12 +35,12 @@ with Base_Types.Register_Properties; use Base_Types.Register_Properties;
 package Descriptors.Peripheral is
 
    type Peripheral_T is record
-      Name            : Unbounded_String;
-      Version         : Unbounded_String;
-      Description     : Unbounded_String;
-      Group_Name      : Unbounded_String;
-      Prepend_To_Name : Unbounded_String;
-      Append_To_Name  : Unbounded_String;
+      Name            : Unbounded.Unbounded_String;
+      Version         : Unbounded.Unbounded_String;
+      Description     : Unbounded.Unbounded_String;
+      Group_Name      : Unbounded.Unbounded_String;
+      Prepend_To_Name : Unbounded.Unbounded_String;
+      Append_To_Name  : Unbounded.Unbounded_String;
       Base_Address    : Unsigned := 0;
       Reg_Properties  : Register_Properties_T := Null_Register_Property;
       Address_Blocks  : Address_Block_Vectors.Vector;
@@ -53,10 +52,11 @@ package Descriptors.Peripheral is
      (Positive, Peripheral_T);
 
    function Read_Peripheral
-     (Peripheral_Element : DOM.Core.Element;
+     (Peripheral         : DOM.Core.Element;
       Reg_Properties     : Register_Properties_T;
       Vector             : Peripheral_Vectors.Vector;
-      Is_Derived_From    : Unbounded_String) return Peripheral_T;
+      Is_Derived_From    : Unbounded.Unbounded_String)
+      return Peripheral_T;
 
    procedure Dump
      (Peripheral : in out Peripheral_T;

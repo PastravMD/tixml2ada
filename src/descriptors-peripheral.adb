@@ -22,18 +22,17 @@ with Ada.Text_IO;
 with Ada.Containers.Indefinite_Vectors;
 with Input_Sources.File;
 with Interfaces;
+With Ada.Strings.Unbounded;        use Ada.Strings.Unbounded;
 
 -- XML dependencies
-with DOM.Core.Documents;
-with DOM.Readers;
 with DOM.Core;                     use DOM.Core;
-with DOM.Core.Nodes;               use DOM.Core.Nodes;
-with DOM.Core.Attrs;               use DOM.Core.Attrs;
-with DOM.Core.Elements;            use DOM.Core.Elements;
+with DOM.Core.Documents;
+with DOM.Core.Nodes;
+with DOM.Core.Elements;
+with DOM.Readers;
 
 -- TIXML2Ada dependencies
-with Ada_Gen;            use Ada_Gen;
-with SVD2Ada_Utils;      use SVD2Ada_Utils;
+with Ada_Gen;                      use Ada_Gen;
 
 package body Descriptors.Peripheral is
 
@@ -64,21 +63,20 @@ package body Descriptors.Peripheral is
    ---------------------
 
    function Read_Peripheral
-     (Peripheral_Element : DOM.Core.Element;
-      Reg_Properties     : Register_Properties_T;
-      Vector             : Peripheral_Vectors.Vector;
-      Is_Derived_From    : Unbounded_String) return Peripheral_T
+     (Peripheral      : DOM.Core.Element;
+      Reg_Properties  : Register_Properties_T;
+      Vector          : Peripheral_Vectors.Vector;
+      Is_Derived_From : Unbounded_String) return Peripheral_T
    is
-      Ret                      : Peripheral_T;
-      Peripheral_Xml_File        : Input_Sources.File.File_Input;
-      Peripheral_Xml_Reader      : DOM.Readers.Tree_Reader;
-      Peripheral_Xml_Doc         : DOM.Core.Document;
+      Ret             : Peripheral_T;
+      Xml_File        : Input_Sources.File.File_Input;
+      Xml_Reader      : DOM.Readers.Tree_Reader;
+      Xml_Doc         : Document;
 
-      xml_href                 : DOM.Core.Attr;
-      Module_List              : Node_List;
-      Register_List            : Node_List;
-      Module_Element           : DOM.Core.Element;
-      Address_Block            : Address_Block_Type;
+      Xml_Href        : Unbounded_String;
+      Module_List     : Node_List;
+      Register_List   : Node_List;
+      Module_Element  : DOM.Core.Element;
    begin
 
       Ret.Reg_Properties := Reg_Properties;
@@ -88,7 +86,7 @@ package body Descriptors.Peripheral is
             Found : Boolean := False;
          begin
             for P of Vector loop
-               if Unbounded.To_String (P.Name) = Unbounded.To_String (Is_Derived_From) then
+               if To_String (P.Name) = To_String (Is_Derived_From) then
                   Found := True;
                   Ret   := P;
                   --  Deep copy of the registers list
@@ -102,63 +100,56 @@ package body Descriptors.Peripheral is
 
             if not Found then
                raise Constraint_Error with
-                 "peripheral 'Is_Derived_From' is not known: " & To_String(Is_Derived_From);
+                 "peripheral 'Is_Derived_From' is not known: " &
+                 To_String(Is_Derived_From);
             end if;
          end;
-         xml_href  := Get_Named_Item (Attributes (Peripheral_Element), "href");
-         Ret.Name  := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Peripheral_Element), "id"))));
-         Ret.Base_Address  := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "baseaddr"));
+
+         Ret.Name         := Get_Id (Peripheral);
+         Ret.Base_Address := Get_Base_Address(Peripheral);
+         Xml_Href         := Get_href(Peripheral);
       else
-
-
-         xml_href  := Get_Named_Item (Attributes (Peripheral_Element), "href");
-         Ret.Name  := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Peripheral_Element), "id"))));
-         Ret.Base_Address  := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "baseaddr"));
-
-
-         Address_Block.Offset := 16#0#;
-         Address_Block.Size := Get_Value (Get_Named_Item (Attributes (Peripheral_Element), "size"));
-         Address_Block.Usage := Registers_Usage;
-         Address_Block.Protection := Undefined_Protection;
-         Ret.Address_Blocks.Append (Address_Block);
+         Ret.Name         := Get_Id (Peripheral);
+         Ret.Base_Address := Get_Base_Address(Peripheral);
+         Xml_Href         := Get_href(Peripheral);
+         Ret.Address_Blocks.Append (Get_Blockset(Peripheral));
 
          -- reading input file
-         Input_Sources.File.Open("input/Devices/" & Value(xml_href), Peripheral_Xml_File);
+         Input_Sources.File.Open
+           ("input/Devices/" & To_String(Xml_Href), Xml_File);
 
          -- parse xml document and get top element
-         Peripheral_Xml_Reader.Parse (Peripheral_Xml_File);
-         Input_Sources.File.Close(Peripheral_Xml_File);
-         Peripheral_Xml_Doc := DOM.Readers.Get_Tree(Peripheral_Xml_Reader);
-         Module_List := DOM.Core.Documents.Get_Elements_By_Tag_Name
-           (Peripheral_Xml_Doc, "module");
+         Xml_Reader.Parse (Xml_File);
+         Input_Sources.File.Close(Xml_File);
+         Xml_Doc := DOM.Readers.Get_Tree(Xml_Reader);
+         Module_List := Documents.Get_Elements_By_Tag_Name
+           (Xml_Doc, "module");
 
-         if Length(Module_List) /= 1 then raise Constraint_Error with
-              "Read_Peripheral(" & Value (xml_href) & ") failed: " &
-              "Input XML document must contain exactly 1 module element." &
-              "Current one has " & Integer'Image(Length(Module_List));
+         if Nodes.Length(Module_List) /= 1 then raise Constraint_Error with
+              "Read_Peripheral(" & To_String(Xml_Href) & ") failed: " &
+              "Input XML document must contain exactly 1 Module element." &
+              "Current one has " & Integer'Image(Nodes.Length(Module_List));
          end if;
 
-         Module_Element := Item (Module_List, 0);
+         Module_Element := Nodes.Item (Module_List, 0);
 
-         Ret.Version := To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "XML_version")));
-         Ret.Description := To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "description")));
-         Ret.Group_Name := Apply_Naming_Rules (To_Unbounded_String (Value (Get_Named_Item (Attributes (Module_Element), "id"))));
+         Ret.Version := Get_Xml_Version (Module_Element);
+         Ret.Description := Get_Description (Module_Element);
+         Ret.Group_Name := Get_Id(Module_Element);
 
-         --Ada.Text_IO.Put_Line ("");
-         Ada.Text_IO.Put_Line (" Group [" & To_String (Ret.Group_Name) & "] Module = " & Value (Get_Named_Item (Attributes (Peripheral_Element), "id")));
-         --Ada.Text_IO.Put_Line ("    Base Address = " & Value (Get_Named_Item (Attributes (Peripheral_Element), "baseaddr")) & " = " & Unsigned'Image(Ret.Base_Address));
-         --Ada.Text_IO.Put_Line ("");
+--           Ada.Text_IO.Put_Line
+--             (" Group [" & To_String (Ret.Group_Name) & "] Module = " &
+--                Value (Get_Named_Item (Attributes (Peripheral), "id")));
 
-         -- Register_Properties.Read_Register_Property (Child, Ret.Reg_Properties);
-
-         Register_List := DOM.Core.Elements.Get_Elements_By_Tag_Name (Module_Element, "register");
-         for K in 0 .. Length (Register_List) - 1 loop
+         Register_List := Elements.Get_Elements_By_Tag_Name
+           (Module_Element, "register");
+         for K in 0 .. Nodes.Length (Register_List) - 1 loop
             declare
                Register : Register_Access;
             begin
                Register :=
                  Read_Register
-                   (Item (Register_List, K),
+                   (Nodes.Item (Register_List, K),
                     Ret.Prepend_To_Name,
                     Ret.Append_To_Name,
                     Ret.Reg_Properties);
@@ -261,7 +252,8 @@ package body Descriptors.Peripheral is
                   exit when Reg_Set (K).Address_Offset /= Reg.Address_Offset;
 
                   for J in 1 .. Last loop
-                     if Prefix (J) /= Ada.Strings.Unbounded.Element (Reg_Set (K).Name, J) then
+                     if Prefix (J) /= Unbounded.Element (Reg_Set (K).Name, J)
+                     then
                         if Last /= 0 then
                            Last := J - 1;
                         end if;
