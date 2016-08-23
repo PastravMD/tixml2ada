@@ -1,25 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module id="IOMM" HW_revision="" XML_version="1" description="IOMM Multiplexing Control Module for TMS570LC44xx">
+<module id="IOMM" HW_revision="" XML_version="1.0.1b" description="IOMM Multiplexing Control Module for TMS570LC44xx">
   <!-- (c) Texas Instruments 2003-2012, All rights reserved. -->
   <!-- Filename: Hercules_IOMM_TMS570LS3x.xml                 -->
   <!-- Version: 1.0                                          -->
-  <register id="Rev" acronym="Rev" offset="0x0" width="32" description="Module Revision Register"></register>
+  <register id="Rev" acronym="Rev" offset="0x0" width="32" description="Module Revision Register">
+      <bitfield id="RevScheme" width="2" begin="31" end="30" resetval="0" description="Revision Scheme" range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved0" width="2" begin="29" end="28" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="RevModule" width="12" begin="27" end="16" resetval="0" description="Module Id" range="" rwaccess="RW"></bitfield>
+      <bitfield id="RevRtl" width="5" begin="15" end="11" resetval="0" description="Rtl Revision" range="" rwaccess="RW"></bitfield>
+      <bitfield id="RevMajor" width="3" begin="10" end="8" resetval="0" description="Major Revision" range="" rwaccess="RW"></bitfield>
+      <bitfield id="RevCustom" width="2" begin="7" end="6" resetval="0" description="Custom Revision" range="" rwaccess="RW"></bitfield>
+      <bitfield id="RevMinor" width="6" begin="5" end="0" resetval="0" description="Minor Revision" range="" rwaccess="RW"></bitfield>
+  </register>
   <register id="DieId0" acronym="DieId0" offset="0x8" width="32" description="Die Id Register 0"></register>
   <register id="DieId1" acronym="DieId1" offset="0xC" width="32" description="Die Id Register 1"></register>
   <register id="DieId2" acronym="DieId2" offset="0x10" width="32" description="Die Id Register 2"></register>
   <register id="DieId3" acronym="DieId3" offset="0x14" width="32" description="Die Id Register 3"></register>
   <register id="DevId0" acronym="DevId0" offset="0x18" width="32" description="Device Id Register 0"></register>
   <register id="DevId1" acronym="DevId1" offset="0x1C" width="32" description="Device Id Register 1"></register>
-  <register id="BootConfig0" acronym="BootConfig0" offset="0x20" width="32" description="Boot Config Register 0"></register>
+  <register id="BootConfig0" acronym="BootConfig0" offset="0x20" width="32" description="Device endianness">
+      <bitfield id="Reserved0" width="31" begin="31" end="1" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="Endian" width="1" begin="0" end="0" resetval="0" description="Device Endianness" range="" rwaccess="RW"></bitfield>
+  </register>
   <register id="Kick0" acronym="Kick0" offset="0x38" width="32" description="Kicker Register 0"></register>
   <register id="Kick1" acronym="Kick1" offset="0x3C" width="32" description="Kicker Register 1"></register>
-  <register id="ErrRawStatSet" acronym="ErrRawStatSet" offset="0xE0" width="32" description="Error Raw Status/Set Register"></register>
-  <register id="ErrEnaStatClr" acronym="ErrEnaStatClr" offset="0xE4" width="32" description="Error Enabled Status/Clear Register"></register>
-  <register id="ErrEna" acronym="ErrEna" offset="0xE8" width="32" description="Error Enable Register"></register>
-  <register id="ErrEnaClr" acronym="ErrEnaClr" offset="0xEC" width="32" description="Error Enable Clear Register"></register>
-  <register id="Fault_Addr" acronym="Fault_Addr" offset="0xF4" width="32" description="Fault Address Register"></register>
-  <register id="Fault_Stat" acronym="Fault_Stat" offset="0xF8" width="32" description="Fault Status Register"></register>
-  <register id="Fault_Clr" acronym="Fault_Clr" offset="0xFC" width="32" description="Fault Clear Register"></register>
+  <register id="ErrRawStatSet" acronym="ErrRawStatSet" offset="0xE0" width="32" description="Error Raw Status/Set Register">
+      <bitfield id="Reserved0" width="30" begin="31" end="2" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="AddrErr" width="1" begin="1" end="1" resetval="0" description="An Addressing Error occurs when an unimplemented location inside the IOMM register frame is accessed." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ProtErr" width="1" begin="0" end="0" resetval="0" description="A Protection Error occurs when any control register inside the IOMM is written in the CPU's user mode of operation." range="" rwaccess="RW"></bitfield>
+  </register>
+  <register id="ErrEnaStatClr" acronym="ErrEnaStatClr" offset="0xE4" width="32" description="Error Enabled Status/Clear Register">
+      <bitfield id="Reserved0" width="30" begin="31" end="2" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="EnAddrErr" width="1" begin="1" end="1" resetval="0" description="Addressing Error Signaling Enable and Status Clear" range="" rwaccess="RW"></bitfield>
+      <bitfield id="EnProtErr" width="1" begin="0" end="0" resetval="0" description="Protection Error Signaling Enable and Status Clear" range="" rwaccess="RW"></bitfield>
+  </register>
+  <register id="ErrEna" acronym="ErrEna" offset="0xE8" width="32" description="Error Enable Register">
+      <bitfield id="Reserved0" width="30" begin="31" end="2" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="AddrErrEn" width="1" begin="1" end="1" resetval="0" description="Addressing Error Signaling Enable" range="" rwaccess="RW"></bitfield>
+      <bitfield id="ProtErrEn" width="1" begin="0" end="0" resetval="0" description="Protection Error Signaling Enable" range="" rwaccess="RW"></bitfield>
+  </register>
+  <register id="ErrEnaClr" acronym="ErrEnaClr" offset="0xEC" width="32" description="Error Enable Clear Register">
+      <bitfield id="Reserved0" width="30" begin="31" end="2" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="AddrErrEnClr" width="1" begin="1" end="1" resetval="0" description="Addressing Error Signaling Enable Clear" range="" rwaccess="RW"></bitfield>
+      <bitfield id="ProtErrEnClr" width="1" begin="0" end="0" resetval="0" description="Protection Error Signaling Enable Clear" range="" rwaccess="RW"></bitfield>
+  </register>
+  <register id="Fault_Addr" acronym="Fault_Addr" offset="0xF4" width="32" description="Fault Address Register">
+      <bitfield id="Reserved0" width="23" begin="31" end="9" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="FaultAddr" width="9" begin="8" end="0" resetval="0" description="The fault address offset in case of an address or protection error." range="" rwaccess="RW"></bitfield>
+  </register>
+  <register id="Fault_Stat" acronym="Fault_Stat" offset="0xF8" width="32" description="Fault Status Register">
+      <bitfield id="Reserved0" width="4" begin="31" end="28" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="FaultId" width="4" begin="27" end="24" resetval="0" description="Faulting Transaction ID" range="" rwaccess="RW"></bitfield>
+      <bitfield id="FaultMstId" width="8" begin="23" end="16" resetval="0" description="ID of Master that initiated the faulting transaction" range="" rwaccess="RW"></bitfield>   
+      <bitfield id="Reserved1" width="3" begin="15" end="13" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="FaultPrivId" width="4" begin="12" end="9" resetval="0" description="Faulting Privilege ID" range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved2" width="1" begin="8" end="8" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="FaultNs" width="1" begin="7" end="7" resetval="0" description="Fault: Non-secure access detected" range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="6" end="6" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="FaultType" width="6" begin="5" end="0" resetval="0" description="Type of fault detected" range="" rwaccess="RW"></bitfield>
+  </register>
+  <register id="Fault_Clr" acronym="Fault_Clr" offset="0xFC" width="32" description="Fault Clear Register">
+      <bitfield id="Reserved0" width="31" begin="31" end="1" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="FaultClear" width="1" begin="0" end="0" resetval="0" description="Fault Clear" range="" rwaccess="RW"></bitfield>
+  </register>
   <register id="PINMMR0" acronym="PINMMR0" offset="0x110" width="32" description="Pin Multiplexing Control Register 0"></register>
   <register id="PINMMR1" acronym="PINMMR1" offset="0x114" width="32" description="Pin Multiplexing Control Register 1"></register>
   <register id="PINMMR2" acronym="PINMMR2" offset="0x118" width="32" description="Pin Multiplexing Control Register 2"></register>

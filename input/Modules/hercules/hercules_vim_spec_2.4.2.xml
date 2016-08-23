@@ -4,65 +4,364 @@
   <!-- Filename:Hercules_VIM_spec_2.4.2.xml                     -->
   <!-- Version:1.0                                           -->
   <!--Version:1.1 Expansion to support 128 channels-->
-  <register id="IrqIVec" acronym="IrqIVec" offset="0x00" width="32" description="Index Offset Vector Register"></register>
-  <register id="FiqIVec" acronym="FiqIVec" offset="0x04" width="32" description="Index Offset Vector Register"></register>
-  <register id="FIrqPr0" acronym="FIrqPr0" offset="0x10" width="32" description="Program Control Register"></register>
-  <register id="FIrqPr1" acronym="FIrqPr1" offset="0x14" width="32" description="Program Control Register"></register>
-  <register id="FIrqPr2" acronym="FIrqPr2" offset="0x18" width="32" description="Program Control Register"></register>
-  <register id="FIrqPr3" acronym="FIrqPr3" offset="0x1C" width="32" description="Program Control Register"></register>
+  <register id="IrqIndex" acronym="IrqIVec" offset="0x00" width="32" description="Index Offset Vector Register">
+      <bitfield id="Reserved0" width="24" begin="31" end="8" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="IrqIndex" width="8" begin="7" end="0" resetval="0" description="IRQ index vector." range="" rwaccess="RW"></bitfield>
+  </register>
+  <register id="FiqIndex" acronym="FiqIVec" offset="0x04" width="32" description="Index Offset Vector Register">
+      <bitfield id="Reserved0" width="24" begin="31" end="8" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="FiqIndex" width="8" begin="7" end="0" resetval="0" description="FIQ index vector." range="" rwaccess="RW"></bitfield>
+  </register>
+  <register id="FirqPr0" acronym="FirqPr0" offset="0x10" width="32" description="FIQ/IRQ program control bits."></register>
+  <register id="FirqPr1" acronym="FirqPr1" offset="0x14" width="32" description="FIQ/IRQ program control bits."></register>
+  <register id="FirqPr2" acronym="FirqPr2" offset="0x18" width="32" description="FIQ/IRQ program control bits."></register>
+  <register id="FirqPr3" acronym="FirqPr3" offset="0x1C" width="32" description="FIQ/IRQ program control bits."></register>
   <register id="IntReq0" acronym="IntReq0" offset="0x20" width="32" description="Pending Interrupt Read Location"></register>
   <register id="IntReq1" acronym="IntReq1" offset="0x24" width="32" description="Pending Interrupt Read Location"></register>
   <register id="IntReq2" acronym="IntReq2" offset="0x28" width="32" description="Pending Interrupt Read Location"></register>
   <register id="IntReq3" acronym="IntReq3" offset="0x2C" width="32" description="Pending Interrupt Read Location"></register>
-  <register id="ReqMaskSet0" acronym="ReqMaskSet0" offset="0x30" width="32" description="Interrupt Mask Set Register"></register>
-  <register id="ReqMaskSet1" acronym="ReqMaskSet1" offset="0x34" width="32" description="Interrupt Mask Set Register"></register>
-  <register id="ReqMaskSet2" acronym="ReqMaskSet2" offset="0x38" width="32" description="Interrupt Mask Set Register"></register>
-  <register id="ReqMaskSet3" acronym="ReqMaskSet3" offset="0x3C" width="32" description="Interrupt Mask Set Register"></register>
-  <register id="ReqMaskClr0" acronym="ReqMaskClr0" offset="0x40" width="32" description="Interrupt Mask Clear Register"></register>
-  <register id="ReqMaskClr1" acronym="ReqMaskClr1" offset="0x44" width="32" description="Interrupt Mask Clear Register"></register>
-  <register id="ReqMaskClr2" acronym="ReqMaskClr2" offset="0x48" width="32" description="Interrupt Mask Clear Register"></register>
-  <register id="ReqMaskClr3" acronym="ReqMaskClr3" offset="0x4C" width="32" description="Interrupt Mask Clear Register"></register>
-  <register id="WakeMaskSet0" acronym="WakeMaskSet0" offset="0x50" width="32" description="Wake-up Mask Set Register"></register>
-  <register id="WakeMaskSet1" acronym="WakeMaskSet1" offset="0x54" width="32" description="Wake-up Mask Set Register"></register>
-  <register id="WakeMaskSet2" acronym="WakeMaskSet2" offset="0x58" width="32" description="Wake-up Mask Set Register"></register>
-  <register id="WakeMaskSet3" acronym="WakeMaskSet3" offset="0x5C" width="32" description="Wake-up Mask Set Register"></register>
-  <register id="WakeMaskClr0" acronym="WakeMaskClr0" offset="0x60" width="32" description="Wake-up Mask Clear Register"></register>
-  <register id="WakeMaskClr1" acronym="WakeMaskClr1" offset="0x64" width="32" description="Wake-up Mask Clear Register"></register>
-  <register id="WakeMaskClr2" acronym="WakeMaskClr2" offset="0x68" width="32" description="Wake-up Mask Clear Register"></register>
-  <register id="WakeMaskClr3" acronym="WakeMaskClr3" offset="0x6C" width="32" description="Wake-up Mask Clear Register"></register>
+  <register id="ReqEnaSet0" acronym="ReqEnaSet0" offset="0x30" width="32" description="The interrupt register enable selectively enables individual request channels."></register>
+  <register id="ReqEnaSet1" acronym="ReqEnaSet1" offset="0x34" width="32" description="The interrupt register enable selectively enables individual request channels."></register>
+  <register id="ReqEnaSet2" acronym="ReqEnaSet2" offset="0x38" width="32" description="The interrupt register enable selectively enables individual request channels."></register>
+  <register id="ReqEnaSet3" acronym="ReqEnaSet3" offset="0x3C" width="32" description="The interrupt register enable selectively enables individual request channels."></register>
+  <register id="ReqEnaClr0" acronym="ReqEnaClr0" offset="0x40" width="32" description="The interrupt register enable selectively disables individual request channels."></register>
+  <register id="ReqEnaClr1" acronym="ReqEnaClr1" offset="0x44" width="32" description="The interrupt register enable selectively disables individual request channels."></register>
+  <register id="ReqEnaClr2" acronym="ReqEnaClr2" offset="0x48" width="32" description="The interrupt register enable selectively disables individual request channels."></register>
+  <register id="ReqEnaClr3" acronym="ReqEnaClr3" offset="0x4C" width="32" description="The interrupt register enable selectively disables individual request channels."></register>
+  <register id="WakeEnaSet0" acronym="WakeEnaSet0" offset="0x50" width="32" description="The wake-up enable registers selectively enables individual wake-up interrupt request lines."></register>
+  <register id="WakeEnaSet1" acronym="WakeEnaSet1" offset="0x54" width="32" description="The wake-up enable registers selectively enables individual wake-up interrupt request lines."></register>
+  <register id="WakeEnaSet2" acronym="WakeEnaSet2" offset="0x58" width="32" description="The wake-up enable registers selectively enables individual wake-up interrupt request lines."></register>
+  <register id="WakeEnaSet3" acronym="WakeEnaSet3" offset="0x5C" width="32" description="The wake-up enable registers selectively enables individual wake-up interrupt request lines."></register>
+  <register id="WakeEnaClr0" acronym="WakeEnaClr0" offset="0x60" width="32" description="The wake-up enable register selectively disables individual wake-up interrupt request lines."></register>
+  <register id="WakeEnaClr1" acronym="WakeEnaClr1" offset="0x64" width="32" description="The wake-up enable register selectively disables individual wake-up interrupt request lines."></register>
+  <register id="WakeEnaClr2" acronym="WakeEnaClr2" offset="0x68" width="32" description="The wake-up enable register selectively disables individual wake-up interrupt request lines.."></register>
+  <register id="WakeEnaClr3" acronym="WakeEnaClr3" offset="0x6C" width="32" description="The wake-up enable register selectively disables individual wake-up interrupt request lines."></register>
   <register id="IrqVecReg" acronym="IrqVecReg" offset="0x70" width="32" description="Irq Interrupt Vector Register"></register>
   <register id="FiqVecReg" acronym="FiqVecReg" offset="0x74" width="32" description="Fiq Interrupt Vector Register"></register>
-  <register id="CapEvtSrc" acronym="CapEvtSrc" offset="0x78" width="32" description="Capture Event register"></register>
-  <register id="ChanCtrl0" acronym="ChanCtrl0" offset="0x80" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl1" acronym="ChanCtrl1" offset="0x84" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl2" acronym="ChanCtrl2" offset="0x88" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl3" acronym="ChanCtrl3" offset="0x8C" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl4" acronym="ChanCtrl4" offset="0x90" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl5" acronym="ChanCtrl5" offset="0x94" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl6" acronym="ChanCtrl6" offset="0x98" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl7" acronym="ChanCtrl7" offset="0x9C" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl8" acronym="ChanCtrl8" offset="0xA0" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl9" acronym="ChanCtrl9" offset="0xA4" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl10" acronym="ChanCtrl10" offset="0xA8" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl11" acronym="ChanCtrl11" offset="0xAC" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl12" acronym="ChanCtrl12" offset="0xB0" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl13" acronym="ChanCtrl13" offset="0xB4" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl14" acronym="ChanCtrl14" offset="0xB8" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl15" acronym="ChanCtrl15" offset="0xBC" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl16" acronym="ChanCtrl16" offset="0xC0" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl17" acronym="ChanCtrl17" offset="0xC4" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl18" acronym="ChanCtrl18" offset="0xC8" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl19" acronym="ChanCtrl19" offset="0xCC" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl20" acronym="ChanCtrl20" offset="0xD0" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl21" acronym="ChanCtrl21" offset="0xD4" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl22" acronym="ChanCtrl22" offset="0xD8" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl23" acronym="ChanCtrl23" offset="0xDC" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl24" acronym="ChanCtrl24" offset="0xE0" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl25" acronym="ChanCtrl25" offset="0xE4" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl26" acronym="ChanCtrl26" offset="0xE8" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl27" acronym="ChanCtrl27" offset="0xEC" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl28" acronym="ChanCtrl28" offset="0xF0" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl29" acronym="ChanCtrl29" offset="0xF4" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl30" acronym="ChanCtrl30" offset="0xF8" width="32" description="Channel Mapping Register"></register>
-  <register id="ChanCtrl31" acronym="ChanCtrl31" offset="0xFC" width="32" description="Channel Mapping Register"></register>
+  <register id="CapEvtSrc" acronym="CapEvtSrc" offset="0x78" width="32" description="Capture Event register">
+      <bitfield id="Reserved0" width="9" begin="31" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="CapEvtSrc1" width="7" begin="22" end="16" resetval="0" description="Capture event source 1 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="9" begin="15" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="CapEvtSrc0" width="7" begin="6" end="0" resetval="0" description="Capture event source 0 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl0" acronym="ChanCtrl0" offset="0x80" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl1" acronym="ChanCtrl1" offset="0x84" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl2" acronym="ChanCtrl2" offset="0x88" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl3" acronym="ChanCtrl3" offset="0x8C" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl4" acronym="ChanCtrl4" offset="0x90" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl5" acronym="ChanCtrl5" offset="0x94" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl6" acronym="ChanCtrl6" offset="0x98" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl7" acronym="ChanCtrl7" offset="0x9C" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl8" acronym="ChanCtrl8" offset="0xA0" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl9" acronym="ChanCtrl9" offset="0xA4" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl10" acronym="ChanCtrl10" offset="0xA8" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl11" acronym="ChanCtrl11" offset="0xAC" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl12" acronym="ChanCtrl12" offset="0xB0" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl13" acronym="ChanCtrl13" offset="0xB4" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl14" acronym="ChanCtrl14" offset="0xB8" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl15" acronym="ChanCtrl15" offset="0xBC" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl16" acronym="ChanCtrl16" offset="0xC0" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl17" acronym="ChanCtrl17" offset="0xC4" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl18" acronym="ChanCtrl18" offset="0xC8" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl19" acronym="ChanCtrl19" offset="0xCC" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl20" acronym="ChanCtrl20" offset="0xD0" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl21" acronym="ChanCtrl21" offset="0xD4" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl22" acronym="ChanCtrl22" offset="0xD8" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl23" acronym="ChanCtrl23" offset="0xDC" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl24" acronym="ChanCtrl24" offset="0xE0" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl25" acronym="ChanCtrl25" offset="0xE4" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl26" acronym="ChanCtrl26" offset="0xE8" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl27" acronym="ChanCtrl27" offset="0xEC" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl28" acronym="ChanCtrl28" offset="0xF0" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl29" acronym="ChanCtrl29" offset="0xF4" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl30" acronym="ChanCtrl30" offset="0xF8" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
+  <register id="ChanCtrl31" acronym="ChanCtrl31" offset="0xFC" width="32" description="Channel Mapping Register">
+      <bitfield id="Reserved0" width="1" begin="31" end="31" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>  
+      <bitfield id="ChanMap0" width="7" begin="30" end="24" resetval="0" description="Interrupt CHANx 0 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved1" width="1" begin="23" end="23" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap1" width="7" begin="22" end="16" resetval="0" description="Interrupt CHANx 1 mapping control." range="" rwaccess="RW"></bitfield>      
+      <bitfield id="Reserved2" width="1" begin="15" end="15" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap2" width="7" begin="14" end="8" resetval="0" description="Interrupt CHANx 2 mapping control." range="" rwaccess="RW"></bitfield>
+      <bitfield id="Reserved3" width="1" begin="7" end="7" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>
+      <bitfield id="ChanMap3" width="7" begin="6" end="0" resetval="0" description="Interrupt CHANx 3 mapping control." range="" rwaccess="RW"></bitfield>      
+  </register>
 </module>
