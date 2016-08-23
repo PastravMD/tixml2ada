@@ -18,7 +18,6 @@
 ------------------------------------------------------------------------------
 
 -- common Ada dependencies
-with Ada.Text_IO;
 with Ada.Containers.Indefinite_Vectors;
 with Input_Sources.File;
 with Interfaces;
@@ -33,6 +32,7 @@ with DOM.Readers;
 
 -- TIXML2Ada dependencies
 with Ada_Gen; use Ada_Gen;
+with Tixml2Ada_Utils;
 
 package body Descriptors.Peripheral is
 
@@ -141,9 +141,9 @@ package body Descriptors.Peripheral is
          Ret.Description := Get_Description (Module_Element);
          Ret.Group_Name  := Get_Id (Module_Element);
 
---           Ada.Text_IO.Put_Line
---             (" Group [" & To_String (Ret.Group_Name) & "] Module = " &
---                Value (Get_Named_Item (Attributes (Peripheral), "id")));
+         Tixml2Ada_Utils.Log_Message
+           (" Group [" & To_String (Ret.Group_Name) & "] Module = " &
+              To_String(Get_Id (Peripheral)), 2);
 
          Register_List :=
            Elements.Get_Elements_By_Tag_Name (Module_Element, "register");
@@ -437,7 +437,7 @@ package body Descriptors.Peripheral is
       Spec : Ada_Spec;
 
    begin
-      Ada.Text_IO.Put_Line ("Generate " & To_String (Peripheral.Name));
+      Tixml2Ada_Utils.Log_Message ("Generate " & To_String (Peripheral.Name), 2);
 
       Spec :=
         New_Child_Spec
@@ -496,8 +496,8 @@ package body Descriptors.Peripheral is
       Spec               : Ada_Spec;
 
    begin
-      Ada.Text_IO.Put_Line
-        ("Generate " & To_String (Group.First_Element.Group_Name));
+      Tixml2Ada_Utils.Log_Message
+        ("Generate " & To_String (Group.First_Element.Group_Name), 2);
 
       Spec :=
         New_Child_Spec

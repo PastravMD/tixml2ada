@@ -25,7 +25,7 @@ with DOM.Core.Nodes;
 with DOM.Core.Attrs;
 with DOM.Core.Elements;
 
-with SVD2Ada_Utils;
+with Tixml2Ada_Utils;
 
 package body Base_Types is
 
@@ -42,10 +42,10 @@ package body Base_Types is
       Pkg : constant String :=
         (if not Fully_Qualified then ""
          elsif
-           not SVD2Ada_Utils.External_Base_Types_Package
+           not Tixml2Ada_Utils.External_Base_Types_Package
          then
-           SVD2Ada_Utils.Root_Package & "."
-         else SVD2Ada_Utils.Base_Types_Package & ".");
+           Tixml2Ada_Utils.Root_Package & "."
+         else Tixml2Ada_Utils.Base_Types_Package & ".");
 
    begin
       if Size = 1 then

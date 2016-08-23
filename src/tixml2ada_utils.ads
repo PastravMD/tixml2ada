@@ -17,12 +17,7 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-package SVD2Ada_Utils is
-
-   function Executable_Location return String;
-
-   procedure Set_Use_Boolean_For_Bit (Value : Boolean);
-   function Use_Boolean_For_Bit return Boolean;
+package Tixml2Ada_Utils is
 
    procedure Set_Base_Types_Package (Value : String);
    function Base_Types_Package return String;
@@ -32,4 +27,7 @@ package SVD2Ada_Utils is
    function Root_Package return String;
    function In_Runtime return Boolean;
 
-end SVD2Ada_Utils;
+   procedure Set_Verbosity (Level : Natural);
+   procedure Log_Message (Message : String; Level : Natural);
+
+end Tixml2Ada_Utils;

@@ -18,7 +18,6 @@
 ------------------------------------------------------------------------------
 
 -- common Ada dependencies
---with Ada.Text_IO;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Ada.Strings.Fixed;
 with Ada.Strings.Maps;
@@ -33,7 +32,7 @@ with DOM.Core.Elements;
 with Base_Types;             use Base_Types;
 with Descriptors.Peripheral; use Descriptors.Peripheral;
 with Ada_Gen;
-with SVD2Ada_Utils;
+with Tixml2Ada_Utils;
 
 package body Descriptors.Device is
 
@@ -85,7 +84,7 @@ package body Descriptors.Device is
       Ret.Width             := 32;
       Ret.Has_FPU           := True;
 
-      SVD2Ada_Utils.Set_Root_Package (To_String (Ret.Name));
+      Tixml2Ada_Utils.Set_Root_Package (To_String (Ret.Name));
 
       -- try to determine device endianess
       declare
@@ -147,12 +146,10 @@ package body Descriptors.Device is
                   begin
                      if Module_href = Predecessor_href then
                         Is_Derived_From := Get_Id (Predecessor);
-
---                          Ada.Text_IO.Put_Line ("        "
---                                                & To_String (Get_Id (Module)) &
---                                                  " is derived from " &
---                                                  To_String (Is_Derived_From)
---                                               );
+                        Tixml2Ada_Utils.Log_Message ("        "
+                                              & To_String (Get_Id (Module)) &
+                                                " is derived from " &
+                                                To_String (Is_Derived_From), 3);
                         exit;
                      end if;
                   end;
@@ -198,10 +195,10 @@ package body Descriptors.Device is
       --  Base types definition --
       ----------------------------
 
-      if SVD2Ada_Utils.External_Base_Types_Package then
+      if Tixml2Ada_Utils.External_Base_Types_Package then
          --  From GNAT GPL 2016 and GNAT Pro 17, Interfaces.Bit_Types is
          --  defined
-         Ada_Gen.Add_Global_With (SVD2Ada_Utils.Base_Types_Package);
+         Ada_Gen.Add_Global_With (Tixml2Ada_Utils.Base_Types_Package);
 
       else
          Add (Spec, New_Comment_Box ("Base type"));

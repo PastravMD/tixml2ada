@@ -17,7 +17,6 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
-with Ada.Text_IO;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Interfaces;            use Interfaces;
 
@@ -28,8 +27,8 @@ with DOM.Core.Elements; use DOM.Core.Elements;
 
 -- TIXML2Ada dependencies
 with Descriptors.Register;
-with SVD2Ada_Utils;
 with Base_Types.Register_Properties; use Base_Types.Register_Properties;
+with Tixml2Ada_Utils;
 
 package body Descriptors.Field is
 
@@ -122,7 +121,7 @@ package body Descriptors.Field is
             -- check if all bitfields are contiguous
             if Bit_Count > 0 and Lsb /= Previous_Msb + 1 then
                Valid := False;
-               Ada.Text_IO.Put_Line
+               Tixml2Ada_Utils.Log_Message
                  (To_String (Field_Name) &
                   " Bitfields are not contiguous:" &
                   "Current LSB[" &
@@ -130,7 +129,7 @@ package body Descriptors.Field is
                   "] : " &
                   "Previous MSB[" &
                   Natural'Image (Previous_Msb) &
-                  "]");
+                  "]", 2);
             end if;
             Previous_Msb := Msb;
 
@@ -141,16 +140,16 @@ package body Descriptors.Field is
               or else (Field_Width /= Msb - Lsb + 1)
             then
                Valid := False;
-               Ada.Text_IO.Put_Line ("    " & To_String (Field_Name));
-               Ada.Text_IO.Put_Line
-                 (" Least significant bit = " & Natural'Image (Lsb));
-               Ada.Text_IO.Put_Line
-                 (" Most significant bit = " & Natural'Image (Msb));
-               Ada.Text_IO.Put_Line
+               Tixml2Ada_Utils.Log_Message ("    " & To_String (Field_Name), 2);
+               Tixml2Ada_Utils.Log_Message
+                 (" Least significant bit = " & Natural'Image (Lsb), 2);
+               Tixml2Ada_Utils.Log_Message
+                 (" Most significant bit = " & Natural'Image (Msb), 2);
+               Tixml2Ada_Utils.Log_Message
                  (" Register_Width - 1 = " &
-                  Natural'Image (Reg_Properties.Size - 1));
-               Ada.Text_IO.Put_Line
-                 (" Field_Width = " & Natural'Image (Field_Width));
+                  Natural'Image (Reg_Properties.Size - 1), 2);
+               Tixml2Ada_Utils.Log_Message
+                 (" Field_Width = " & Natural'Image (Field_Width), 2);
             end if;
 
             Bit_Count := Bit_Count + Field_Width;
@@ -169,8 +168,8 @@ package body Descriptors.Field is
       -- check if all the bit positions have been covered
       if Bit_Count /= Reg_Properties.Size then
          Valid := False;
-         Ada.Text_IO.Put_Line
-           (" Sum of bitfields = " & Natural'Image (Bit_Count));
+         Tixml2Ada_Utils.Log_Message
+           (" Sum of bitfields = " & Natural'Image (Bit_Count), 2);
       end if;
 
       return Valid;
@@ -302,7 +301,6 @@ package body Descriptors.Field is
       Ada_Type      : Unbounded_String;
       Ada_Type_Size : Natural;
       Ada_Name      : Unbounded_String;
-      As_Boolean    : Boolean;
       Description   : Unbounded_String;
       All_RO        : Boolean := True;
 
@@ -373,9 +371,6 @@ package body Descriptors.Field is
             Index := Index + Length;
 
          else --  Not a reserved field case:
-
-            --  Whether to use a Boolean for bit fields
-            As_Boolean := SVD2Ada_Utils.Use_Boolean_For_Bit;
 
             if not All_RO then
                --  Retrieve the reset value
@@ -475,21 +470,7 @@ package body Descriptors.Field is
             end loop;
 
             if Length = 1 then
-               --  Simple field
-               if Ada_Type_Size = 1 and then As_Boolean then
-                  if Ada_Type = Null_Unbounded_String then
-                     Ada_Type := To_Unbounded_String ("Boolean");
-
-                     if not All_RO then
-                        if Default = 0 then
-                           Default_Id := To_Unbounded_String ("False");
-                        else
-                           Default_Id := To_Unbounded_String ("True");
-                        end if;
-                     end if;
-                  end if;
-
-               elsif Ada_Type = Null_Unbounded_String then
+               if Ada_Type = Null_Unbounded_String then
                   --  We have a simple scalar value. Let's create a specific
                   --  subtype for it, so that programming conversion to this
                   --  field is allowed using FIELD_TYPE (Value).
@@ -547,12 +528,7 @@ package body Descriptors.Field is
                         New_Comment_Box (To_String (Reg.Name) & "." & F_Name));
                   end if;
 
-                  if Ada_Type_Size = 1 and then As_Boolean then
-                     if Ada_Type = Null_Unbounded_String then
-                        Ada_Type := To_Unbounded_String ("Boolean");
-                     end if;
-
-                  elsif Ada_Type = Null_Unbounded_String then
+                  if Ada_Type = Null_Unbounded_String then
                      declare
                         Scalar_T : Ada_Subtype_Scalar :=
                           New_Subype_Scalar
