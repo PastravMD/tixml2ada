@@ -71,7 +71,6 @@ package Descriptors.Field is
 
    function Bitfields_Valid
      (Bitfield_List  : DOM.Core.Node_List;
-      Reg_Properties : Register_Properties.Register_Properties_T)
-      return Boolean;
+      Reg_Properties : Register_Properties.Register_Properties_T) return Boolean;
 
 end Descriptors.Field;

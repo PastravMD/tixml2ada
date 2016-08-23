@@ -123,14 +123,9 @@ package body Descriptors.Field is
             if Bit_Count > 0 and Lsb /= Previous_Msb + 1 then
                Valid := False;
                Ada.Text_IO.Put_Line
-                 (To_String (Field_Name) &
-                  " Bitfields are not contiguous:" &
-                  "Current LSB[" &
-                  Natural'Image (Lsb) &
-                  "] : " &
-                  "Previous MSB[" &
-                  Natural'Image (Previous_Msb) &
-                  "]");
+                 (To_String (Field_Name) & " Bitfields are not contiguous:" &
+		  "Current LSB[" & Natural'Image (Lsb) & "] : " &
+                  "Previous MSB[" & Natural'Image (Previous_Msb) & "]");
             end if;
             Previous_Msb := Msb;
 
@@ -156,8 +151,7 @@ package body Descriptors.Field is
             Bit_Count := Bit_Count + Field_Width;
 
             exit when (Reg_Properties.Endianess = Big_Endian and K = 0) or
-              (Reg_Properties.Endianess /= Big_Endian and
-               K = Length (Bitfield_List) - 1);
+              (Reg_Properties.Endianess /= Big_Endian and K = Length (Bitfield_List) - 1);
 
             if Reg_Properties.Endianess = Big_Endian then
                K := K - 1;
