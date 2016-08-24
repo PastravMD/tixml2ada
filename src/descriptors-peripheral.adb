@@ -114,13 +114,6 @@ package body Descriptors.Peripheral is
          Xml_Href         := Get_Href (Peripheral);
          Ret.Address_Blocks.Append (Get_Blockset (Peripheral));
 
-         Tixml2Ada_Utils.Log_Message
-           ("Device path     = " & To_String (Ret.Reg_Properties.Device_Dir),
-            1);
-         Tixml2Ada_Utils.Log_Message
-           ("Module Xml path = " & To_String (Xml_Href),
-            1);
-
          -- reading input file
          Input_Sources.File.Open
            (To_String (Ret.Reg_Properties.Device_Dir) & To_String (Xml_Href),

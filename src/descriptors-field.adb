@@ -52,29 +52,7 @@ package body Descriptors.Field is
       Endianess      : Endian_Type) return Field_T
    is
       Ret          : Field_T;
-      Derived_From : constant String :=
-        Elements.Get_Attribute (Field, "derivedFrom");
-
    begin
-      if Derived_From /= "" then
-         declare
-            Found : Boolean := False;
-         begin
-            for F of Vec loop
-               if Unbounded.To_String (F.Name) = Derived_From then
-                  Ret   := F;
-                  Found := True;
-                  exit;
-               end if;
-            end loop;
-
-            if not Found then
-               raise Constraint_Error
-                 with "field 'derivedFrom' is not known: " & Derived_From;
-            end if;
-         end;
-      end if;
-
       Ret.Name             := Get_Id (Field);
       Ret.Description      := Get_Description (Field);
       Ret.Size             := Get_Width (Field);

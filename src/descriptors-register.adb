@@ -25,7 +25,6 @@ with DOM.Core.Elements; use DOM.Core.Elements;
 with DOM.Core.Nodes;    use DOM.Core.Nodes;
 
 -- TIXML2Ada dependencies
-with Tixml2Ada_Utils;
 with Ada_Gen;              use Ada_Gen;
 with Descriptors.Register; use Descriptors.Register;
 
@@ -61,10 +60,6 @@ package body Descriptors.Register is
       if Get_Named_Item (Attributes (Register), "offset") /= null then
          Ret.Address_Offset := Get_Offset (Register);
       else
-         Tixml2Ada_Utils.Log_Message ("Reg [" &
-         To_String (Ret.Name) &
-         "]    -> " & To_String (Ret.Description) &
-         " has no offset attribute !", 2);
          Ret.Address_Offset := 0; -- better handling TBD
       end if;
 
