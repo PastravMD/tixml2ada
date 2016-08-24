@@ -30,8 +30,7 @@ package body Tixml2Ada_Utils is
    -- Set_Base_Types_Package --
    ----------------------------
 
-   procedure Set_Base_Types_Package (Value : String)
-   is
+   procedure Set_Base_Types_Package (Value : String) is
    begin
       G_Types_Pkg := To_Unbounded_String (Value);
    end Set_Base_Types_Package;
@@ -40,8 +39,7 @@ package body Tixml2Ada_Utils is
    -- Base_Types_Package --
    ------------------------
 
-   function Base_Types_Package return String
-   is
+   function Base_Types_Package return String is
    begin
       return To_String (G_Types_Pkg);
    end Base_Types_Package;
@@ -50,8 +48,7 @@ package body Tixml2Ada_Utils is
    -- External_Base_Types_Package --
    ---------------------------------
 
-   function External_Base_Types_Package return Boolean
-   is
+   function External_Base_Types_Package return Boolean is
    begin
       return G_Types_Pkg /= Null_Unbounded_String;
    end External_Base_Types_Package;
@@ -60,8 +57,7 @@ package body Tixml2Ada_Utils is
    -- Set_Root_Package --
    ----------------------
 
-   procedure Set_Root_Package (Value : String)
-   is
+   procedure Set_Root_Package (Value : String) is
    begin
       G_Root_Pkg := To_Unbounded_String (Value);
    end Set_Root_Package;
@@ -70,8 +66,7 @@ package body Tixml2Ada_Utils is
    -- Root_Package --
    ------------------
 
-   function Root_Package return String
-   is
+   function Root_Package return String is
    begin
       return To_String (G_Root_Pkg);
    end Root_Package;
@@ -80,8 +75,7 @@ package body Tixml2Ada_Utils is
    -- In_Runtime --
    ----------------
 
-   function In_Runtime return Boolean
-   is
+   function In_Runtime return Boolean is
       Intf : constant String := "Interfaces.";
       Root : constant String := Root_Package;
    begin
@@ -98,8 +92,7 @@ package body Tixml2Ada_Utils is
    -- Set_Verbosity --
    -------------------
 
-   procedure Set_Verbosity (Level : Natural)
-   is
+   procedure Set_Verbosity (Level : Natural) is
    begin
       G_Verbose_Lvl := Level;
    end Set_Verbosity;
@@ -108,12 +101,11 @@ package body Tixml2Ada_Utils is
    -- Log_Message --
    -----------------
 
-   procedure Log_Message (Message : String; Level : Natural)
-   is
+   procedure Log_Message (Message : String; Level : Natural) is
       use Ada.Text_IO;
    begin
       if Level <= G_Verbose_Lvl then
-         Put_Line(Message);
+         Put_Line (Message);
       end if;
    end Log_Message;
 

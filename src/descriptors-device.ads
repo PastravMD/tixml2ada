@@ -49,7 +49,9 @@ package Descriptors.Device is
       Peripherals : Descriptors.Peripheral.Peripheral_Vectors.Vector;
    end record;
 
-   function Read_Device (Top_Xml_Element : DOM.Core.Element) return Device_T;
+   function Read_Device
+     (Top_Xml_Element : DOM.Core.Element;
+      Top_Xml_Folder  : Unbounded.Unbounded_String) return Device_T;
 
    procedure Dump (Device : Device_T; Output_Dir : String);
 

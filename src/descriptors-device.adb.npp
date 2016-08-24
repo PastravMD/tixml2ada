@@ -40,10 +40,9 @@ package body Descriptors.Device is
    -- Read_Device --
    -----------------
 
-   function Read_Device
-     (Top_Xml_Element : DOM.Core.Element;
-      Top_Xml_Folder  : Unbounded.Unbounded_String) return Device_T
-   is
+   function Read_Device (Top_Xml_Element : DOM.Core.Element;
+                         Top_Xml_Folder  : Unbounded.Unbounded_String)
+                         return Device_T is
       Ret         : Device_T;
       Device_List : Node_List :=
         Elements.Get_Elements_By_Tag_Name (Top_Xml_Element, "device");
@@ -80,12 +79,12 @@ package body Descriptors.Device is
            "a hardware module";
       end if;
 
-      Ret.Name                      := Get_Id (Device);
-      Ret.Version                   := Get_Xml_Version (Device);
-      Ret.Description               := Get_Description (Device);
-      Ret.Address_Unit_Bits         := 8;
-      Ret.Width                     := 32;
-      Ret.Has_FPU                   := True;
+      Ret.Name              := Get_Id (Device);
+      Ret.Version           := Get_Xml_Version (Device);
+      Ret.Description       := Get_Description (Device);
+      Ret.Address_Unit_Bits := 8;
+      Ret.Width             := 32;
+      Ret.Has_FPU           := True;
       Ret.Reg_Properties.Device_Dir := Top_Xml_Folder;
       Tixml2Ada_Utils.Set_Root_Package (To_String (Ret.Name));
 
@@ -149,12 +148,10 @@ package body Descriptors.Device is
                   begin
                      if Module_href = Predecessor_href then
                         Is_Derived_From := Get_Id (Predecessor);
-                        Tixml2Ada_Utils.Log_Message
-                          ("        " &
-                           To_String (Get_Id (Module)) &
-                           " is derived from " &
-                           To_String (Is_Derived_From),
-                           3);
+                        Tixml2Ada_Utils.Log_Message ("        "
+                                              & To_String (Get_Id (Module)) &
+                                                " is derived from " &
+                                                To_String (Is_Derived_From), 3);
                         exit;
                      end if;
                   end;

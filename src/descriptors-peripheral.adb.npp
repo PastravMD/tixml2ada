@@ -114,16 +114,12 @@ package body Descriptors.Peripheral is
          Xml_Href         := Get_Href (Peripheral);
          Ret.Address_Blocks.Append (Get_Blockset (Peripheral));
 
-         Tixml2Ada_Utils.Log_Message
-           ("Device path     = " & To_String (Ret.Reg_Properties.Device_Dir),
-            1);
-         Tixml2Ada_Utils.Log_Message
-           ("Module Xml path = " & To_String (Xml_Href),
-            1);
+         Tixml2Ada_Utils.Log_Message ("Device path     = " & To_String(Ret.Reg_Properties.Device_Dir), 1);
+         Tixml2Ada_Utils.Log_Message ("Module Xml path = " & To_String(Xml_Href), 1);
 
          -- reading input file
          Input_Sources.File.Open
-           (To_String (Ret.Reg_Properties.Device_Dir) & To_String (Xml_Href),
+           (To_String(Ret.Reg_Properties.Device_Dir) & To_String (Xml_Href),
             Xml_File);
 
          -- parse xml document and get top element
@@ -149,11 +145,8 @@ package body Descriptors.Peripheral is
          Ret.Group_Name  := Get_Id (Module_Element);
 
          Tixml2Ada_Utils.Log_Message
-           (" Group [" &
-            To_String (Ret.Group_Name) &
-            "] Module = " &
-            To_String (Get_Id (Peripheral)),
-            2);
+           (" Group [" & To_String (Ret.Group_Name) & "] Module = " &
+              To_String(Get_Id (Peripheral)), 2);
 
          Register_List :=
            Elements.Get_Elements_By_Tag_Name (Module_Element, "register");
@@ -447,9 +440,7 @@ package body Descriptors.Peripheral is
       Spec : Ada_Spec;
 
    begin
-      Tixml2Ada_Utils.Log_Message
-        ("Generate " & To_String (Peripheral.Name),
-         2);
+      Tixml2Ada_Utils.Log_Message ("Generate " & To_String (Peripheral.Name), 2);
 
       Spec :=
         New_Child_Spec
@@ -509,8 +500,7 @@ package body Descriptors.Peripheral is
 
    begin
       Tixml2Ada_Utils.Log_Message
-        ("Generate " & To_String (Group.First_Element.Group_Name),
-         2);
+        ("Generate " & To_String (Group.First_Element.Group_Name), 2);
 
       Spec :=
         New_Child_Spec

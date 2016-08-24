@@ -146,8 +146,8 @@ package body Descriptors.Field is
                Tixml2Ada_Utils.Log_Message
                  (" Most significant bit = " & Natural'Image (Msb), 2);
                Tixml2Ada_Utils.Log_Message
-                 (" Register_Width - 1 = " &
-                  Natural'Image (Reg_Properties.Size - 1), 2);
+                 (" Register_Width  = " &
+                  Natural'Image (Reg_Properties.Size), 2);
                Tixml2Ada_Utils.Log_Message
                  (" Field_Width = " & Natural'Image (Field_Width), 2);
             end if;
