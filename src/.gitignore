@@ -1,0 +1,5 @@
+# Hidden Files
+.*
+
+# Pretty Printer backups
+.npp
