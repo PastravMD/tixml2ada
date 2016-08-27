@@ -17,6 +17,9 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+with Ada.Characters.Handling;
+with Ada.Strings.Maps;
+with Ada.Strings.Fixed;
 with Ada.Strings.Unbounded; use Ada.Strings.Unbounded;
 with Interfaces;            use Interfaces;
 
@@ -81,7 +84,9 @@ package body Descriptors.Field is
       Ret.Acc              := Default_Access;
       Ret.Read_Action      := Default_Read;
       Ret.Mod_Write_Values := Modify;
-      Ret.Enums.Append (Descriptors.Enumerate.Read_Enumerate (Field));
+      Standardize_Reserved_Fields (Ret);
+      -- TBD: better enum handling
+      --Ret.Enums.Append (Descriptors.Enumerate.Read_Enumerate (Field));
       return Ret;
    end Read_Field;
 
@@ -104,7 +109,9 @@ package body Descriptors.Field is
          K := 0;
       else
          Valid := False;
-         Tixml2Ada_Utils.Log_Message("Order in which bitfields are listed in xml file is not determined.", 2);
+         Tixml2Ada_Utils.Log_Message
+           ("Order in which bitfields are listed in xml file is not determined.",
+            2);
          return Valid;
       end if;
 
@@ -132,7 +139,8 @@ package body Descriptors.Field is
                   "] : " &
                   "Previous MSB[" &
                   Natural'Image (Previous_Msb) &
-                  "]", 2);
+                  "]",
+                  2);
             end if;
             Previous_Msb := Msb;
 
@@ -143,16 +151,21 @@ package body Descriptors.Field is
               or else (Field_Width /= Msb - Lsb + 1)
             then
                Valid := False;
-               Tixml2Ada_Utils.Log_Message ("    " & To_String (Field_Name), 2);
                Tixml2Ada_Utils.Log_Message
-                 (" Least significant bit = " & Natural'Image (Lsb), 2);
+                 ("    " & To_String (Field_Name),
+                  2);
                Tixml2Ada_Utils.Log_Message
-                 (" Most significant bit = " & Natural'Image (Msb), 2);
+                 (" Least significant bit = " & Natural'Image (Lsb),
+                  2);
                Tixml2Ada_Utils.Log_Message
-                 (" Register_Width  = " &
-                  Natural'Image (Reg_Properties.Size), 2);
+                 (" Most significant bit = " & Natural'Image (Msb),
+                  2);
                Tixml2Ada_Utils.Log_Message
-                 (" Field_Width = " & Natural'Image (Field_Width), 2);
+                 (" Register_Width  = " & Natural'Image (Reg_Properties.Size),
+                  2);
+               Tixml2Ada_Utils.Log_Message
+                 (" Field_Width = " & Natural'Image (Field_Width),
+                  2);
             end if;
 
             Bit_Count := Bit_Count + Field_Width;
@@ -172,11 +185,52 @@ package body Descriptors.Field is
       if Bit_Count /= Reg_Properties.Size then
          Valid := False;
          Tixml2Ada_Utils.Log_Message
-           (" Sum of bitfields = " & Natural'Image (Bit_Count), 2);
+           (" Sum of bitfields = " & Natural'Image (Bit_Count),
+            2);
       end if;
 
       return Valid;
    end Bitfields_Valid;
+
+   ---------------------------------
+   -- Standardize_Reserved_Fields --
+   ---------------------------------
+
+   procedure Standardize_Reserved_Fields (F : in out Field_T) is
+      First_Idx : Positive := Positive'First;
+      Last_Idx  : Natural  := Natural'First;
+      type String_Array is array (Integer range <>) of Unbounded_String;
+      Reserved_Monikers : constant String_Array :=
+        (1 => To_Unbounded_String ("reserved"),
+         2 => To_Unbounded_String ("rsvd"));
+      use Ada.Characters.Handling;
+   begin
+      for Moniker of Reserved_Monikers loop
+         declare
+            Token : constant String := To_String (Moniker);
+            Lsb   : constant Natural         := F.LSB;
+            Msb   : constant Natural         := F.LSB + F.Size - 1;
+            Lsb_Img : constant String := Lsb'Image;
+            Msb_Img : constant String := Msb'Image;
+         begin
+            Ada.Strings.Fixed.Find_Token
+              (Source => To_Lower(To_String (F.Name)),
+               Set    => Ada.Strings.Maps.To_Set (To_Lower(Token)),
+               Test   => Inside,
+               First  => First_Idx,
+               Last   => Last_Idx);
+
+            if Last_Idx = (First_Idx + (Token'Length - 1)) then
+               F.Name :=
+                 To_Unbounded_String
+                   ("Reserved_" &
+                      Lsb_Img(Lsb_Img'First + 1 .. Lsb_Img'Last) & "_" &
+                      Msb_Img(Msb_Img'First + 1 .. Msb_Img'Last));
+            end if;
+
+         end;
+      end loop;
+   end Standardize_Reserved_Fields;
 
    ---------
    -- "=" --

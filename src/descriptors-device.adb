@@ -80,13 +80,13 @@ package body Descriptors.Device is
            "a hardware module";
       end if;
 
-      Ret.Name                      := Get_Id (Device);
-      Ret.Version                   := Get_Xml_Version (Device);
-      Ret.Description               := Get_Description (Device);
-      Ret.Address_Unit_Bits         := 8;
-      Ret.Width                     := 32;
-      Ret.Has_FPU                   := True;
-      Ret.Reg_Properties.Device_Dir := Top_Xml_Folder;
+      Ret.Name                       := Get_Id (Device);
+      Ret.Version                    := Get_Xml_Version (Device);
+      Ret.Description                := Get_Description (Device);
+      Ret.Address_Unit_Bits          := 8;
+      Ret.Width                      := 32;
+      Ret.Has_FPU                    := True;
+      Ret.Reg_Properties.Device_Dir  := Top_Xml_Folder;
       Ret.Reg_Properties.Field_Order := Register_Properties.Descending;
       Tixml2Ada_Utils.Set_Root_Package (To_String (Ret.Name));
 

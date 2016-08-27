@@ -73,4 +73,6 @@ package Descriptors.Field is
       Reg_Properties : Register_Properties.Register_Properties_T)
       return Boolean;
 
+   procedure Standardize_Reserved_Fields(F : in out Field_T);
+
 end Descriptors.Field;
