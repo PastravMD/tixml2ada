@@ -338,20 +338,13 @@ package body Base_Types is
    -------------
 
    function Get_Lsb
-     (Elt       : DOM.Core.Element;
-      Endianess : Endian_Type) return Natural
+     (Elt       : DOM.Core.Element) return Natural
    is
       use DOM.Core.Attrs;
       use DOM.Core.Nodes;
    begin
-      if Endianess = Big_Endian then
-         return Natural'Value
-             (Value (Get_Named_Item (Attributes (Elt), "end")));
-      else
-         return Natural'Value
-             (Value (Get_Named_Item (Attributes (Elt), "begin")));
-      end if;
-
+      return Natural'Value
+        (Value (Get_Named_Item (Attributes (Elt), "end")));
    end Get_Lsb;
 
    -------------
@@ -359,19 +352,13 @@ package body Base_Types is
    -------------
 
    function Get_Msb
-     (Elt       : DOM.Core.Element;
-      Endianess : Endian_Type) return Natural
+     (Elt       : DOM.Core.Element) return Natural
    is
       use DOM.Core.Attrs;
       use DOM.Core.Nodes;
    begin
-      if Endianess = Big_Endian then
-         return Natural'Value
-             (Value (Get_Named_Item (Attributes (Elt), "begin")));
-      else
-         return Natural'Value
-             (Value (Get_Named_Item (Attributes (Elt), "end")));
-      end if;
+      return Natural'Value
+        (Value (Get_Named_Item (Attributes (Elt), "begin")));
    end Get_Msb;
 
    --------------------

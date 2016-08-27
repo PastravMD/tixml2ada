@@ -23,6 +23,8 @@ with Ada.Strings.Unbounded;
 --  This group is used in Device, Peripherals and Registers descriptors.
 package Base_Types.Register_Properties is
 
+   type Xml_Bitfield_Order is (Undetermined, Ascending, Descending);
+
    type Register_Properties_T is record
       Size        : Natural;
       Reg_Access  : Access_Type;
@@ -30,6 +32,7 @@ package Base_Types.Register_Properties is
       Reset_Value : Unsigned;
       Reset_Mask  : Unsigned;
       Endianess   : Endian_Type := Big_Endian;
+      Field_Order : Xml_Bitfield_Order;
       Device_Dir  : Unbounded.Unbounded_String;
       Module_Xml  : Unbounded.Unbounded_String;
    end record;
@@ -41,6 +44,7 @@ package Base_Types.Register_Properties is
       Reset_Value => 0,
       Reset_Mask  => 0,
       Endianess   => Undefined_Endian,
+      Field_Order => Undetermined,
       Device_Dir  => Unbounded.Null_Unbounded_String,
       Module_Xml  => Unbounded.Null_Unbounded_String);
 

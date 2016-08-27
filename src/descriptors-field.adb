@@ -48,8 +48,7 @@ package body Descriptors.Field is
      (Field          : DOM.Core.Element;
       Vec            : Field_Vectors.Vector;
       Default_Access : Access_Type;
-      Default_Read   : Read_Action_Type;
-      Endianess      : Endian_Type) return Field_T
+      Default_Read   : Read_Action_Type) return Field_T
    is
       Ret          : Field_T;
       Derived_From : constant String :=
@@ -78,7 +77,7 @@ package body Descriptors.Field is
       Ret.Name             := Get_Id (Field);
       Ret.Description      := Get_Description (Field);
       Ret.Size             := Get_Width (Field);
-      Ret.LSB              := Get_Lsb (Field, Endianess);
+      Ret.LSB              := Get_Lsb (Field);
       Ret.Acc              := Default_Access;
       Ret.Read_Action      := Default_Read;
       Ret.Mod_Write_Values := Modify;
@@ -99,10 +98,14 @@ package body Descriptors.Field is
       Previous_Msb : Natural := 0;
       K            : Integer := 0;
    begin
-      if Reg_Properties.Endianess = Big_Endian then
+      if Reg_Properties.Field_Order = Descending then
          K := Length (Bitfield_List) - 1;
-      else
+      elsif Reg_Properties.Field_Order = Ascending then
          K := 0;
+      else
+         Valid := False;
+         Tixml2Ada_Utils.Log_Message("Order in which bitfields are listed in xml file is not determined.", 2);
+         return Valid;
       end if;
 
       loop
@@ -114,8 +117,8 @@ package body Descriptors.Field is
             Field_Width : Natural       := 0;
          begin
             Field_Name  := Get_Id (Field_Node);
-            Lsb         := Get_Lsb (Field_Node, Reg_Properties.Endianess);
-            Msb         := Get_Msb (Field_Node, Reg_Properties.Endianess);
+            Lsb         := Get_Lsb (Field_Node);
+            Msb         := Get_Msb (Field_Node);
             Field_Width := Get_Width (Field_Node);
 
             -- check if all bitfields are contiguous
@@ -154,13 +157,13 @@ package body Descriptors.Field is
 
             Bit_Count := Bit_Count + Field_Width;
 
-            exit when (Reg_Properties.Endianess = Big_Endian and K = 0) or
-              (Reg_Properties.Endianess /= Big_Endian and
+            exit when (Reg_Properties.Field_Order = Descending and K = 0) or
+              (Reg_Properties.Field_Order = Ascending and
                K = Length (Bitfield_List) - 1);
 
-            if Reg_Properties.Endianess = Big_Endian then
+            if Reg_Properties.Field_Order = Descending then
                K := K - 1;
-            else
+            elsif Reg_Properties.Field_Order = Ascending then
                K := K + 1;
             end if;
          end;

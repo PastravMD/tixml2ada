@@ -87,6 +87,7 @@ package body Descriptors.Device is
       Ret.Width                     := 32;
       Ret.Has_FPU                   := True;
       Ret.Reg_Properties.Device_Dir := Top_Xml_Folder;
+      Ret.Reg_Properties.Field_Order := Register_Properties.Descending;
       Tixml2Ada_Utils.Set_Root_Package (To_String (Ret.Name));
 
       -- try to determine device endianess

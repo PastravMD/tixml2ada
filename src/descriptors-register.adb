@@ -78,7 +78,7 @@ package body Descriptors.Register is
               " contains an invalid bitfield layout.";
          end if;
 
-         if Reg_Properties.Endianess = Big_Endian then
+         if Reg_Properties.Field_Order = Descending then
             for K in reverse 0 .. Length (Bitfield_List) - 1 loop
                declare
                   Field : Field_T;
@@ -88,8 +88,7 @@ package body Descriptors.Register is
                       (Item (Bitfield_List, K),
                        Ret.Fields,
                        Ret.Reg_Properties.Reg_Access,
-                       Ret.Read_Action,
-                       Reg_Properties.Endianess);
+                       Ret.Read_Action);
                   if not Ret.Fields.Contains (Field) then
                      Ret.Fields.Append (Field);
                   end if;
@@ -105,8 +104,7 @@ package body Descriptors.Register is
                       (Item (Bitfield_List, K),
                        Ret.Fields,
                        Ret.Reg_Properties.Reg_Access,
-                       Ret.Read_Action,
-                       Reg_Properties.Endianess);
+                       Ret.Read_Action);
                   if not Ret.Fields.Contains (Field) then
                      Ret.Fields.Append (Field);
                   end if;

@@ -59,8 +59,7 @@ package Descriptors.Field is
      (Field          : DOM.Core.Element;
       Vec            : Field_Vectors.Vector;
       Default_Access : Access_Type;
-      Default_Read   : Read_Action_Type;
-      Endianess      : Endian_Type) return Field_T;
+      Default_Read   : Read_Action_Type) return Field_T;
 
    procedure Dump
      (Spec       : in out Ada_Gen.Ada_Spec;
