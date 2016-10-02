@@ -13,6 +13,7 @@ Instructions:
 5. Obtain generated .ads files from ./output directory and use them to cross-compile
      embedded software for your board.
 
+
 Executable's help message:
 
 tixml2ada xml_input_file [options]
@@ -28,12 +29,16 @@ tixml2ada xml_input_file [options]
                            1 Report status of main stages
                            2 Report everything
 
+
 Description:
+
 The program parses the contents of Texas Instruments device description XMLs and generates a set of Ada specification files. The main target XML files are commonly found in <CodeComposerInstallDir>/ccs_base_common_targetdb/devices. These are device specific and contain references to various peripheral description XML available in ../targetdb/Modules/<device_family>/. The paths contained in the XML are relative so it is important to keep the targetdb directory structure intact.
 
 The initial target for the program is the TMS570LC43xx safety microcontroller, based on the Cortex R5 device but xml content structure appears to be the same for all Texas Instrument devices so it should work for any of the availale chip families.
 
+
 Caveats:
+
 Some of the xml files contain errors like incorrectly defined bitfields or bitfield ranges. The tool catches these inconsistencies and reports them. In this case the xml should be manually corrected, consulting the device user manual.
 
 The xml files do not always provide a complete description of the registers i.e. specify a register's name and address but do not describe the contained bitfields. More detail can be added by hand to the xmls lacking this. To keep track of which xml is edited, I suggest adding an extra digit and a letter to the official xml version (e.g. version "1.2" become "1.2.1b").
