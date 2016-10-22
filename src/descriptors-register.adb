@@ -12,6 +12,9 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+-- common Ada dependencies
+with System;
+
 -- XML dependencies
 with DOM.Core;          use DOM.Core;
 with DOM.Core.Elements; use DOM.Core.Elements;
@@ -263,13 +266,13 @@ package body Descriptors.Register is
             Add_Aspect (Rec, "Volatile_Full_Access");
             Add_Size_Aspect (Rec, Reg.Reg_Properties.Size);
 
---              if Reg.Reg_Properties.Endianess = Big_Endian then
---                 Add_Bit_Order_Aspect (Rec, System.High_Order_First);
+              if Reg.Reg_Properties.Endianess = Big_Endian then
+                 Add_Bit_Order_Aspect (Rec, System.Low_Order_First);
 --                 Add_Scalar_Storage_Order_Aspect (Rec, System.High_Order_First);
 --              elsif Reg.Reg_Properties.Endianess = Little_Endian then
 --                 Add_Bit_Order_Aspect (Rec, System.Low_Order_First);
 --                 Add_Scalar_Storage_Order_Aspect (Rec, System.Low_Order_First);
---              end if;
+              end if;
 
             declare
                Res : Ada_Type'Class := Simplify (Rec, Spec);
