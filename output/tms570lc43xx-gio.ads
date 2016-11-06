@@ -44,7 +44,8 @@ package TMS570LC43xx.Gio is
    --  IntDet_GioIntDet array
    type IntDet_GioIntDet_Field_Array is array (0 .. 3)
      of IntDet_GioIntDet_Element
-     with Component_Size => 8, Size => 32;
+     with Component_Size => 8, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Interrupt Detect
    type IntDet_Register
@@ -59,8 +60,9 @@ package TMS570LC43xx.Gio is
             Arr : IntDet_GioIntDet_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IntDet_Register use record
       Val at 0 range 0 .. 31;
@@ -76,7 +78,8 @@ package TMS570LC43xx.Gio is
 
    --  IntPol_GioPol array
    type IntPol_GioPol_Field_Array is array (0 .. 3) of IntPol_GioPol_Element
-     with Component_Size => 8, Size => 32;
+     with Component_Size => 8, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Interrupt Polarity
    type IntPol_Register
@@ -91,8 +94,9 @@ package TMS570LC43xx.Gio is
             Arr : IntPol_GioPol_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IntPol_Register use record
       Val at 0 range 0 .. 31;
@@ -109,7 +113,8 @@ package TMS570LC43xx.Gio is
    --  IntEnaSet_GioEnaSet array
    type IntEnaSet_GioEnaSet_Field_Array is array (0 .. 3)
      of IntEnaSet_GioEnaSet_Element
-     with Component_Size => 8, Size => 32;
+     with Component_Size => 8, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Interrupt Enable Set
    type IntEnaSet_Register
@@ -124,8 +129,9 @@ package TMS570LC43xx.Gio is
             Arr : IntEnaSet_GioEnaSet_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IntEnaSet_Register use record
       Val at 0 range 0 .. 31;
@@ -142,7 +148,8 @@ package TMS570LC43xx.Gio is
    --  IntEnaClr_GioEnaClr array
    type IntEnaClr_GioEnaClr_Field_Array is array (0 .. 3)
      of IntEnaClr_GioEnaClr_Element
-     with Component_Size => 8, Size => 32;
+     with Component_Size => 8, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Interrupt Enable Clear
    type IntEnaClr_Register
@@ -157,8 +164,9 @@ package TMS570LC43xx.Gio is
             Arr : IntEnaClr_GioEnaClr_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IntEnaClr_Register use record
       Val at 0 range 0 .. 31;
@@ -175,7 +183,8 @@ package TMS570LC43xx.Gio is
    --  IntLvlSet_GioLvlSet array
    type IntLvlSet_GioLvlSet_Field_Array is array (0 .. 3)
      of IntLvlSet_GioLvlSet_Element
-     with Component_Size => 8, Size => 32;
+     with Component_Size => 8, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Interrupt Priority Set
    type IntLvlSet_Register
@@ -190,8 +199,9 @@ package TMS570LC43xx.Gio is
             Arr : IntLvlSet_GioLvlSet_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IntLvlSet_Register use record
       Val at 0 range 0 .. 31;
@@ -208,7 +218,8 @@ package TMS570LC43xx.Gio is
    --  IntLvlClr_GioLvlClr array
    type IntLvlClr_GioLvlClr_Field_Array is array (0 .. 3)
      of IntLvlClr_GioLvlClr_Element
-     with Component_Size => 8, Size => 32;
+     with Component_Size => 8, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Interrupt Priority Clear
    type IntLvlClr_Register
@@ -223,8 +234,9 @@ package TMS570LC43xx.Gio is
             Arr : IntLvlClr_GioLvlClr_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IntLvlClr_Register use record
       Val at 0 range 0 .. 31;
@@ -240,7 +252,8 @@ package TMS570LC43xx.Gio is
 
    --  IntFlg_GioFlg array
    type IntFlg_GioFlg_Field_Array is array (0 .. 3) of IntFlg_GioFlg_Element
-     with Component_Size => 8, Size => 32;
+     with Component_Size => 8, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Interrupt Flag
    type IntFlg_Register
@@ -255,8 +268,9 @@ package TMS570LC43xx.Gio is
             Arr : IntFlg_GioFlg_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IntFlg_Register use record
       Val at 0 range 0 .. 31;

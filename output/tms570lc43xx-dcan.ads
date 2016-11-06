@@ -41,7 +41,8 @@ package TMS570LC43xx.Dcan is
 
    --  CTL_DE array
    type CTL_DE_Field_Array is array (1 .. 3) of CTL_DE_Element
-     with Component_Size => 1, Size => 3;
+     with Component_Size => 1, Size => 3,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CTL_DE
    type CTL_DE_Field
@@ -56,7 +57,8 @@ package TMS570LC43xx.Dcan is
             Arr : CTL_DE_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 3;
+     with Unchecked_Union, Size => 3, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CTL_DE_Field use record
       Val at 0 range 0 .. 2;
@@ -535,7 +537,8 @@ package TMS570LC43xx.Dcan is
    --  TXRQX_TXRQSTREG array
    type TXRQX_TXRQSTREG_Field_Array is array (1 .. 8)
      of TXRQX_TXRQSTREG_Element
-     with Component_Size => 2, Size => 16;
+     with Component_Size => 2, Size => 16,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for TXRQX_TXRQSTREG
    type TXRQX_TXRQSTREG_Field
@@ -550,7 +553,8 @@ package TMS570LC43xx.Dcan is
             Arr : TXRQX_TXRQSTREG_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 16;
+     with Unchecked_Union, Size => 16, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for TXRQX_TXRQSTREG_Field use record
       Val at 0 range 0 .. 15;
@@ -583,7 +587,8 @@ package TMS570LC43xx.Dcan is
 
    --  TXRQ12_TXRQST array
    type TXRQ12_TXRQST_Field_Array is array (1 .. 32) of TXRQ12_TXRQST_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Transmission Request 12 Register
    type TXRQ12_Register
@@ -598,8 +603,9 @@ package TMS570LC43xx.Dcan is
             Arr : TXRQ12_TXRQST_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for TXRQ12_Register use record
       Val at 0 range 0 .. 31;
@@ -616,7 +622,8 @@ package TMS570LC43xx.Dcan is
    --  TXRQ34_TXRQST array
    type TXRQ34_TXRQST_Field_Array is array (33 .. 64)
      of TXRQ34_TXRQST_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Transmission Request 34 Register
    type TXRQ34_Register
@@ -631,8 +638,9 @@ package TMS570LC43xx.Dcan is
             Arr : TXRQ34_TXRQST_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for TXRQ34_Register use record
       Val at 0 range 0 .. 31;
@@ -649,7 +657,8 @@ package TMS570LC43xx.Dcan is
    --  TXRQ56_TXRQST array
    type TXRQ56_TXRQST_Field_Array is array (65 .. 96)
      of TXRQ56_TXRQST_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Transmission Request 56 Register
    type TXRQ56_Register
@@ -664,8 +673,9 @@ package TMS570LC43xx.Dcan is
             Arr : TXRQ56_TXRQST_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for TXRQ56_Register use record
       Val at 0 range 0 .. 31;
@@ -682,7 +692,8 @@ package TMS570LC43xx.Dcan is
    --  TXRQ78_TXRQST array
    type TXRQ78_TXRQST_Field_Array is array (97 .. 128)
      of TXRQ78_TXRQST_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Transmission Request 78 Register
    type TXRQ78_Register
@@ -697,8 +708,9 @@ package TMS570LC43xx.Dcan is
             Arr : TXRQ78_TXRQST_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for TXRQ78_Register use record
       Val at 0 range 0 .. 31;
@@ -719,7 +731,8 @@ package TMS570LC43xx.Dcan is
    --  NWDATX_NEWDATREG array
    type NWDATX_NEWDATREG_Field_Array is array (1 .. 8)
      of NWDATX_NEWDATREG_Element
-     with Component_Size => 2, Size => 16;
+     with Component_Size => 2, Size => 16,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for NWDATX_NEWDATREG
    type NWDATX_NEWDATREG_Field
@@ -734,7 +747,8 @@ package TMS570LC43xx.Dcan is
             Arr : NWDATX_NEWDATREG_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 16;
+     with Unchecked_Union, Size => 16, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for NWDATX_NEWDATREG_Field use record
       Val at 0 range 0 .. 15;
@@ -768,7 +782,8 @@ package TMS570LC43xx.Dcan is
    --  NWDAT12_NewDat array
    type NWDAT12_NewDat_Field_Array is array (1 .. 32)
      of NWDAT12_NewDat_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  New Data 12 Register
    type NWDAT12_Register
@@ -783,8 +798,9 @@ package TMS570LC43xx.Dcan is
             Arr : NWDAT12_NewDat_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for NWDAT12_Register use record
       Val at 0 range 0 .. 31;
@@ -801,7 +817,8 @@ package TMS570LC43xx.Dcan is
    --  NWDAT34_NewDat array
    type NWDAT34_NewDat_Field_Array is array (33 .. 64)
      of NWDAT34_NewDat_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  New Data 34 Register
    type NWDAT34_Register
@@ -816,8 +833,9 @@ package TMS570LC43xx.Dcan is
             Arr : NWDAT34_NewDat_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for NWDAT34_Register use record
       Val at 0 range 0 .. 31;
@@ -834,7 +852,8 @@ package TMS570LC43xx.Dcan is
    --  NWDAT56_NewDat array
    type NWDAT56_NewDat_Field_Array is array (65 .. 96)
      of NWDAT56_NewDat_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  New Data 56 Register
    type NWDAT56_Register
@@ -849,8 +868,9 @@ package TMS570LC43xx.Dcan is
             Arr : NWDAT56_NewDat_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for NWDAT56_Register use record
       Val at 0 range 0 .. 31;
@@ -867,7 +887,8 @@ package TMS570LC43xx.Dcan is
    --  NWDAT78_NewDat array
    type NWDAT78_NewDat_Field_Array is array (97 .. 128)
      of NWDAT78_NewDat_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  New Data 78 Register
    type NWDAT78_Register
@@ -882,8 +903,9 @@ package TMS570LC43xx.Dcan is
             Arr : NWDAT78_NewDat_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for NWDAT78_Register use record
       Val at 0 range 0 .. 31;
@@ -904,7 +926,8 @@ package TMS570LC43xx.Dcan is
    --  INTPNDX_INTPNDREG array
    type INTPNDX_INTPNDREG_Field_Array is array (1 .. 8)
      of INTPNDX_INTPNDREG_Element
-     with Component_Size => 2, Size => 16;
+     with Component_Size => 2, Size => 16,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for INTPNDX_INTPNDREG
    type INTPNDX_INTPNDREG_Field
@@ -919,7 +942,8 @@ package TMS570LC43xx.Dcan is
             Arr : INTPNDX_INTPNDREG_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 16;
+     with Unchecked_Union, Size => 16, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for INTPNDX_INTPNDREG_Field use record
       Val at 0 range 0 .. 15;
@@ -954,7 +978,8 @@ package TMS570LC43xx.Dcan is
    --  INTPND12_INTPND array
    type INTPND12_INTPND_Field_Array is array (1 .. 32)
      of INTPND12_INTPND_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Interrupt Pending 12 Register
    type INTPND12_Register
@@ -969,8 +994,9 @@ package TMS570LC43xx.Dcan is
             Arr : INTPND12_INTPND_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for INTPND12_Register use record
       Val at 0 range 0 .. 31;
@@ -987,7 +1013,8 @@ package TMS570LC43xx.Dcan is
    --  INTPND34_INTPND array
    type INTPND34_INTPND_Field_Array is array (33 .. 64)
      of INTPND34_INTPND_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Interrupt Pending 34 Register
    type INTPND34_Register
@@ -1002,8 +1029,9 @@ package TMS570LC43xx.Dcan is
             Arr : INTPND34_INTPND_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for INTPND34_Register use record
       Val at 0 range 0 .. 31;
@@ -1020,7 +1048,8 @@ package TMS570LC43xx.Dcan is
    --  INTPND56_INTPND array
    type INTPND56_INTPND_Field_Array is array (65 .. 96)
      of INTPND56_INTPND_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Interrupt Pending 56 Register
    type INTPND56_Register
@@ -1035,8 +1064,9 @@ package TMS570LC43xx.Dcan is
             Arr : INTPND56_INTPND_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for INTPND56_Register use record
       Val at 0 range 0 .. 31;
@@ -1053,7 +1083,8 @@ package TMS570LC43xx.Dcan is
    --  INTPND78_INTPND array
    type INTPND78_INTPND_Field_Array is array (97 .. 128)
      of INTPND78_INTPND_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Interrupt Pending 78 Register
    type INTPND78_Register
@@ -1068,8 +1099,9 @@ package TMS570LC43xx.Dcan is
             Arr : INTPND78_INTPND_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for INTPND78_Register use record
       Val at 0 range 0 .. 31;
@@ -1090,7 +1122,8 @@ package TMS570LC43xx.Dcan is
    --  MSGVALX_MSGVALREG array
    type MSGVALX_MSGVALREG_Field_Array is array (1 .. 8)
      of MSGVALX_MSGVALREG_Element
-     with Component_Size => 2, Size => 16;
+     with Component_Size => 2, Size => 16,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for MSGVALX_MSGVALREG
    type MSGVALX_MSGVALREG_Field
@@ -1105,7 +1138,8 @@ package TMS570LC43xx.Dcan is
             Arr : MSGVALX_MSGVALREG_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 16;
+     with Unchecked_Union, Size => 16, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for MSGVALX_MSGVALREG_Field use record
       Val at 0 range 0 .. 15;
@@ -1140,7 +1174,8 @@ package TMS570LC43xx.Dcan is
    --  MSGVAL12_MSGVAL array
    type MSGVAL12_MSGVAL_Field_Array is array (1 .. 32)
      of MSGVAL12_MSGVAL_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Message Valid 12 Register
    type MSGVAL12_Register
@@ -1155,8 +1190,9 @@ package TMS570LC43xx.Dcan is
             Arr : MSGVAL12_MSGVAL_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for MSGVAL12_Register use record
       Val at 0 range 0 .. 31;
@@ -1173,7 +1209,8 @@ package TMS570LC43xx.Dcan is
    --  MSGVAL34_MSGVAL array
    type MSGVAL34_MSGVAL_Field_Array is array (33 .. 64)
      of MSGVAL34_MSGVAL_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Message Valid 34 Register
    type MSGVAL34_Register
@@ -1188,8 +1225,9 @@ package TMS570LC43xx.Dcan is
             Arr : MSGVAL34_MSGVAL_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for MSGVAL34_Register use record
       Val at 0 range 0 .. 31;
@@ -1206,7 +1244,8 @@ package TMS570LC43xx.Dcan is
    --  MSGVAL56_MSGVAL array
    type MSGVAL56_MSGVAL_Field_Array is array (65 .. 96)
      of MSGVAL56_MSGVAL_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Message Valid 56 Register
    type MSGVAL56_Register
@@ -1221,8 +1260,9 @@ package TMS570LC43xx.Dcan is
             Arr : MSGVAL56_MSGVAL_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for MSGVAL56_Register use record
       Val at 0 range 0 .. 31;
@@ -1239,7 +1279,8 @@ package TMS570LC43xx.Dcan is
    --  MSGVAL78_MSGVAL array
    type MSGVAL78_MSGVAL_Field_Array is array (97 .. 128)
      of MSGVAL78_MSGVAL_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Message Valid 78 Register
    type MSGVAL78_Register
@@ -1254,8 +1295,9 @@ package TMS570LC43xx.Dcan is
             Arr : MSGVAL78_MSGVAL_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for MSGVAL78_Register use record
       Val at 0 range 0 .. 31;
@@ -1272,7 +1314,8 @@ package TMS570LC43xx.Dcan is
    --  INTMUX12_INTMUX array
    type INTMUX12_INTMUX_Field_Array is array (1 .. 32)
      of INTMUX12_INTMUX_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Interrupt Multiplexer 12 Register
    type INTMUX12_Register
@@ -1287,8 +1330,9 @@ package TMS570LC43xx.Dcan is
             Arr : INTMUX12_INTMUX_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for INTMUX12_Register use record
       Val at 0 range 0 .. 31;
@@ -1305,7 +1349,8 @@ package TMS570LC43xx.Dcan is
    --  INTMUX34_INTMUX array
    type INTMUX34_INTMUX_Field_Array is array (33 .. 64)
      of INTMUX34_INTMUX_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Interrupt Multiplexer 34 Register
    type INTMUX34_Register
@@ -1320,8 +1365,9 @@ package TMS570LC43xx.Dcan is
             Arr : INTMUX34_INTMUX_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for INTMUX34_Register use record
       Val at 0 range 0 .. 31;
@@ -1338,7 +1384,8 @@ package TMS570LC43xx.Dcan is
    --  INTMUX56_INTMUX array
    type INTMUX56_INTMUX_Field_Array is array (65 .. 96)
      of INTMUX56_INTMUX_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Interrupt Multiplexer 56 Register
    type INTMUX56_Register
@@ -1353,8 +1400,9 @@ package TMS570LC43xx.Dcan is
             Arr : INTMUX56_INTMUX_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for INTMUX56_Register use record
       Val at 0 range 0 .. 31;
@@ -1371,7 +1419,8 @@ package TMS570LC43xx.Dcan is
    --  INTMUX78_INTMUX array
    type INTMUX78_INTMUX_Field_Array is array (97 .. 128)
      of INTMUX78_INTMUX_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Interrupt Multiplexer 78 Register
    type INTMUX78_Register
@@ -1386,8 +1435,9 @@ package TMS570LC43xx.Dcan is
             Arr : INTMUX78_INTMUX_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for INTMUX78_Register use record
       Val at 0 range 0 .. 31;
@@ -1593,7 +1643,8 @@ package TMS570LC43xx.Dcan is
 
    --  IF1DATA_DATA array
    type IF1DATA_DATA_Field_Array is array (0 .. 3) of IF1DATA_DATA_Element
-     with Component_Size => 8, Size => 32;
+     with Component_Size => 8, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  IF1 Data A Register
    type IF1DATA_Register
@@ -1608,8 +1659,9 @@ package TMS570LC43xx.Dcan is
             Arr : IF1DATA_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IF1DATA_Register use record
       Val at 0 range 0 .. 31;
@@ -1625,7 +1677,8 @@ package TMS570LC43xx.Dcan is
 
    --  IF1DATB_DATA array
    type IF1DATB_DATA_Field_Array is array (4 .. 7) of IF1DATB_DATA_Element
-     with Component_Size => 8, Size => 32;
+     with Component_Size => 8, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  IF1 Data B Register
    type IF1DATB_Register
@@ -1640,8 +1693,9 @@ package TMS570LC43xx.Dcan is
             Arr : IF1DATB_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IF1DATB_Register use record
       Val at 0 range 0 .. 31;
@@ -1847,7 +1901,8 @@ package TMS570LC43xx.Dcan is
 
    --  IF2DATA_DATA array
    type IF2DATA_DATA_Field_Array is array (0 .. 3) of IF2DATA_DATA_Element
-     with Component_Size => 8, Size => 32;
+     with Component_Size => 8, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  IF2 Data A Register
    type IF2DATA_Register
@@ -1862,8 +1917,9 @@ package TMS570LC43xx.Dcan is
             Arr : IF2DATA_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IF2DATA_Register use record
       Val at 0 range 0 .. 31;
@@ -1879,7 +1935,8 @@ package TMS570LC43xx.Dcan is
 
    --  IF2DATB_DATA array
    type IF2DATB_DATA_Field_Array is array (4 .. 7) of IF2DATB_DATA_Element
-     with Component_Size => 8, Size => 32;
+     with Component_Size => 8, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  IF2 Data B Register
    type IF2DATB_Register
@@ -1894,8 +1951,9 @@ package TMS570LC43xx.Dcan is
             Arr : IF2DATB_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IF2DATB_Register use record
       Val at 0 range 0 .. 31;
@@ -2104,7 +2162,8 @@ package TMS570LC43xx.Dcan is
 
    --  IF3DATA_DATA array
    type IF3DATA_DATA_Field_Array is array (0 .. 3) of IF3DATA_DATA_Element
-     with Component_Size => 8, Size => 32;
+     with Component_Size => 8, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  IF3 Data A Register
    type IF3DATA_Register
@@ -2119,8 +2178,9 @@ package TMS570LC43xx.Dcan is
             Arr : IF3DATA_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IF3DATA_Register use record
       Val at 0 range 0 .. 31;
@@ -2136,7 +2196,8 @@ package TMS570LC43xx.Dcan is
 
    --  IF3DATB_DATA array
    type IF3DATB_DATA_Field_Array is array (4 .. 7) of IF3DATB_DATA_Element
-     with Component_Size => 8, Size => 32;
+     with Component_Size => 8, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  IF3 Data B Register
    type IF3DATB_Register
@@ -2151,8 +2212,9 @@ package TMS570LC43xx.Dcan is
             Arr : IF3DATB_DATA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IF3DATB_Register use record
       Val at 0 range 0 .. 31;
@@ -2169,7 +2231,8 @@ package TMS570LC43xx.Dcan is
    --  IF3UPD12_IF3UPDEN array
    type IF3UPD12_IF3UPDEN_Field_Array is array (1 .. 32)
      of IF3UPD12_IF3UPDEN_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  IF3 Update Enable 12 Register
    type IF3UPD12_Register
@@ -2184,8 +2247,9 @@ package TMS570LC43xx.Dcan is
             Arr : IF3UPD12_IF3UPDEN_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IF3UPD12_Register use record
       Val at 0 range 0 .. 31;
@@ -2202,7 +2266,8 @@ package TMS570LC43xx.Dcan is
    --  IF3UPD34_IF3UPDEN array
    type IF3UPD34_IF3UPDEN_Field_Array is array (33 .. 64)
      of IF3UPD34_IF3UPDEN_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  IF3 Update Enable 34 Register
    type IF3UPD34_Register
@@ -2217,8 +2282,9 @@ package TMS570LC43xx.Dcan is
             Arr : IF3UPD34_IF3UPDEN_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IF3UPD34_Register use record
       Val at 0 range 0 .. 31;
@@ -2235,7 +2301,8 @@ package TMS570LC43xx.Dcan is
    --  IF3UPD56_IF3UPDEN array
    type IF3UPD56_IF3UPDEN_Field_Array is array (65 .. 96)
      of IF3UPD56_IF3UPDEN_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  IF3 Update Enable 56 Register
    type IF3UPD56_Register
@@ -2250,8 +2317,9 @@ package TMS570LC43xx.Dcan is
             Arr : IF3UPD56_IF3UPDEN_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IF3UPD56_Register use record
       Val at 0 range 0 .. 31;
@@ -2268,7 +2336,8 @@ package TMS570LC43xx.Dcan is
    --  IF3UPD78_IF3UPDEN array
    type IF3UPD78_IF3UPDEN_Field_Array is array (97 .. 128)
      of IF3UPD78_IF3UPDEN_Element
-     with Component_Size => 1, Size => 32;
+     with Component_Size => 1, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  IF3 Update Enable 78 Register
    type IF3UPD78_Register
@@ -2283,8 +2352,9 @@ package TMS570LC43xx.Dcan is
             Arr : IF3UPD78_IF3UPDEN_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for IF3UPD78_Register use record
       Val at 0 range 0 .. 31;

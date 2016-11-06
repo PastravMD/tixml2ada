@@ -223,7 +223,8 @@ package TMS570LC43xx.Sys is
 
    --  CsDis_ClkSr array
    type CsDis_ClkSr_Field_Array is array (0 .. 1) of CsDis_ClkSr_Element
-     with Component_Size => 1, Size => 2;
+     with Component_Size => 1, Size => 2,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CsDis_ClkSr
    type CsDis_ClkSr_Field
@@ -238,7 +239,8 @@ package TMS570LC43xx.Sys is
             Arr : CsDis_ClkSr_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 2;
+     with Unchecked_Union, Size => 2, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CsDis_ClkSr_Field use record
       Val at 0 range 0 .. 1;
@@ -253,7 +255,8 @@ package TMS570LC43xx.Sys is
 
    --  CsDis_ClkSr array
    type CsDis_ClkSr_Field_Array_1 is array (3 .. 7) of CsDis_ClkSr_Element
-     with Component_Size => 1, Size => 5;
+     with Component_Size => 1, Size => 5,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CsDis_ClkSr
    type CsDis_ClkSr_Field_1
@@ -268,7 +271,8 @@ package TMS570LC43xx.Sys is
             Arr : CsDis_ClkSr_Field_Array_1;
       end case;
    end record
-     with Unchecked_Union, Size => 5;
+     with Unchecked_Union, Size => 5, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CsDis_ClkSr_Field_1 use record
       Val at 0 range 0 .. 4;
@@ -313,7 +317,8 @@ package TMS570LC43xx.Sys is
    --  CsDisSet_SetClkSr array
    type CsDisSet_SetClkSr_Field_Array is array (0 .. 1)
      of CsDisSet_SetClkSr_Element
-     with Component_Size => 1, Size => 2;
+     with Component_Size => 1, Size => 2,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CsDisSet_SetClkSr
    type CsDisSet_SetClkSr_Field
@@ -328,7 +333,8 @@ package TMS570LC43xx.Sys is
             Arr : CsDisSet_SetClkSr_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 2;
+     with Unchecked_Union, Size => 2, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CsDisSet_SetClkSr_Field use record
       Val at 0 range 0 .. 1;
@@ -344,7 +350,8 @@ package TMS570LC43xx.Sys is
    --  CsDisSet_SetClkSr array
    type CsDisSet_SetClkSr_Field_Array_1 is array (3 .. 7)
      of CsDisSet_SetClkSr_Element
-     with Component_Size => 1, Size => 5;
+     with Component_Size => 1, Size => 5,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CsDisSet_SetClkSr
    type CsDisSet_SetClkSr_Field_1
@@ -359,7 +366,8 @@ package TMS570LC43xx.Sys is
             Arr : CsDisSet_SetClkSr_Field_Array_1;
       end case;
    end record
-     with Unchecked_Union, Size => 5;
+     with Unchecked_Union, Size => 5, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CsDisSet_SetClkSr_Field_1 use record
       Val at 0 range 0 .. 4;
@@ -405,7 +413,8 @@ package TMS570LC43xx.Sys is
    --  CsDisClr_ClrClkSr array
    type CsDisClr_ClrClkSr_Field_Array is array (0 .. 1)
      of CsDisClr_ClrClkSr_Element
-     with Component_Size => 1, Size => 2;
+     with Component_Size => 1, Size => 2,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CsDisClr_ClrClkSr
    type CsDisClr_ClrClkSr_Field
@@ -420,7 +429,8 @@ package TMS570LC43xx.Sys is
             Arr : CsDisClr_ClrClkSr_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 2;
+     with Unchecked_Union, Size => 2, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CsDisClr_ClrClkSr_Field use record
       Val at 0 range 0 .. 1;
@@ -436,7 +446,8 @@ package TMS570LC43xx.Sys is
    --  CsDisClr_ClrClkSr array
    type CsDisClr_ClrClkSr_Field_Array_1 is array (3 .. 7)
      of CsDisClr_ClrClkSr_Element
-     with Component_Size => 1, Size => 5;
+     with Component_Size => 1, Size => 5,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CsDisClr_ClrClkSr
    type CsDisClr_ClrClkSr_Field_1
@@ -451,7 +462,8 @@ package TMS570LC43xx.Sys is
             Arr : CsDisClr_ClrClkSr_Field_Array_1;
       end case;
    end record
-     with Unchecked_Union, Size => 5;
+     with Unchecked_Union, Size => 5, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CsDisClr_ClrClkSr_Field_1 use record
       Val at 0 range 0 .. 4;

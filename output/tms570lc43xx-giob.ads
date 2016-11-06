@@ -25,7 +25,8 @@ package TMS570LC43xx.GioB is
 
    --  Dir_GioDir array
    type Dir_GioDir_Field_Array is array (0 .. 7) of Dir_GioDir_Element
-     with Component_Size => 1, Size => 8;
+     with Component_Size => 1, Size => 8,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for Dir_GioDir
    type Dir_GioDir_Field
@@ -40,7 +41,8 @@ package TMS570LC43xx.GioB is
             Arr : Dir_GioDir_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 8;
+     with Unchecked_Union, Size => 8, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for Dir_GioDir_Field use record
       Val at 0 range 0 .. 7;
@@ -77,7 +79,8 @@ package TMS570LC43xx.GioB is
 
    --  DIn_GioDIn array
    type DIn_GioDIn_Field_Array is array (0 .. 7) of DIn_GioDIn_Element
-     with Component_Size => 1, Size => 8;
+     with Component_Size => 1, Size => 8,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for DIn_GioDIn
    type DIn_GioDIn_Field
@@ -92,7 +95,8 @@ package TMS570LC43xx.GioB is
             Arr : DIn_GioDIn_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 8;
+     with Unchecked_Union, Size => 8, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for DIn_GioDIn_Field use record
       Val at 0 range 0 .. 7;
@@ -129,7 +133,8 @@ package TMS570LC43xx.GioB is
 
    --  DOut_GioDOut array
    type DOut_GioDOut_Field_Array is array (0 .. 7) of DOut_GioDOut_Element
-     with Component_Size => 1, Size => 8;
+     with Component_Size => 1, Size => 8,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for DOut_GioDOut
    type DOut_GioDOut_Field
@@ -144,7 +149,8 @@ package TMS570LC43xx.GioB is
             Arr : DOut_GioDOut_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 8;
+     with Unchecked_Union, Size => 8, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for DOut_GioDOut_Field use record
       Val at 0 range 0 .. 7;
@@ -181,7 +187,8 @@ package TMS570LC43xx.GioB is
 
    --  DSet_GioDSet array
    type DSet_GioDSet_Field_Array is array (0 .. 7) of DSet_GioDSet_Element
-     with Component_Size => 1, Size => 8;
+     with Component_Size => 1, Size => 8,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for DSet_GioDSet
    type DSet_GioDSet_Field
@@ -196,7 +203,8 @@ package TMS570LC43xx.GioB is
             Arr : DSet_GioDSet_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 8;
+     with Unchecked_Union, Size => 8, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for DSet_GioDSet_Field use record
       Val at 0 range 0 .. 7;
@@ -233,7 +241,8 @@ package TMS570LC43xx.GioB is
 
    --  DClr_GioDClr array
    type DClr_GioDClr_Field_Array is array (0 .. 7) of DClr_GioDClr_Element
-     with Component_Size => 1, Size => 8;
+     with Component_Size => 1, Size => 8,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for DClr_GioDClr
    type DClr_GioDClr_Field
@@ -248,7 +257,8 @@ package TMS570LC43xx.GioB is
             Arr : DClr_GioDClr_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 8;
+     with Unchecked_Union, Size => 8, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for DClr_GioDClr_Field use record
       Val at 0 range 0 .. 7;
@@ -285,7 +295,8 @@ package TMS570LC43xx.GioB is
 
    --  PDr_GioPDr array
    type PDr_GioPDr_Field_Array is array (0 .. 7) of PDr_GioPDr_Element
-     with Component_Size => 1, Size => 8;
+     with Component_Size => 1, Size => 8,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for PDr_GioPDr
    type PDr_GioPDr_Field
@@ -300,7 +311,8 @@ package TMS570LC43xx.GioB is
             Arr : PDr_GioPDr_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 8;
+     with Unchecked_Union, Size => 8, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for PDr_GioPDr_Field use record
       Val at 0 range 0 .. 7;
@@ -337,7 +349,8 @@ package TMS570LC43xx.GioB is
 
    --  PDis_GioPDis array
    type PDis_GioPDis_Field_Array is array (0 .. 7) of PDis_GioPDis_Element
-     with Component_Size => 1, Size => 8;
+     with Component_Size => 1, Size => 8,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for PDis_GioPDis
    type PDis_GioPDis_Field
@@ -352,7 +365,8 @@ package TMS570LC43xx.GioB is
             Arr : PDis_GioPDis_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 8;
+     with Unchecked_Union, Size => 8, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for PDis_GioPDis_Field use record
       Val at 0 range 0 .. 7;
@@ -389,7 +403,8 @@ package TMS570LC43xx.GioB is
 
    --  PSel_GioPSel array
    type PSel_GioPSel_Field_Array is array (0 .. 7) of PSel_GioPSel_Element
-     with Component_Size => 1, Size => 8;
+     with Component_Size => 1, Size => 8,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for PSel_GioPSel
    type PSel_GioPSel_Field
@@ -404,7 +419,8 @@ package TMS570LC43xx.GioB is
             Arr : PSel_GioPSel_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 8;
+     with Unchecked_Union, Size => 8, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for PSel_GioPSel_Field use record
       Val at 0 range 0 .. 7;

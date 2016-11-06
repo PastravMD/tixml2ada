@@ -12,6 +12,8 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
+-- common Ada dependencies
+with System;
 with Ada.Characters.Handling;
 with Ada.Strings.Maps;
 with Ada.Strings.Fixed;
@@ -607,9 +609,19 @@ package body Descriptors.Field is
                      "Component_Size => " & To_String (Fields (Index).Size));
                   Add_Size_Aspect (Array_T, Fields (Index).Size * Length);
 
+                  Add_Aspect
+                    (Array_T,
+                     "Scalar_Storage_Order => System.Low_Order_First ");
+
                   Add (Spec, Array_T);
 
                   Add_Size_Aspect (Union_T, Fields (Index).Size * Length);
+
+                  Add_Bit_Order_Aspect (Union_T, System.Low_Order_First);
+
+                  Add_Aspect
+                    (Union_T,
+                     "Scalar_Storage_Order => System.Low_Order_First ");
 
                   Add_Field
                     (Rec      => Union_T,

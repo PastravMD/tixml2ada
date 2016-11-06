@@ -1712,7 +1712,8 @@ package TMS570LC43xx.EMAC is
    --  MACSRCADDRLO_MACSRCADDR array
    type MACSRCADDRLO_MACSRCADDR_Field_Array is array (0 .. 1)
      of MACSRCADDRLO_MACSRCADDR_Element
-     with Component_Size => 8, Size => 16;
+     with Component_Size => 8, Size => 16,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for MACSRCADDRLO_MACSRCADDR
    type MACSRCADDRLO_MACSRCADDR_Field
@@ -1727,7 +1728,8 @@ package TMS570LC43xx.EMAC is
             Arr : MACSRCADDRLO_MACSRCADDR_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 16;
+     with Unchecked_Union, Size => 16, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for MACSRCADDRLO_MACSRCADDR_Field use record
       Val at 0 range 0 .. 15;
@@ -1762,7 +1764,8 @@ package TMS570LC43xx.EMAC is
    --  MACSRCADDRHI_MACSRCADDR array
    type MACSRCADDRHI_MACSRCADDR_Field_Array is array (2 .. 5)
      of MACSRCADDRHI_MACSRCADDR_Element
-     with Component_Size => 8, Size => 32;
+     with Component_Size => 8, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  MAC Source Address High
    type MACSRCADDRHI_Register
@@ -1777,8 +1780,9 @@ package TMS570LC43xx.EMAC is
             Arr : MACSRCADDRHI_MACSRCADDR_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for MACSRCADDRHI_Register use record
       Val at 0 range 0 .. 31;
@@ -1899,7 +1903,8 @@ package TMS570LC43xx.EMAC is
    --  MACADDRLO_MACADDR array
    type MACADDRLO_MACADDR_Field_Array is array (0 .. 1)
      of MACADDRLO_MACADDR_Element
-     with Component_Size => 8, Size => 16;
+     with Component_Size => 8, Size => 16,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for MACADDRLO_MACADDR
    type MACADDRLO_MACADDR_Field
@@ -1914,7 +1919,8 @@ package TMS570LC43xx.EMAC is
             Arr : MACADDRLO_MACADDR_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 16;
+     with Unchecked_Union, Size => 16, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for MACADDRLO_MACADDR_Field use record
       Val at 0 range 0 .. 15;
@@ -1958,7 +1964,8 @@ package TMS570LC43xx.EMAC is
    --  MACADDRHI_MACADDR array
    type MACADDRHI_MACADDR_Field_Array is array (2 .. 5)
      of MACADDRHI_MACADDR_Element
-     with Component_Size => 8, Size => 32;
+     with Component_Size => 8, Size => 32,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  MAC Address High - Receive Address Matching
    type MACADDRHI_Register
@@ -1973,8 +1980,9 @@ package TMS570LC43xx.EMAC is
             Arr : MACADDRHI_MACADDR_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
-          Bit_Order => System.Low_Order_First;
+     with Unchecked_Union, Size => 32, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ,
+          Volatile_Full_Access;
 
    for MACADDRHI_Register use record
       Val at 0 range 0 .. 31;

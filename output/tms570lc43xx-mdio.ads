@@ -81,7 +81,8 @@ package TMS570LC43xx.MDIO is
    --  LINKINTRAW_USERPHY array
    type LINKINTRAW_USERPHY_Field_Array is array (0 .. 1)
      of LINKINTRAW_USERPHY_Element
-     with Component_Size => 1, Size => 2;
+     with Component_Size => 1, Size => 2,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for LINKINTRAW_USERPHY
    type LINKINTRAW_USERPHY_Field
@@ -96,7 +97,8 @@ package TMS570LC43xx.MDIO is
             Arr : LINKINTRAW_USERPHY_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 2;
+     with Unchecked_Union, Size => 2, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for LINKINTRAW_USERPHY_Field use record
       Val at 0 range 0 .. 1;
@@ -134,7 +136,8 @@ package TMS570LC43xx.MDIO is
    --  LINKINTMASKED_USERPHY array
    type LINKINTMASKED_USERPHY_Field_Array is array (0 .. 1)
      of LINKINTMASKED_USERPHY_Element
-     with Component_Size => 1, Size => 2;
+     with Component_Size => 1, Size => 2,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for LINKINTMASKED_USERPHY
    type LINKINTMASKED_USERPHY_Field
@@ -149,7 +152,8 @@ package TMS570LC43xx.MDIO is
             Arr : LINKINTMASKED_USERPHY_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 2;
+     with Unchecked_Union, Size => 2, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for LINKINTMASKED_USERPHY_Field use record
       Val at 0 range 0 .. 1;
@@ -187,7 +191,8 @@ package TMS570LC43xx.MDIO is
    --  USERINTRAW_USERACCESS array
    type USERINTRAW_USERACCESS_Field_Array is array (0 .. 1)
      of USERINTRAW_USERACCESS_Element
-     with Component_Size => 1, Size => 2;
+     with Component_Size => 1, Size => 2,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for USERINTRAW_USERACCESS
    type USERINTRAW_USERACCESS_Field
@@ -202,7 +207,8 @@ package TMS570LC43xx.MDIO is
             Arr : USERINTRAW_USERACCESS_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 2;
+     with Unchecked_Union, Size => 2, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for USERINTRAW_USERACCESS_Field use record
       Val at 0 range 0 .. 1;
@@ -240,7 +246,8 @@ package TMS570LC43xx.MDIO is
    --  USERINTMASKED_USERACCESS array
    type USERINTMASKED_USERACCESS_Field_Array is array (0 .. 1)
      of USERINTMASKED_USERACCESS_Element
-     with Component_Size => 1, Size => 2;
+     with Component_Size => 1, Size => 2,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for USERINTMASKED_USERACCESS
    type USERINTMASKED_USERACCESS_Field
@@ -255,7 +262,8 @@ package TMS570LC43xx.MDIO is
             Arr : USERINTMASKED_USERACCESS_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 2;
+     with Unchecked_Union, Size => 2, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for USERINTMASKED_USERACCESS_Field use record
       Val at 0 range 0 .. 1;
@@ -293,7 +301,8 @@ package TMS570LC43xx.MDIO is
    --  USERINTMASKSET_USERACCESS array
    type USERINTMASKSET_USERACCESS_Field_Array is array (0 .. 1)
      of USERINTMASKSET_USERACCESS_Element
-     with Component_Size => 1, Size => 2;
+     with Component_Size => 1, Size => 2,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for USERINTMASKSET_USERACCESS
    type USERINTMASKSET_USERACCESS_Field
@@ -308,7 +317,8 @@ package TMS570LC43xx.MDIO is
             Arr : USERINTMASKSET_USERACCESS_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 2;
+     with Unchecked_Union, Size => 2, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for USERINTMASKSET_USERACCESS_Field use record
       Val at 0 range 0 .. 1;
@@ -346,7 +356,8 @@ package TMS570LC43xx.MDIO is
    --  USERINTMASKCLEAR_USERACCESS array
    type USERINTMASKCLEAR_USERACCESS_Field_Array is array (0 .. 1)
      of USERINTMASKCLEAR_USERACCESS_Element
-     with Component_Size => 1, Size => 2;
+     with Component_Size => 1, Size => 2,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for USERINTMASKCLEAR_USERACCESS
    type USERINTMASKCLEAR_USERACCESS_Field
@@ -361,7 +372,8 @@ package TMS570LC43xx.MDIO is
             Arr : USERINTMASKCLEAR_USERACCESS_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 2;
+     with Unchecked_Union, Size => 2, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for USERINTMASKCLEAR_USERACCESS_Field use record
       Val at 0 range 0 .. 1;

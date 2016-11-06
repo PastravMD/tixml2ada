@@ -91,7 +91,8 @@ package TMS570LC43xx.Rti is
    --  RTICAPCTRL_CAPCNTR array
    type RTICAPCTRL_CAPCNTR_Field_Array is array (0 .. 1)
      of RTICAPCTRL_CAPCNTR_Element
-     with Component_Size => 1, Size => 2;
+     with Component_Size => 1, Size => 2,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for RTICAPCTRL_CAPCNTR
    type RTICAPCTRL_CAPCNTR_Field
@@ -106,7 +107,8 @@ package TMS570LC43xx.Rti is
             Arr : RTICAPCTRL_CAPCNTR_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 2;
+     with Unchecked_Union, Size => 2, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for RTICAPCTRL_CAPCNTR_Field use record
       Val at 0 range 0 .. 1;
@@ -191,7 +193,8 @@ package TMS570LC43xx.Rti is
    --  RTISETINTENA_SETINT array
    type RTISETINTENA_SETINT_Field_Array is array (0 .. 3)
      of RTISETINTENA_SETINT_Element
-     with Component_Size => 1, Size => 4;
+     with Component_Size => 1, Size => 4,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for RTISETINTENA_SETINT
    type RTISETINTENA_SETINT_Field
@@ -206,7 +209,8 @@ package TMS570LC43xx.Rti is
             Arr : RTISETINTENA_SETINT_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 4;
+     with Unchecked_Union, Size => 4, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for RTISETINTENA_SETINT_Field use record
       Val at 0 range 0 .. 3;
@@ -225,7 +229,8 @@ package TMS570LC43xx.Rti is
    --  RTISETINTENA_SETDMA array
    type RTISETINTENA_SETDMA_Field_Array is array (0 .. 3)
      of RTISETINTENA_SETDMA_Element
-     with Component_Size => 1, Size => 4;
+     with Component_Size => 1, Size => 4,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for RTISETINTENA_SETDMA
    type RTISETINTENA_SETDMA_Field
@@ -240,7 +245,8 @@ package TMS570LC43xx.Rti is
             Arr : RTISETINTENA_SETDMA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 4;
+     with Unchecked_Union, Size => 4, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for RTISETINTENA_SETDMA_Field use record
       Val at 0 range 0 .. 3;
@@ -302,7 +308,8 @@ package TMS570LC43xx.Rti is
    --  RTICLEARINTENA_CLEARINT array
    type RTICLEARINTENA_CLEARINT_Field_Array is array (0 .. 3)
      of RTICLEARINTENA_CLEARINT_Element
-     with Component_Size => 1, Size => 4;
+     with Component_Size => 1, Size => 4,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for RTICLEARINTENA_CLEARINT
    type RTICLEARINTENA_CLEARINT_Field
@@ -317,7 +324,8 @@ package TMS570LC43xx.Rti is
             Arr : RTICLEARINTENA_CLEARINT_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 4;
+     with Unchecked_Union, Size => 4, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for RTICLEARINTENA_CLEARINT_Field use record
       Val at 0 range 0 .. 3;
@@ -336,7 +344,8 @@ package TMS570LC43xx.Rti is
    --  RTICLEARINTENA_CLEARDMA array
    type RTICLEARINTENA_CLEARDMA_Field_Array is array (0 .. 3)
      of RTICLEARINTENA_CLEARDMA_Element
-     with Component_Size => 1, Size => 4;
+     with Component_Size => 1, Size => 4,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for RTICLEARINTENA_CLEARDMA
    type RTICLEARINTENA_CLEARDMA_Field
@@ -351,7 +360,8 @@ package TMS570LC43xx.Rti is
             Arr : RTICLEARINTENA_CLEARDMA_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 4;
+     with Unchecked_Union, Size => 4, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for RTICLEARINTENA_CLEARDMA_Field use record
       Val at 0 range 0 .. 3;
@@ -413,7 +423,8 @@ package TMS570LC43xx.Rti is
    --  RTIINTFLAG_INT array
    type RTIINTFLAG_INT_Field_Array is array (0 .. 3)
      of RTIINTFLAG_INT_Element
-     with Component_Size => 1, Size => 4;
+     with Component_Size => 1, Size => 4,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for RTIINTFLAG_INT
    type RTIINTFLAG_INT_Field
@@ -428,7 +439,8 @@ package TMS570LC43xx.Rti is
             Arr : RTIINTFLAG_INT_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 4;
+     with Unchecked_Union, Size => 4, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for RTIINTFLAG_INT_Field use record
       Val at 0 range 0 .. 3;

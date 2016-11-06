@@ -166,7 +166,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_MULTIPROCESSOR_ID_AFFINITY_L array
    type CP15_MULTIPROCESSOR_ID_AFFINITY_L_Field_Array is array (0 .. 2)
      of CP15_MULTIPROCESSOR_ID_AFFINITY_L_Element
-     with Component_Size => 8, Size => 24;
+     with Component_Size => 8, Size => 24,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_MULTIPROCESSOR_ID_AFFINITY_L
    type CP15_MULTIPROCESSOR_ID_AFFINITY_L_Field
@@ -181,7 +182,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_MULTIPROCESSOR_ID_AFFINITY_L_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 24;
+     with Unchecked_Union, Size => 24, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_MULTIPROCESSOR_ID_AFFINITY_L_Field use record
       Val at 0 range 0 .. 23;
@@ -224,7 +226,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_PROCESSOR_FEATURE_0_STATE array
    type CP15_PROCESSOR_FEATURE_0_STATE_Field_Array is array (0 .. 3)
      of CP15_PROCESSOR_FEATURE_0_STATE_Element
-     with Component_Size => 4, Size => 16;
+     with Component_Size => 4, Size => 16,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_PROCESSOR_FEATURE_0_STATE
    type CP15_PROCESSOR_FEATURE_0_STATE_Field
@@ -239,7 +242,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_PROCESSOR_FEATURE_0_STATE_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 16;
+     with Unchecked_Union, Size => 16, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_PROCESSOR_FEATURE_0_STATE_Field use record
       Val at 0 range 0 .. 15;
@@ -642,7 +646,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION array
    type CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION_Field_Array is array (1 .. 2)
      of CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION_Element
-     with Component_Size => 4, Size => 8;
+     with Component_Size => 4, Size => 8,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION
    type CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION_Field
@@ -657,7 +662,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 8;
+     with Unchecked_Union, Size => 8, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION_Field use record
       Val at 0 range 0 .. 7;
@@ -942,7 +948,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_CURRENT_CACHE_LEVEL_ID_CL array
    type CP15_CURRENT_CACHE_LEVEL_ID_CL_Field_Array is array (2 .. 7)
      of CP15_CURRENT_CACHE_LEVEL_ID_CL_Element
-     with Component_Size => 3, Size => 18;
+     with Component_Size => 3, Size => 18,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_CURRENT_CACHE_LEVEL_ID_CL
    type CP15_CURRENT_CACHE_LEVEL_ID_CL_Field
@@ -957,7 +964,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_CURRENT_CACHE_LEVEL_ID_CL_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 18;
+     with Unchecked_Union, Size => 18, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_CURRENT_CACHE_LEVEL_ID_CL_Field use record
       Val at 0 range 0 .. 17;
@@ -1054,7 +1062,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_SYSTEM_CONTROL_Rsv array
    type CP15_SYSTEM_CONTROL_Rsv_Field_Array is array (5 .. 6)
      of CP15_SYSTEM_CONTROL_Rsv_Element
-     with Component_Size => 1, Size => 2;
+     with Component_Size => 1, Size => 2,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_SYSTEM_CONTROL_Rsv
    type CP15_SYSTEM_CONTROL_Rsv_Field
@@ -1069,7 +1078,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_SYSTEM_CONTROL_Rsv_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 2;
+     with Unchecked_Union, Size => 2, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_SYSTEM_CONTROL_Rsv_Field use record
       Val at 0 range 0 .. 1;
@@ -1323,7 +1333,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_COPROCESSOR_ACCESS_CP array
    type CP15_COPROCESSOR_ACCESS_CP_Field_Array is array (10 .. 11)
      of CP15_COPROCESSOR_ACCESS_CP_Element
-     with Component_Size => 2, Size => 4;
+     with Component_Size => 2, Size => 4,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_COPROCESSOR_ACCESS_CP
    type CP15_COPROCESSOR_ACCESS_CP_Field
@@ -1338,7 +1349,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_COPROCESSOR_ACCESS_CP_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 4;
+     with Unchecked_Union, Size => 4, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_COPROCESSOR_ACCESS_CP_Field use record
       Val at 0 range 0 .. 3;
@@ -1800,7 +1812,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_COUNT_ENABLE_SET_P array
    type CP15_COUNT_ENABLE_SET_P_Field_Array is array (0 .. 2)
      of CP15_COUNT_ENABLE_SET_P_Element
-     with Component_Size => 1, Size => 3;
+     with Component_Size => 1, Size => 3,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_COUNT_ENABLE_SET_P
    type CP15_COUNT_ENABLE_SET_P_Field
@@ -1815,7 +1828,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_COUNT_ENABLE_SET_P_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 3;
+     with Unchecked_Union, Size => 3, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_COUNT_ENABLE_SET_P_Field use record
       Val at 0 range 0 .. 2;
@@ -1858,7 +1872,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_COUNT_ENABLE_CLEAR_P array
    type CP15_COUNT_ENABLE_CLEAR_P_Field_Array is array (0 .. 2)
      of CP15_COUNT_ENABLE_CLEAR_P_Element
-     with Component_Size => 1, Size => 3;
+     with Component_Size => 1, Size => 3,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_COUNT_ENABLE_CLEAR_P
    type CP15_COUNT_ENABLE_CLEAR_P_Field
@@ -1873,7 +1888,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_COUNT_ENABLE_CLEAR_P_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 3;
+     with Unchecked_Union, Size => 3, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_COUNT_ENABLE_CLEAR_P_Field use record
       Val at 0 range 0 .. 2;
@@ -1916,7 +1932,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_OVERFLOW_FLAG_STATUS_P array
    type CP15_OVERFLOW_FLAG_STATUS_P_Field_Array is array (0 .. 2)
      of CP15_OVERFLOW_FLAG_STATUS_P_Element
-     with Component_Size => 1, Size => 3;
+     with Component_Size => 1, Size => 3,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_OVERFLOW_FLAG_STATUS_P
    type CP15_OVERFLOW_FLAG_STATUS_P_Field
@@ -1931,7 +1948,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_OVERFLOW_FLAG_STATUS_P_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 3;
+     with Unchecked_Union, Size => 3, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_OVERFLOW_FLAG_STATUS_P_Field use record
       Val at 0 range 0 .. 2;
@@ -1974,7 +1992,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_SOFTWARE_INCREMENT_P array
    type CP15_SOFTWARE_INCREMENT_P_Field_Array is array (0 .. 2)
      of CP15_SOFTWARE_INCREMENT_P_Element
-     with Component_Size => 1, Size => 3;
+     with Component_Size => 1, Size => 3,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_SOFTWARE_INCREMENT_P
    type CP15_SOFTWARE_INCREMENT_P_Field
@@ -1989,7 +2008,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_SOFTWARE_INCREMENT_P_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 3;
+     with Unchecked_Union, Size => 3, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_SOFTWARE_INCREMENT_P_Field use record
       Val at 0 range 0 .. 2;
@@ -2095,7 +2115,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_INTERRUPT_ENABLE_SET_P array
    type CP15_INTERRUPT_ENABLE_SET_P_Field_Array is array (0 .. 2)
      of CP15_INTERRUPT_ENABLE_SET_P_Element
-     with Component_Size => 1, Size => 3;
+     with Component_Size => 1, Size => 3,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_INTERRUPT_ENABLE_SET_P
    type CP15_INTERRUPT_ENABLE_SET_P_Field
@@ -2110,7 +2131,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_INTERRUPT_ENABLE_SET_P_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 3;
+     with Unchecked_Union, Size => 3, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_INTERRUPT_ENABLE_SET_P_Field use record
       Val at 0 range 0 .. 2;
@@ -2153,7 +2175,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_INTERRUPT_ENABLE_CLEAR_P array
    type CP15_INTERRUPT_ENABLE_CLEAR_P_Field_Array is array (0 .. 2)
      of CP15_INTERRUPT_ENABLE_CLEAR_P_Element
-     with Component_Size => 1, Size => 3;
+     with Component_Size => 1, Size => 3,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_INTERRUPT_ENABLE_CLEAR_P
    type CP15_INTERRUPT_ENABLE_CLEAR_P_Field
@@ -2168,7 +2191,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_INTERRUPT_ENABLE_CLEAR_P_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 3;
+     with Unchecked_Union, Size => 3, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_INTERRUPT_ENABLE_CLEAR_P_Field use record
       Val at 0 range 0 .. 2;
@@ -2330,7 +2354,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_NVAL_IRQ_ENABLE_SET_P array
    type CP15_NVAL_IRQ_ENABLE_SET_P_Field_Array is array (0 .. 2)
      of CP15_NVAL_IRQ_ENABLE_SET_P_Element
-     with Component_Size => 1, Size => 3;
+     with Component_Size => 1, Size => 3,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_NVAL_IRQ_ENABLE_SET_P
    type CP15_NVAL_IRQ_ENABLE_SET_P_Field
@@ -2345,7 +2370,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_NVAL_IRQ_ENABLE_SET_P_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 3;
+     with Unchecked_Union, Size => 3, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_NVAL_IRQ_ENABLE_SET_P_Field use record
       Val at 0 range 0 .. 2;
@@ -2388,7 +2414,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_NVAL_FIQ_ENABLE_SET_P array
    type CP15_NVAL_FIQ_ENABLE_SET_P_Field_Array is array (0 .. 2)
      of CP15_NVAL_FIQ_ENABLE_SET_P_Element
-     with Component_Size => 1, Size => 3;
+     with Component_Size => 1, Size => 3,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_NVAL_FIQ_ENABLE_SET_P
    type CP15_NVAL_FIQ_ENABLE_SET_P_Field
@@ -2403,7 +2430,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_NVAL_FIQ_ENABLE_SET_P_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 3;
+     with Unchecked_Union, Size => 3, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_NVAL_FIQ_ENABLE_SET_P_Field use record
       Val at 0 range 0 .. 2;
@@ -2446,7 +2474,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_NVAL_RESET_ENABLE_SET_P array
    type CP15_NVAL_RESET_ENABLE_SET_P_Field_Array is array (0 .. 2)
      of CP15_NVAL_RESET_ENABLE_SET_P_Element
-     with Component_Size => 1, Size => 3;
+     with Component_Size => 1, Size => 3,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_NVAL_RESET_ENABLE_SET_P
    type CP15_NVAL_RESET_ENABLE_SET_P_Field
@@ -2461,7 +2490,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_NVAL_RESET_ENABLE_SET_P_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 3;
+     with Unchecked_Union, Size => 3, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_NVAL_RESET_ENABLE_SET_P_Field use record
       Val at 0 range 0 .. 2;
@@ -2504,7 +2534,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P array
    type CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P_Field_Array is array (0 .. 2)
      of CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P_Element
-     with Component_Size => 1, Size => 3;
+     with Component_Size => 1, Size => 3,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P
    type CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P_Field
@@ -2519,7 +2550,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 3;
+     with Unchecked_Union, Size => 3, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P_Field use record
       Val at 0 range 0 .. 2;
@@ -2563,7 +2595,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_NVAL_IRQ_ENABLE_CLEAR_P array
    type CP15_NVAL_IRQ_ENABLE_CLEAR_P_Field_Array is array (0 .. 2)
      of CP15_NVAL_IRQ_ENABLE_CLEAR_P_Element
-     with Component_Size => 1, Size => 3;
+     with Component_Size => 1, Size => 3,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_NVAL_IRQ_ENABLE_CLEAR_P
    type CP15_NVAL_IRQ_ENABLE_CLEAR_P_Field
@@ -2578,7 +2611,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_NVAL_IRQ_ENABLE_CLEAR_P_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 3;
+     with Unchecked_Union, Size => 3, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_NVAL_IRQ_ENABLE_CLEAR_P_Field use record
       Val at 0 range 0 .. 2;
@@ -2621,7 +2655,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_NVAL_FIQ_ENABLE_CLEAR_P array
    type CP15_NVAL_FIQ_ENABLE_CLEAR_P_Field_Array is array (0 .. 2)
      of CP15_NVAL_FIQ_ENABLE_CLEAR_P_Element
-     with Component_Size => 1, Size => 3;
+     with Component_Size => 1, Size => 3,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_NVAL_FIQ_ENABLE_CLEAR_P
    type CP15_NVAL_FIQ_ENABLE_CLEAR_P_Field
@@ -2636,7 +2671,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_NVAL_FIQ_ENABLE_CLEAR_P_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 3;
+     with Unchecked_Union, Size => 3, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_NVAL_FIQ_ENABLE_CLEAR_P_Field use record
       Val at 0 range 0 .. 2;
@@ -2679,7 +2715,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_NVAL_RESET_ENABLE_CLEAR_P array
    type CP15_NVAL_RESET_ENABLE_CLEAR_P_Field_Array is array (0 .. 2)
      of CP15_NVAL_RESET_ENABLE_CLEAR_P_Element
-     with Component_Size => 1, Size => 3;
+     with Component_Size => 1, Size => 3,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_NVAL_RESET_ENABLE_CLEAR_P
    type CP15_NVAL_RESET_ENABLE_CLEAR_P_Field
@@ -2694,7 +2731,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_NVAL_RESET_ENABLE_CLEAR_P_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 3;
+     with Unchecked_Union, Size => 3, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_NVAL_RESET_ENABLE_CLEAR_P_Field use record
       Val at 0 range 0 .. 2;
@@ -2737,7 +2775,8 @@ package TMS570LC43xx.CP15 is
    --  CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P array
    type CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P_Field_Array is array (0 .. 2)
      of CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P_Element
-     with Component_Size => 1, Size => 3;
+     with Component_Size => 1, Size => 3,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    --  Type definition for CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P
    type CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P_Field
@@ -2752,7 +2791,8 @@ package TMS570LC43xx.CP15 is
             Arr : CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 3;
+     with Unchecked_Union, Size => 3, Bit_Order => System.Low_Order_First,
+          Scalar_Storage_Order => System.Low_Order_First ;
 
    for CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P_Field use record
       Val at 0 range 0 .. 2;
