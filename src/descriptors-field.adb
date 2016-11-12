@@ -357,6 +357,7 @@ package body Descriptors.Field is
       ------------------------
 
       procedure Ensure_Unique_Name (Name : in out Unbounded_String) is
+         Index_Image : Unbounded_String;
       begin
 
          No_Of_Fields                       := No_Of_Fields + 1;
@@ -372,9 +373,8 @@ package body Descriptors.Field is
          end loop;
 
          if Index_Number > 0 then
-            Name :=
-              Name &
-              Slice (To_Unbounded_String (Natural'Image (Index_Number)), 2, 2);
+            Index_Image := To_Unbounded_String (Natural'Image (Index_Number));
+            Name        := Name & Slice (Index_Image, 1, Length (Index_Image));
          end if;
       end Ensure_Unique_Name;
 
