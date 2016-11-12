@@ -288,7 +288,7 @@ package TMS570LC43xx.Sys is
       --  Read returns 0. Writes have no effect.
       Reserved_2_2  : CsDis_Reserved_2_2_Field := 16#0#;
       --  Clock source 3 off.
-      ClkSr         : CsDis_ClkSr_Field_1 :=
+      ClkSr1        : CsDis_ClkSr_Field_1 :=
                        (As_Array => False, Val => 16#0#);
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : CsDis_Reserved_8_31_Field := 16#0#;
@@ -299,7 +299,7 @@ package TMS570LC43xx.Sys is
    for CsDis_Register use record
       ClkSr         at 16#0# range 0 .. 1;
       Reserved_2_2  at 16#0# range 2 .. 2;
-      ClkSr         at 16#0# range 3 .. 7;
+      ClkSr1        at 16#0# range 3 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 
@@ -384,7 +384,7 @@ package TMS570LC43xx.Sys is
       --  Read returns 0. Writes have no effect.
       Reserved_2_2  : CsDisSet_Reserved_2_2_Field := 16#0#;
       --  Set clock source 3 to the disabled state.
-      SetClkSr      : CsDisSet_SetClkSr_Field_1 :=
+      SetClkSr1     : CsDisSet_SetClkSr_Field_1 :=
                        (As_Array => False, Val => 16#0#);
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : CsDisSet_Reserved_8_31_Field := 16#0#;
@@ -395,7 +395,7 @@ package TMS570LC43xx.Sys is
    for CsDisSet_Register use record
       SetClkSr      at 16#0# range 0 .. 1;
       Reserved_2_2  at 16#0# range 2 .. 2;
-      SetClkSr      at 16#0# range 3 .. 7;
+      SetClkSr1     at 16#0# range 3 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 
@@ -480,7 +480,7 @@ package TMS570LC43xx.Sys is
       --  Read returns 0. Writes have no effect.
       Reserved_2_2  : CsDisClr_Reserved_2_2_Field := 16#0#;
       --  Enables clock source 3.
-      ClrClkSr      : CsDisClr_ClrClkSr_Field_1 :=
+      ClrClkSr1     : CsDisClr_ClrClkSr_Field_1 :=
                        (As_Array => False, Val => 16#0#);
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : CsDisClr_Reserved_8_31_Field := 16#0#;
@@ -491,7 +491,7 @@ package TMS570LC43xx.Sys is
    for CsDisClr_Register use record
       ClrClkSr      at 16#0# range 0 .. 1;
       Reserved_2_2  at 16#0# range 2 .. 2;
-      ClrClkSr      at 16#0# range 3 .. 7;
+      ClrClkSr1     at 16#0# range 3 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 

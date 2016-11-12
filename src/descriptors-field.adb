@@ -204,15 +204,15 @@ package body Descriptors.Field is
    begin
       for Moniker of Reserved_Monikers loop
          declare
-            Token : constant String := To_String (Moniker);
-            Lsb   : constant Natural         := F.LSB;
-            Msb   : constant Natural         := F.LSB + F.Size - 1;
-            Lsb_Img : constant String := Lsb'Image;
-            Msb_Img : constant String := Msb'Image;
+            Token   : constant String  := To_String (Moniker);
+            Lsb     : constant Natural := F.LSB;
+            Msb     : constant Natural := F.LSB + F.Size - 1;
+            Lsb_Img : constant String  := Lsb'Image;
+            Msb_Img : constant String  := Msb'Image;
          begin
             Ada.Strings.Fixed.Find_Token
-              (Source => To_Lower(To_String (F.Name)),
-               Set    => Ada.Strings.Maps.To_Set (To_Lower(Token)),
+              (Source => To_Lower (To_String (F.Name)),
+               Set    => Ada.Strings.Maps.To_Set (To_Lower (Token)),
                Test   => Inside,
                First  => First_Idx,
                Last   => Last_Idx);
@@ -221,8 +221,9 @@ package body Descriptors.Field is
                F.Name :=
                  To_Unbounded_String
                    ("Reserved_" &
-                      Lsb_Img(Lsb_Img'First + 1 .. Lsb_Img'Last) & "_" &
-                      Msb_Img(Msb_Img'First + 1 .. Msb_Img'Last));
+                    Lsb_Img (Lsb_Img'First + 1 .. Lsb_Img'Last) &
+                    "_" &
+                    Msb_Img (Msb_Img'First + 1 .. Msb_Img'Last));
             end if;
 
          end;
@@ -320,6 +321,10 @@ package body Descriptors.Field is
       function Get_Default (Index : Natural; Size : Natural) return Unsigned;
       --  Retrieves the field default value from the Register's reset value
 
+      procedure Ensure_Unique_Name (Name : in out Unbounded_String);
+      --  If a same string is received multiple times, a numeric index is
+      --  appended at the end of the name to keep it unique in this context
+
       -----------------
       -- Get_Default --
       -----------------
@@ -342,6 +347,36 @@ package body Descriptors.Field is
             return Default and Mask;
          end if;
       end Get_Default;
+
+      Index_Number        : Natural := 0;
+      No_Of_Fields        : Natural := 0;
+      Fields_Instantiated : array (1 .. Properties.Size) of Unbounded_String;
+
+      ------------------------
+      -- Ensure_Unique_Name --
+      ------------------------
+
+      procedure Ensure_Unique_Name (Name : in out Unbounded_String) is
+      begin
+
+         No_Of_Fields                       := No_Of_Fields + 1;
+         Fields_Instantiated (No_Of_Fields) := Name;
+         Index_Number                       := 0;
+
+         for Local_Index in 1 .. No_Of_Fields - 1 loop
+            if Fields_Instantiated (Local_Index) =
+              Fields_Instantiated (No_Of_Fields)
+            then
+               Index_Number := Index_Number + 1;
+            end if;
+         end loop;
+
+         if Index_Number > 0 then
+            Name :=
+              Name &
+              Slice (To_Unbounded_String (Natural'Image (Index_Number)), 2, 2);
+         end if;
+      end Ensure_Unique_Name;
 
       Fields : array (0 .. Properties.Size - 1) of Field_T :=
         (others => Null_Field);
@@ -758,6 +793,8 @@ package body Descriptors.Field is
                when Modify =>
                   null;
             end case;
+
+            Ensure_Unique_Name (Ada_Name);
 
             if All_RO then
                Add_Field
