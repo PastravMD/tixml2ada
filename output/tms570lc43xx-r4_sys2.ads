@@ -287,28 +287,28 @@ package TMS570LC43xx.R4_SYS2 is
      with Unchecked_Union, Volatile;
 
    for Sys2_Peripheral use record
-      PLLCTL3       at 0 range 0 .. 31;
-      STCCLKDIV     at 8 range 0 .. 31;
-      CLKHB_GLBREG  at 12 range 0 .. 31;
-      CLKHB_RTIDREG at 16 range 0 .. 31;
-      HBCD_STAT     at 20 range 0 .. 31;
-      CLKTRMI1      at 32 range 0 .. 31;
-      ECPCNTL       at 36 range 0 .. 31;
-      ECPCNTL1      at 40 range 0 .. 31;
-      CLK2CNTRL     at 60 range 0 .. 31;
-      VCLKACON1     at 64 range 0 .. 31;
-      CLK3CNTRL     at 68 range 0 .. 31;
-      VCLKACON2     at 72 range 0 .. 31;
-      VCLKACON3     at 80 range 0 .. 31;
-      HCLK1Ctrl     at 84 range 0 .. 31;
-      IP1ECCERREN   at 120 range 0 .. 31;
-      EFC_CTLREG    at 236 range 0 .. 31;
-      DIEIDL_REG0   at 240 range 0 .. 31;
-      DIEIDH_REG1   at 244 range 0 .. 31;
-      DIEIDH_REG2   at 248 range 0 .. 31;
-      DIEIDH_REG3   at 252 range 0 .. 31;
-      CLKSLIP       at 112 range 0 .. 31;
-      CLK2SLIP      at 112 range 0 .. 31;
+      PLLCTL3       at 16#0# range 0 .. 31;
+      STCCLKDIV     at 16#8# range 0 .. 31;
+      CLKHB_GLBREG  at 16#C# range 0 .. 31;
+      CLKHB_RTIDREG at 16#10# range 0 .. 31;
+      HBCD_STAT     at 16#14# range 0 .. 31;
+      CLKTRMI1      at 16#20# range 0 .. 31;
+      ECPCNTL       at 16#24# range 0 .. 31;
+      ECPCNTL1      at 16#28# range 0 .. 31;
+      CLK2CNTRL     at 16#3C# range 0 .. 31;
+      VCLKACON1     at 16#40# range 0 .. 31;
+      CLK3CNTRL     at 16#44# range 0 .. 31;
+      VCLKACON2     at 16#48# range 0 .. 31;
+      VCLKACON3     at 16#50# range 0 .. 31;
+      HCLK1Ctrl     at 16#54# range 0 .. 31;
+      IP1ECCERREN   at 16#78# range 0 .. 31;
+      EFC_CTLREG    at 16#EC# range 0 .. 31;
+      DIEIDL_REG0   at 16#F0# range 0 .. 31;
+      DIEIDH_REG1   at 16#F4# range 0 .. 31;
+      DIEIDH_REG2   at 16#F8# range 0 .. 31;
+      DIEIDH_REG3   at 16#FC# range 0 .. 31;
+      CLKSLIP       at 16#70# range 0 .. 31;
+      CLK2SLIP      at 16#70# range 0 .. 31;
    end record;
 
    --  R4 System Registers Second Frame

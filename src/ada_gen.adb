@@ -734,7 +734,7 @@ package body Ada_Gen is
            (File,
             Get_Id (F) &
             " at " &
-            To_String (F.Offset) &
+            To_Hex (F.Offset) &
             " range " &
             To_String (F.LSB) &
             " .. " &
@@ -749,7 +749,7 @@ package body Ada_Gen is
               (File,
                Get_Id (F) &
                " at " &
-               To_String (F.Offset) &
+               To_Hex (F.Offset) &
                " range " &
                To_String (F.LSB) &
                " .. " &
