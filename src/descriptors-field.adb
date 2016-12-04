@@ -13,7 +13,6 @@
 ------------------------------------------------------------------------------
 
 -- common Ada dependencies
-with System;
 with Ada.Characters.Handling;
 with Ada.Strings.Maps;
 with Ada.Strings.Fixed;
@@ -357,7 +356,8 @@ package body Descriptors.Field is
       ------------------------
 
       procedure Ensure_Unique_Name (Name : in out Unbounded_String) is
-         Index_Image : Unbounded_String;
+         Index_Image    : Unbounded_String;
+         Whitespace_Idx : Natural;
       begin
 
          No_Of_Fields                       := No_Of_Fields + 1;
@@ -374,7 +374,19 @@ package body Descriptors.Field is
 
          if Index_Number > 0 then
             Index_Image := To_Unbounded_String (Natural'Image (Index_Number));
-            Name        := Name & Slice (Index_Image, 1, Length (Index_Image));
+
+            loop
+               Whitespace_Idx := Index (Source => Index_Image, Pattern => " ");
+               if (Whitespace_Idx /= 0) then
+                  Index_Image := Delete (Source  => Index_Image,
+                                         From    => Whitespace_Idx,
+                                         Through => Whitespace_Idx);
+               else
+                  exit;
+               end if;
+            end loop;
+
+            Name := Name & Index_Image;
          end if;
       end Ensure_Unique_Name;
 
@@ -644,19 +656,9 @@ package body Descriptors.Field is
                      "Component_Size => " & To_String (Fields (Index).Size));
                   Add_Size_Aspect (Array_T, Fields (Index).Size * Length);
 
-                  Add_Aspect
-                    (Array_T,
-                     "Scalar_Storage_Order => System.Low_Order_First ");
-
                   Add (Spec, Array_T);
 
                   Add_Size_Aspect (Union_T, Fields (Index).Size * Length);
-
-                  Add_Bit_Order_Aspect (Union_T, System.Low_Order_First);
-
-                  Add_Aspect
-                    (Union_T,
-                     "Scalar_Storage_Order => System.Low_Order_First ");
 
                   Add_Field
                     (Rec      => Union_T,

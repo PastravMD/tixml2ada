@@ -223,8 +223,7 @@ package TMS570LC43xx.Sys is
 
    --  CsDis_ClkSr array
    type CsDis_ClkSr_Field_Array is array (0 .. 1) of CsDis_ClkSr_Element
-     with Component_Size => 1, Size => 2,
-          Scalar_Storage_Order => System.Low_Order_First ;
+     with Component_Size => 1, Size => 2;
 
    --  Type definition for CsDis_ClkSr
    type CsDis_ClkSr_Field
@@ -239,8 +238,7 @@ package TMS570LC43xx.Sys is
             Arr : CsDis_ClkSr_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 2, Bit_Order => System.Low_Order_First,
-          Scalar_Storage_Order => System.Low_Order_First ;
+     with Unchecked_Union, Size => 2;
 
    for CsDis_ClkSr_Field use record
       Val at 0 range 0 .. 1;
@@ -255,8 +253,7 @@ package TMS570LC43xx.Sys is
 
    --  CsDis_ClkSr array
    type CsDis_ClkSr_Field_Array_1 is array (3 .. 7) of CsDis_ClkSr_Element
-     with Component_Size => 1, Size => 5,
-          Scalar_Storage_Order => System.Low_Order_First ;
+     with Component_Size => 1, Size => 5;
 
    --  Type definition for CsDis_ClkSr
    type CsDis_ClkSr_Field_1
@@ -271,8 +268,7 @@ package TMS570LC43xx.Sys is
             Arr : CsDis_ClkSr_Field_Array_1;
       end case;
    end record
-     with Unchecked_Union, Size => 5, Bit_Order => System.Low_Order_First,
-          Scalar_Storage_Order => System.Low_Order_First ;
+     with Unchecked_Union, Size => 5;
 
    for CsDis_ClkSr_Field_1 use record
       Val at 0 range 0 .. 4;
@@ -288,7 +284,7 @@ package TMS570LC43xx.Sys is
       --  Read returns 0. Writes have no effect.
       Reserved_2_2  : CsDis_Reserved_2_2_Field := 16#0#;
       --  Clock source 3 off.
-      ClkSr 1       : CsDis_ClkSr_Field_1 :=
+      ClkSr1        : CsDis_ClkSr_Field_1 :=
                        (As_Array => False, Val => 16#0#);
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : CsDis_Reserved_8_31_Field := 16#0#;
@@ -299,7 +295,7 @@ package TMS570LC43xx.Sys is
    for CsDis_Register use record
       ClkSr         at 16#0# range 0 .. 1;
       Reserved_2_2  at 16#0# range 2 .. 2;
-      ClkSr 1       at 16#0# range 3 .. 7;
+      ClkSr1        at 16#0# range 3 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 
@@ -317,8 +313,7 @@ package TMS570LC43xx.Sys is
    --  CsDisSet_SetClkSr array
    type CsDisSet_SetClkSr_Field_Array is array (0 .. 1)
      of CsDisSet_SetClkSr_Element
-     with Component_Size => 1, Size => 2,
-          Scalar_Storage_Order => System.Low_Order_First ;
+     with Component_Size => 1, Size => 2;
 
    --  Type definition for CsDisSet_SetClkSr
    type CsDisSet_SetClkSr_Field
@@ -333,8 +328,7 @@ package TMS570LC43xx.Sys is
             Arr : CsDisSet_SetClkSr_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 2, Bit_Order => System.Low_Order_First,
-          Scalar_Storage_Order => System.Low_Order_First ;
+     with Unchecked_Union, Size => 2;
 
    for CsDisSet_SetClkSr_Field use record
       Val at 0 range 0 .. 1;
@@ -350,8 +344,7 @@ package TMS570LC43xx.Sys is
    --  CsDisSet_SetClkSr array
    type CsDisSet_SetClkSr_Field_Array_1 is array (3 .. 7)
      of CsDisSet_SetClkSr_Element
-     with Component_Size => 1, Size => 5,
-          Scalar_Storage_Order => System.Low_Order_First ;
+     with Component_Size => 1, Size => 5;
 
    --  Type definition for CsDisSet_SetClkSr
    type CsDisSet_SetClkSr_Field_1
@@ -366,8 +359,7 @@ package TMS570LC43xx.Sys is
             Arr : CsDisSet_SetClkSr_Field_Array_1;
       end case;
    end record
-     with Unchecked_Union, Size => 5, Bit_Order => System.Low_Order_First,
-          Scalar_Storage_Order => System.Low_Order_First ;
+     with Unchecked_Union, Size => 5;
 
    for CsDisSet_SetClkSr_Field_1 use record
       Val at 0 range 0 .. 4;
@@ -384,7 +376,7 @@ package TMS570LC43xx.Sys is
       --  Read returns 0. Writes have no effect.
       Reserved_2_2  : CsDisSet_Reserved_2_2_Field := 16#0#;
       --  Set clock source 3 to the disabled state.
-      SetClkSr 1    : CsDisSet_SetClkSr_Field_1 :=
+      SetClkSr1     : CsDisSet_SetClkSr_Field_1 :=
                        (As_Array => False, Val => 16#0#);
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : CsDisSet_Reserved_8_31_Field := 16#0#;
@@ -395,7 +387,7 @@ package TMS570LC43xx.Sys is
    for CsDisSet_Register use record
       SetClkSr      at 16#0# range 0 .. 1;
       Reserved_2_2  at 16#0# range 2 .. 2;
-      SetClkSr 1    at 16#0# range 3 .. 7;
+      SetClkSr1     at 16#0# range 3 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 
@@ -413,8 +405,7 @@ package TMS570LC43xx.Sys is
    --  CsDisClr_ClrClkSr array
    type CsDisClr_ClrClkSr_Field_Array is array (0 .. 1)
      of CsDisClr_ClrClkSr_Element
-     with Component_Size => 1, Size => 2,
-          Scalar_Storage_Order => System.Low_Order_First ;
+     with Component_Size => 1, Size => 2;
 
    --  Type definition for CsDisClr_ClrClkSr
    type CsDisClr_ClrClkSr_Field
@@ -429,8 +420,7 @@ package TMS570LC43xx.Sys is
             Arr : CsDisClr_ClrClkSr_Field_Array;
       end case;
    end record
-     with Unchecked_Union, Size => 2, Bit_Order => System.Low_Order_First,
-          Scalar_Storage_Order => System.Low_Order_First ;
+     with Unchecked_Union, Size => 2;
 
    for CsDisClr_ClrClkSr_Field use record
       Val at 0 range 0 .. 1;
@@ -446,8 +436,7 @@ package TMS570LC43xx.Sys is
    --  CsDisClr_ClrClkSr array
    type CsDisClr_ClrClkSr_Field_Array_1 is array (3 .. 7)
      of CsDisClr_ClrClkSr_Element
-     with Component_Size => 1, Size => 5,
-          Scalar_Storage_Order => System.Low_Order_First ;
+     with Component_Size => 1, Size => 5;
 
    --  Type definition for CsDisClr_ClrClkSr
    type CsDisClr_ClrClkSr_Field_1
@@ -462,8 +451,7 @@ package TMS570LC43xx.Sys is
             Arr : CsDisClr_ClrClkSr_Field_Array_1;
       end case;
    end record
-     with Unchecked_Union, Size => 5, Bit_Order => System.Low_Order_First,
-          Scalar_Storage_Order => System.Low_Order_First ;
+     with Unchecked_Union, Size => 5;
 
    for CsDisClr_ClrClkSr_Field_1 use record
       Val at 0 range 0 .. 4;
@@ -480,7 +468,7 @@ package TMS570LC43xx.Sys is
       --  Read returns 0. Writes have no effect.
       Reserved_2_2  : CsDisClr_Reserved_2_2_Field := 16#0#;
       --  Enables clock source 3.
-      ClrClkSr 1    : CsDisClr_ClrClkSr_Field_1 :=
+      ClrClkSr1     : CsDisClr_ClrClkSr_Field_1 :=
                        (As_Array => False, Val => 16#0#);
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : CsDisClr_Reserved_8_31_Field := 16#0#;
@@ -491,7 +479,7 @@ package TMS570LC43xx.Sys is
    for CsDisClr_Register use record
       ClrClkSr      at 16#0# range 0 .. 1;
       Reserved_2_2  at 16#0# range 2 .. 2;
-      ClrClkSr 1    at 16#0# range 3 .. 7;
+      ClrClkSr1     at 16#0# range 3 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 
