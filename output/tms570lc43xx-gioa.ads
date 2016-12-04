@@ -16,43 +16,34 @@ package TMS570LC43xx.GioA is
    -- Dir_Register --
    ------------------
 
-   ----------------
-   -- Dir.GioDir --
-   ----------------
-
-   --  Dir_GioDir array element
-   subtype Dir_GioDir_Element is TMS570LC43xx.Bit;
-
-   --  Dir_GioDir array
-   type Dir_GioDir_Field_Array is array (0 .. 7) of Dir_GioDir_Element
-     with Component_Size => 1, Size => 8;
-
-   --  Type definition for Dir_GioDir
-   type Dir_GioDir_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  GioDir as a value
-            Val : TMS570LC43xx.Byte;
-         when True =>
-            --  GioDir as an array
-            Arr : Dir_GioDir_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 8;
-
-   for Dir_GioDir_Field use record
-      Val at 0 range 0 .. 7;
-      Arr at 0 range 0 .. 7;
-   end record;
-
+   subtype Dir_GioDir0_Field is TMS570LC43xx.Bit;
+   subtype Dir_GioDir1_Field is TMS570LC43xx.Bit;
+   subtype Dir_GioDir2_Field is TMS570LC43xx.Bit;
+   subtype Dir_GioDir3_Field is TMS570LC43xx.Bit;
+   subtype Dir_GioDir4_Field is TMS570LC43xx.Bit;
+   subtype Dir_GioDir5_Field is TMS570LC43xx.Bit;
+   subtype Dir_GioDir6_Field is TMS570LC43xx.Bit;
+   subtype Dir_GioDir7_Field is TMS570LC43xx.Bit;
    subtype Dir_Reserved_8_31_Field is TMS570LC43xx.UInt24;
 
    --  Data Direction Gio A
    type Dir_Register is record
       --  GIO data direction of port n
-      GioDir        : Dir_GioDir_Field := (As_Array => False, Val => 16#0#);
+      GioDir0       : Dir_GioDir0_Field := 16#0#;
+      --  GIO data direction of port n
+      GioDir1       : Dir_GioDir1_Field := 16#0#;
+      --  GIO data direction of port n
+      GioDir2       : Dir_GioDir2_Field := 16#0#;
+      --  GIO data direction of port n
+      GioDir3       : Dir_GioDir3_Field := 16#0#;
+      --  GIO data direction of port n
+      GioDir4       : Dir_GioDir4_Field := 16#0#;
+      --  GIO data direction of port n
+      GioDir5       : Dir_GioDir5_Field := 16#0#;
+      --  GIO data direction of port n
+      GioDir6       : Dir_GioDir6_Field := 16#0#;
+      --  GIO data direction of port n
+      GioDir7       : Dir_GioDir7_Field := 16#0#;
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : Dir_Reserved_8_31_Field := 16#0#;
    end record
@@ -60,7 +51,14 @@ package TMS570LC43xx.GioA is
           Bit_Order => System.Low_Order_First;
 
    for Dir_Register use record
-      GioDir        at 16#0# range 0 .. 7;
+      GioDir0       at 16#0# range 0 .. 0;
+      GioDir1       at 16#0# range 1 .. 1;
+      GioDir2       at 16#0# range 2 .. 2;
+      GioDir3       at 16#0# range 3 .. 3;
+      GioDir4       at 16#0# range 4 .. 4;
+      GioDir5       at 16#0# range 5 .. 5;
+      GioDir6       at 16#0# range 6 .. 6;
+      GioDir7       at 16#0# range 7 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 
@@ -68,43 +66,34 @@ package TMS570LC43xx.GioA is
    -- DIn_Register --
    ------------------
 
-   ----------------
-   -- DIn.GioDIn --
-   ----------------
-
-   --  DIn_GioDIn array element
-   subtype DIn_GioDIn_Element is TMS570LC43xx.Bit;
-
-   --  DIn_GioDIn array
-   type DIn_GioDIn_Field_Array is array (0 .. 7) of DIn_GioDIn_Element
-     with Component_Size => 1, Size => 8;
-
-   --  Type definition for DIn_GioDIn
-   type DIn_GioDIn_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  GioDIn as a value
-            Val : TMS570LC43xx.Byte;
-         when True =>
-            --  GioDIn as an array
-            Arr : DIn_GioDIn_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 8;
-
-   for DIn_GioDIn_Field use record
-      Val at 0 range 0 .. 7;
-      Arr at 0 range 0 .. 7;
-   end record;
-
+   subtype DIn_GioDIn0_Field is TMS570LC43xx.Bit;
+   subtype DIn_GioDIn1_Field is TMS570LC43xx.Bit;
+   subtype DIn_GioDIn2_Field is TMS570LC43xx.Bit;
+   subtype DIn_GioDIn3_Field is TMS570LC43xx.Bit;
+   subtype DIn_GioDIn4_Field is TMS570LC43xx.Bit;
+   subtype DIn_GioDIn5_Field is TMS570LC43xx.Bit;
+   subtype DIn_GioDIn6_Field is TMS570LC43xx.Bit;
+   subtype DIn_GioDIn7_Field is TMS570LC43xx.Bit;
    subtype DIn_Reserved_8_31_Field is TMS570LC43xx.UInt24;
 
    --  Data Input Gio A
    type DIn_Register is record
       --  GIO data input of port n
-      GioDIn        : DIn_GioDIn_Field := (As_Array => False, Val => 16#0#);
+      GioDIn0       : DIn_GioDIn0_Field := 16#0#;
+      --  GIO data input of port n
+      GioDIn1       : DIn_GioDIn1_Field := 16#0#;
+      --  GIO data input of port n
+      GioDIn2       : DIn_GioDIn2_Field := 16#0#;
+      --  GIO data input of port n
+      GioDIn3       : DIn_GioDIn3_Field := 16#0#;
+      --  GIO data input of port n
+      GioDIn4       : DIn_GioDIn4_Field := 16#0#;
+      --  GIO data input of port n
+      GioDIn5       : DIn_GioDIn5_Field := 16#0#;
+      --  GIO data input of port n
+      GioDIn6       : DIn_GioDIn6_Field := 16#0#;
+      --  GIO data input of port n
+      GioDIn7       : DIn_GioDIn7_Field := 16#0#;
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : DIn_Reserved_8_31_Field := 16#0#;
    end record
@@ -112,7 +101,14 @@ package TMS570LC43xx.GioA is
           Bit_Order => System.Low_Order_First;
 
    for DIn_Register use record
-      GioDIn        at 16#0# range 0 .. 7;
+      GioDIn0       at 16#0# range 0 .. 0;
+      GioDIn1       at 16#0# range 1 .. 1;
+      GioDIn2       at 16#0# range 2 .. 2;
+      GioDIn3       at 16#0# range 3 .. 3;
+      GioDIn4       at 16#0# range 4 .. 4;
+      GioDIn5       at 16#0# range 5 .. 5;
+      GioDIn6       at 16#0# range 6 .. 6;
+      GioDIn7       at 16#0# range 7 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 
@@ -120,43 +116,34 @@ package TMS570LC43xx.GioA is
    -- DOut_Register --
    -------------------
 
-   ------------------
-   -- DOut.GioDOut --
-   ------------------
-
-   --  DOut_GioDOut array element
-   subtype DOut_GioDOut_Element is TMS570LC43xx.Bit;
-
-   --  DOut_GioDOut array
-   type DOut_GioDOut_Field_Array is array (0 .. 7) of DOut_GioDOut_Element
-     with Component_Size => 1, Size => 8;
-
-   --  Type definition for DOut_GioDOut
-   type DOut_GioDOut_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  GioDOut as a value
-            Val : TMS570LC43xx.Byte;
-         when True =>
-            --  GioDOut as an array
-            Arr : DOut_GioDOut_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 8;
-
-   for DOut_GioDOut_Field use record
-      Val at 0 range 0 .. 7;
-      Arr at 0 range 0 .. 7;
-   end record;
-
+   subtype DOut_GioDOut0_Field is TMS570LC43xx.Bit;
+   subtype DOut_GioDOut1_Field is TMS570LC43xx.Bit;
+   subtype DOut_GioDOut2_Field is TMS570LC43xx.Bit;
+   subtype DOut_GioDOut3_Field is TMS570LC43xx.Bit;
+   subtype DOut_GioDOut4_Field is TMS570LC43xx.Bit;
+   subtype DOut_GioDOut5_Field is TMS570LC43xx.Bit;
+   subtype DOut_GioDOut6_Field is TMS570LC43xx.Bit;
+   subtype DOut_GioDOut7_Field is TMS570LC43xx.Bit;
    subtype DOut_Reserved_8_31_Field is TMS570LC43xx.UInt24;
 
    --  Data Output Gio A
    type DOut_Register is record
       --  GIO data output of port n
-      GioDOut       : DOut_GioDOut_Field := (As_Array => False, Val => 16#0#);
+      GioDOut0      : DOut_GioDOut0_Field := 16#0#;
+      --  GIO data output of port n
+      GioDOut1      : DOut_GioDOut1_Field := 16#0#;
+      --  GIO data output of port n
+      GioDOut2      : DOut_GioDOut2_Field := 16#0#;
+      --  GIO data output of port n
+      GioDOut3      : DOut_GioDOut3_Field := 16#0#;
+      --  GIO data output of port n
+      GioDOut4      : DOut_GioDOut4_Field := 16#0#;
+      --  GIO data output of port n
+      GioDOut5      : DOut_GioDOut5_Field := 16#0#;
+      --  GIO data output of port n
+      GioDOut6      : DOut_GioDOut6_Field := 16#0#;
+      --  GIO data output of port n
+      GioDOut7      : DOut_GioDOut7_Field := 16#0#;
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : DOut_Reserved_8_31_Field := 16#0#;
    end record
@@ -164,7 +151,14 @@ package TMS570LC43xx.GioA is
           Bit_Order => System.Low_Order_First;
 
    for DOut_Register use record
-      GioDOut       at 16#0# range 0 .. 7;
+      GioDOut0      at 16#0# range 0 .. 0;
+      GioDOut1      at 16#0# range 1 .. 1;
+      GioDOut2      at 16#0# range 2 .. 2;
+      GioDOut3      at 16#0# range 3 .. 3;
+      GioDOut4      at 16#0# range 4 .. 4;
+      GioDOut5      at 16#0# range 5 .. 5;
+      GioDOut6      at 16#0# range 6 .. 6;
+      GioDOut7      at 16#0# range 7 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 
@@ -172,43 +166,34 @@ package TMS570LC43xx.GioA is
    -- DSet_Register --
    -------------------
 
-   ------------------
-   -- DSet.GioDSet --
-   ------------------
-
-   --  DSet_GioDSet array element
-   subtype DSet_GioDSet_Element is TMS570LC43xx.Bit;
-
-   --  DSet_GioDSet array
-   type DSet_GioDSet_Field_Array is array (0 .. 7) of DSet_GioDSet_Element
-     with Component_Size => 1, Size => 8;
-
-   --  Type definition for DSet_GioDSet
-   type DSet_GioDSet_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  GioDSet as a value
-            Val : TMS570LC43xx.Byte;
-         when True =>
-            --  GioDSet as an array
-            Arr : DSet_GioDSet_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 8;
-
-   for DSet_GioDSet_Field use record
-      Val at 0 range 0 .. 7;
-      Arr at 0 range 0 .. 7;
-   end record;
-
+   subtype DSet_GioDSet0_Field is TMS570LC43xx.Bit;
+   subtype DSet_GioDSet1_Field is TMS570LC43xx.Bit;
+   subtype DSet_GioDSet2_Field is TMS570LC43xx.Bit;
+   subtype DSet_GioDSet3_Field is TMS570LC43xx.Bit;
+   subtype DSet_GioDSet4_Field is TMS570LC43xx.Bit;
+   subtype DSet_GioDSet5_Field is TMS570LC43xx.Bit;
+   subtype DSet_GioDSet6_Field is TMS570LC43xx.Bit;
+   subtype DSet_GioDSet7_Field is TMS570LC43xx.Bit;
    subtype DSet_Reserved_8_31_Field is TMS570LC43xx.UInt24;
 
    --  Data Set Gio A
    type DSet_Register is record
       --  GIO data set for port n. Drives the output of GIO pin high.
-      GioDSet       : DSet_GioDSet_Field := (As_Array => False, Val => 16#0#);
+      GioDSet0      : DSet_GioDSet0_Field := 16#0#;
+      --  GIO data set for port n. Drives the output of GIO pin high.
+      GioDSet1      : DSet_GioDSet1_Field := 16#0#;
+      --  GIO data set for port n. Drives the output of GIO pin high.
+      GioDSet2      : DSet_GioDSet2_Field := 16#0#;
+      --  GIO data set for port n. Drives the output of GIO pin high.
+      GioDSet3      : DSet_GioDSet3_Field := 16#0#;
+      --  GIO data set for port n. Drives the output of GIO pin high.
+      GioDSet4      : DSet_GioDSet4_Field := 16#0#;
+      --  GIO data set for port n. Drives the output of GIO pin high.
+      GioDSet5      : DSet_GioDSet5_Field := 16#0#;
+      --  GIO data set for port n. Drives the output of GIO pin high.
+      GioDSet6      : DSet_GioDSet6_Field := 16#0#;
+      --  GIO data output of port n. Drives the output of GIO pin high.
+      GioDSet7      : DSet_GioDSet7_Field := 16#0#;
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : DSet_Reserved_8_31_Field := 16#0#;
    end record
@@ -216,7 +201,14 @@ package TMS570LC43xx.GioA is
           Bit_Order => System.Low_Order_First;
 
    for DSet_Register use record
-      GioDSet       at 16#0# range 0 .. 7;
+      GioDSet0      at 16#0# range 0 .. 0;
+      GioDSet1      at 16#0# range 1 .. 1;
+      GioDSet2      at 16#0# range 2 .. 2;
+      GioDSet3      at 16#0# range 3 .. 3;
+      GioDSet4      at 16#0# range 4 .. 4;
+      GioDSet5      at 16#0# range 5 .. 5;
+      GioDSet6      at 16#0# range 6 .. 6;
+      GioDSet7      at 16#0# range 7 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 
@@ -224,43 +216,34 @@ package TMS570LC43xx.GioA is
    -- DClr_Register --
    -------------------
 
-   ------------------
-   -- DClr.GioDClr --
-   ------------------
-
-   --  DClr_GioDClr array element
-   subtype DClr_GioDClr_Element is TMS570LC43xx.Bit;
-
-   --  DClr_GioDClr array
-   type DClr_GioDClr_Field_Array is array (0 .. 7) of DClr_GioDClr_Element
-     with Component_Size => 1, Size => 8;
-
-   --  Type definition for DClr_GioDClr
-   type DClr_GioDClr_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  GioDClr as a value
-            Val : TMS570LC43xx.Byte;
-         when True =>
-            --  GioDClr as an array
-            Arr : DClr_GioDClr_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 8;
-
-   for DClr_GioDClr_Field use record
-      Val at 0 range 0 .. 7;
-      Arr at 0 range 0 .. 7;
-   end record;
-
+   subtype DClr_GioDClr0_Field is TMS570LC43xx.Bit;
+   subtype DClr_GioDClr1_Field is TMS570LC43xx.Bit;
+   subtype DClr_GioDClr2_Field is TMS570LC43xx.Bit;
+   subtype DClr_GioDClr3_Field is TMS570LC43xx.Bit;
+   subtype DClr_GioDClr4_Field is TMS570LC43xx.Bit;
+   subtype DClr_GioDClr5_Field is TMS570LC43xx.Bit;
+   subtype DClr_GioDClr6_Field is TMS570LC43xx.Bit;
+   subtype DClr_GioDClr7_Field is TMS570LC43xx.Bit;
    subtype DClr_Reserved_8_31_Field is TMS570LC43xx.UInt24;
 
    --  Data Clear Gio A
    type DClr_Register is record
       --  GIO data clear for port n. Drives the output of GIO pin low.
-      GioDClr       : DClr_GioDClr_Field := (As_Array => False, Val => 16#0#);
+      GioDClr0      : DClr_GioDClr0_Field := 16#0#;
+      --  GIO data clear for port n. Drives the output of GIO pin low.
+      GioDClr1      : DClr_GioDClr1_Field := 16#0#;
+      --  GIO data clear for port n. Drives the output of GIO pin low.
+      GioDClr2      : DClr_GioDClr2_Field := 16#0#;
+      --  GIO data clear for port n. Drives the output of GIO pin low.
+      GioDClr3      : DClr_GioDClr3_Field := 16#0#;
+      --  GIO data clear for port n. Drives the output of GIO pin low.
+      GioDClr4      : DClr_GioDClr4_Field := 16#0#;
+      --  GIO data clear for port n. Drives the output of GIO pin low.
+      GioDClr5      : DClr_GioDClr5_Field := 16#0#;
+      --  GIO data clear for port n. Drives the output of GIO pin low.
+      GioDClr6      : DClr_GioDClr6_Field := 16#0#;
+      --  GIO data output of port n. Drives the output of GIO pin low.
+      GioDClr7      : DClr_GioDClr7_Field := 16#0#;
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : DClr_Reserved_8_31_Field := 16#0#;
    end record
@@ -268,7 +251,14 @@ package TMS570LC43xx.GioA is
           Bit_Order => System.Low_Order_First;
 
    for DClr_Register use record
-      GioDClr       at 16#0# range 0 .. 7;
+      GioDClr0      at 16#0# range 0 .. 0;
+      GioDClr1      at 16#0# range 1 .. 1;
+      GioDClr2      at 16#0# range 2 .. 2;
+      GioDClr3      at 16#0# range 3 .. 3;
+      GioDClr4      at 16#0# range 4 .. 4;
+      GioDClr5      at 16#0# range 5 .. 5;
+      GioDClr6      at 16#0# range 6 .. 6;
+      GioDClr7      at 16#0# range 7 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 
@@ -276,43 +266,34 @@ package TMS570LC43xx.GioA is
    -- PDr_Register --
    ------------------
 
-   ----------------
-   -- PDr.GioPDr --
-   ----------------
-
-   --  PDr_GioPDr array element
-   subtype PDr_GioPDr_Element is TMS570LC43xx.Bit;
-
-   --  PDr_GioPDr array
-   type PDr_GioPDr_Field_Array is array (0 .. 7) of PDr_GioPDr_Element
-     with Component_Size => 1, Size => 8;
-
-   --  Type definition for PDr_GioPDr
-   type PDr_GioPDr_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  GioPDr as a value
-            Val : TMS570LC43xx.Byte;
-         when True =>
-            --  GioPDr as an array
-            Arr : PDr_GioPDr_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 8;
-
-   for PDr_GioPDr_Field use record
-      Val at 0 range 0 .. 7;
-      Arr at 0 range 0 .. 7;
-   end record;
-
+   subtype PDr_GioPDr0_Field is TMS570LC43xx.Bit;
+   subtype PDr_GioPDr1_Field is TMS570LC43xx.Bit;
+   subtype PDr_GioPDr2_Field is TMS570LC43xx.Bit;
+   subtype PDr_GioPDr3_Field is TMS570LC43xx.Bit;
+   subtype PDr_GioPDr4_Field is TMS570LC43xx.Bit;
+   subtype PDr_GioPDr5_Field is TMS570LC43xx.Bit;
+   subtype PDr_GioPDr6_Field is TMS570LC43xx.Bit;
+   subtype PDr_GioPDr7_Field is TMS570LC43xx.Bit;
    subtype PDr_Reserved_8_31_Field is TMS570LC43xx.UInt24;
 
    --  Open Drain Gio A
    type PDr_Register is record
       --  GIO open drain for port n
-      GioPDr        : PDr_GioPDr_Field := (As_Array => False, Val => 16#0#);
+      GioPDr0       : PDr_GioPDr0_Field := 16#0#;
+      --  GIO open drain for port n
+      GioPDr1       : PDr_GioPDr1_Field := 16#0#;
+      --  GIO open drain for port n
+      GioPDr2       : PDr_GioPDr2_Field := 16#0#;
+      --  GIO open drain for port n
+      GioPDr3       : PDr_GioPDr3_Field := 16#0#;
+      --  GIO open drain for port n
+      GioPDr4       : PDr_GioPDr4_Field := 16#0#;
+      --  GIO open drain for port n
+      GioPDr5       : PDr_GioPDr5_Field := 16#0#;
+      --  GIO open drain for port n
+      GioPDr6       : PDr_GioPDr6_Field := 16#0#;
+      --  GIO open drain for port n
+      GioPDr7       : PDr_GioPDr7_Field := 16#0#;
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : PDr_Reserved_8_31_Field := 16#0#;
    end record
@@ -320,7 +301,14 @@ package TMS570LC43xx.GioA is
           Bit_Order => System.Low_Order_First;
 
    for PDr_Register use record
-      GioPDr        at 16#0# range 0 .. 7;
+      GioPDr0       at 16#0# range 0 .. 0;
+      GioPDr1       at 16#0# range 1 .. 1;
+      GioPDr2       at 16#0# range 2 .. 2;
+      GioPDr3       at 16#0# range 3 .. 3;
+      GioPDr4       at 16#0# range 4 .. 4;
+      GioPDr5       at 16#0# range 5 .. 5;
+      GioPDr6       at 16#0# range 6 .. 6;
+      GioPDr7       at 16#0# range 7 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 
@@ -328,43 +316,34 @@ package TMS570LC43xx.GioA is
    -- PDis_Register --
    -------------------
 
-   ------------------
-   -- PDis.GioPDis --
-   ------------------
-
-   --  PDis_GioPDis array element
-   subtype PDis_GioPDis_Element is TMS570LC43xx.Bit;
-
-   --  PDis_GioPDis array
-   type PDis_GioPDis_Field_Array is array (0 .. 7) of PDis_GioPDis_Element
-     with Component_Size => 1, Size => 8;
-
-   --  Type definition for PDis_GioPDis
-   type PDis_GioPDis_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  GioPDis as a value
-            Val : TMS570LC43xx.Byte;
-         when True =>
-            --  GioPDis as an array
-            Arr : PDis_GioPDis_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 8;
-
-   for PDis_GioPDis_Field use record
-      Val at 0 range 0 .. 7;
-      Arr at 0 range 0 .. 7;
-   end record;
-
+   subtype PDis_GioPDis0_Field is TMS570LC43xx.Bit;
+   subtype PDis_GioPDis1_Field is TMS570LC43xx.Bit;
+   subtype PDis_GioPDis2_Field is TMS570LC43xx.Bit;
+   subtype PDis_GioPDis3_Field is TMS570LC43xx.Bit;
+   subtype PDis_GioPDis4_Field is TMS570LC43xx.Bit;
+   subtype PDis_GioPDis5_Field is TMS570LC43xx.Bit;
+   subtype PDis_GioPDis6_Field is TMS570LC43xx.Bit;
+   subtype PDis_GioPDis7_Field is TMS570LC43xx.Bit;
    subtype PDis_Reserved_8_31_Field is TMS570LC43xx.UInt24;
 
    --  Pull Disable Gio A
    type PDis_Register is record
       --  GIO pull disable for port n
-      GioPDis       : PDis_GioPDis_Field := (As_Array => False, Val => 16#0#);
+      GioPDis0      : PDis_GioPDis0_Field := 16#0#;
+      --  GIO pull disable for port n
+      GioPDis1      : PDis_GioPDis1_Field := 16#0#;
+      --  GIO pull disable for port n
+      GioPDis2      : PDis_GioPDis2_Field := 16#0#;
+      --  GIO pull disable for port n
+      GioPDis3      : PDis_GioPDis3_Field := 16#0#;
+      --  GIO pull disable for port n
+      GioPDis4      : PDis_GioPDis4_Field := 16#0#;
+      --  GIO pull disable for port n
+      GioPDis5      : PDis_GioPDis5_Field := 16#0#;
+      --  GIO pull disable for port n
+      GioPDis6      : PDis_GioPDis6_Field := 16#0#;
+      --  GIO pull disable for port n
+      GioPDis7      : PDis_GioPDis7_Field := 16#0#;
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : PDis_Reserved_8_31_Field := 16#0#;
    end record
@@ -372,7 +351,14 @@ package TMS570LC43xx.GioA is
           Bit_Order => System.Low_Order_First;
 
    for PDis_Register use record
-      GioPDis       at 16#0# range 0 .. 7;
+      GioPDis0      at 16#0# range 0 .. 0;
+      GioPDis1      at 16#0# range 1 .. 1;
+      GioPDis2      at 16#0# range 2 .. 2;
+      GioPDis3      at 16#0# range 3 .. 3;
+      GioPDis4      at 16#0# range 4 .. 4;
+      GioPDis5      at 16#0# range 5 .. 5;
+      GioPDis6      at 16#0# range 6 .. 6;
+      GioPDis7      at 16#0# range 7 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 
@@ -380,43 +366,34 @@ package TMS570LC43xx.GioA is
    -- PSel_Register --
    -------------------
 
-   ------------------
-   -- PSel.GioPSel --
-   ------------------
-
-   --  PSel_GioPSel array element
-   subtype PSel_GioPSel_Element is TMS570LC43xx.Bit;
-
-   --  PSel_GioPSel array
-   type PSel_GioPSel_Field_Array is array (0 .. 7) of PSel_GioPSel_Element
-     with Component_Size => 1, Size => 8;
-
-   --  Type definition for PSel_GioPSel
-   type PSel_GioPSel_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  GioPSel as a value
-            Val : TMS570LC43xx.Byte;
-         when True =>
-            --  GioPSel as an array
-            Arr : PSel_GioPSel_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 8;
-
-   for PSel_GioPSel_Field use record
-      Val at 0 range 0 .. 7;
-      Arr at 0 range 0 .. 7;
-   end record;
-
+   subtype PSel_GioPSel0_Field is TMS570LC43xx.Bit;
+   subtype PSel_GioPSel1_Field is TMS570LC43xx.Bit;
+   subtype PSel_GioPSel2_Field is TMS570LC43xx.Bit;
+   subtype PSel_GioPSel3_Field is TMS570LC43xx.Bit;
+   subtype PSel_GioPSel4_Field is TMS570LC43xx.Bit;
+   subtype PSel_GioPSel5_Field is TMS570LC43xx.Bit;
+   subtype PSel_GioPSel6_Field is TMS570LC43xx.Bit;
+   subtype PSel_GioPSel7_Field is TMS570LC43xx.Bit;
    subtype PSel_Reserved_8_31_Field is TMS570LC43xx.UInt24;
 
    --  Pull Select Gio A
    type PSel_Register is record
       --  GIO pull disable for port n
-      GioPSel       : PSel_GioPSel_Field := (As_Array => False, Val => 16#0#);
+      GioPSel0      : PSel_GioPSel0_Field := 16#0#;
+      --  GIO pull disable for port n
+      GioPSel1      : PSel_GioPSel1_Field := 16#0#;
+      --  GIO pull disable for port n
+      GioPSel2      : PSel_GioPSel2_Field := 16#0#;
+      --  GIO pull disable for port n
+      GioPSel3      : PSel_GioPSel3_Field := 16#0#;
+      --  GIO pull disable for port n
+      GioPSel4      : PSel_GioPSel4_Field := 16#0#;
+      --  GIO pull disable for port n
+      GioPSel5      : PSel_GioPSel5_Field := 16#0#;
+      --  GIO pull disable for port n
+      GioPSel6      : PSel_GioPSel6_Field := 16#0#;
+      --  GIO pull disable for port n
+      GioPSel7      : PSel_GioPSel7_Field := 16#0#;
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : PSel_Reserved_8_31_Field := 16#0#;
    end record
@@ -424,7 +401,14 @@ package TMS570LC43xx.GioA is
           Bit_Order => System.Low_Order_First;
 
    for PSel_Register use record
-      GioPSel       at 16#0# range 0 .. 7;
+      GioPSel0      at 16#0# range 0 .. 0;
+      GioPSel1      at 16#0# range 1 .. 1;
+      GioPSel2      at 16#0# range 2 .. 2;
+      GioPSel3      at 16#0# range 3 .. 3;
+      GioPSel4      at 16#0# range 4 .. 4;
+      GioPSel5      at 16#0# range 5 .. 5;
+      GioPSel6      at 16#0# range 6 .. 6;
+      GioPSel7      at 16#0# range 7 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 

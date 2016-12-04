@@ -1702,45 +1702,16 @@ package TMS570LC43xx.EMAC is
    -- MACSRCADDRLO_Register --
    ---------------------------
 
-   -----------------------------
-   -- MACSRCADDRLO.MACSRCADDR --
-   -----------------------------
-
-   --  MACSRCADDRLO_MACSRCADDR array element
-   subtype MACSRCADDRLO_MACSRCADDR_Element is TMS570LC43xx.Byte;
-
-   --  MACSRCADDRLO_MACSRCADDR array
-   type MACSRCADDRLO_MACSRCADDR_Field_Array is array (0 .. 1)
-     of MACSRCADDRLO_MACSRCADDR_Element
-     with Component_Size => 8, Size => 16;
-
-   --  Type definition for MACSRCADDRLO_MACSRCADDR
-   type MACSRCADDRLO_MACSRCADDR_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  MACSRCADDR as a value
-            Val : TMS570LC43xx.Short;
-         when True =>
-            --  MACSRCADDR as an array
-            Arr : MACSRCADDRLO_MACSRCADDR_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 16;
-
-   for MACSRCADDRLO_MACSRCADDR_Field use record
-      Val at 0 range 0 .. 15;
-      Arr at 0 range 0 .. 15;
-   end record;
-
+   subtype MACSRCADDRLO_MACSRCADDR1_Field is TMS570LC43xx.Byte;
+   subtype MACSRCADDRLO_MACSRCADDR0_Field is TMS570LC43xx.Byte;
    subtype MACSRCADDRLO_Reserved_16_31_Field is TMS570LC43xx.Short;
 
    --  MAC Source Address Low
    type MACSRCADDRLO_Register is record
       --  MAC source address bits 15:9 MACADDR[15:8]
-      MACSRCADDR     : MACSRCADDRLO_MACSRCADDR_Field :=
-                        (As_Array => False, Val => 16#0#);
+      MACSRCADDR1    : MACSRCADDRLO_MACSRCADDR1_Field := 16#0#;
+      --  MAC source address lower 8 bits MACADDR[7:0]
+      MACSRCADDR0    : MACSRCADDRLO_MACSRCADDR0_Field := 16#0#;
       --  Reserved
       Reserved_16_31 : MACSRCADDRLO_Reserved_16_31_Field := 16#0#;
    end record
@@ -1748,7 +1719,8 @@ package TMS570LC43xx.EMAC is
           Bit_Order => System.Low_Order_First;
 
    for MACSRCADDRLO_Register use record
-      MACSRCADDR     at 16#0# range 0 .. 15;
+      MACSRCADDR1    at 16#0# range 0 .. 7;
+      MACSRCADDR0    at 16#0# range 8 .. 15;
       Reserved_16_31 at 16#0# range 16 .. 31;
    end record;
 
@@ -1756,33 +1728,30 @@ package TMS570LC43xx.EMAC is
    -- MACSRCADDRHI_Register --
    ---------------------------
 
-   --  MACSRCADDRHI_MACSRCADDR array element
-   subtype MACSRCADDRHI_MACSRCADDR_Element is TMS570LC43xx.Byte;
-
-   --  MACSRCADDRHI_MACSRCADDR array
-   type MACSRCADDRHI_MACSRCADDR_Field_Array is array (2 .. 5)
-     of MACSRCADDRHI_MACSRCADDR_Element
-     with Component_Size => 8, Size => 32;
+   subtype MACSRCADDRHI_MACSRCADDR5_Field is TMS570LC43xx.Byte;
+   subtype MACSRCADDRHI_MACSRCADDR4_Field is TMS570LC43xx.Byte;
+   subtype MACSRCADDRHI_MACSRCADDR3_Field is TMS570LC43xx.Byte;
+   subtype MACSRCADDRHI_MACSRCADDR2_Field is TMS570LC43xx.Byte;
 
    --  MAC Source Address High
-   type MACSRCADDRHI_Register
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  MACSRCADDR as a value
-            Val : TMS570LC43xx.Word;
-         when True =>
-            --  MACSRCADDR as an array
-            Arr : MACSRCADDRHI_MACSRCADDR_Field_Array;
-      end case;
+   type MACSRCADDRHI_Register is record
+      --  MAC source address bits 47:40 (byte 5)
+      MACSRCADDR5 : MACSRCADDRHI_MACSRCADDR5_Field := 16#0#;
+      --  MAC source address bits 39:32 (byte 4)
+      MACSRCADDR4 : MACSRCADDRHI_MACSRCADDR4_Field := 16#0#;
+      --  MAC source address bits 31:23 (byte 3)
+      MACSRCADDR3 : MACSRCADDRHI_MACSRCADDR3_Field := 16#0#;
+      --  MAC source address bits 23:16 (byte 2)
+      MACSRCADDR2 : MACSRCADDRHI_MACSRCADDR2_Field := 16#0#;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for MACSRCADDRHI_Register use record
-      Val at 0 range 0 .. 31;
-      Arr at 0 range 0 .. 31;
+      MACSRCADDR5 at 16#0# range 0 .. 7;
+      MACSRCADDR4 at 16#0# range 8 .. 15;
+      MACSRCADDR3 at 16#0# range 16 .. 23;
+      MACSRCADDR2 at 16#0# range 24 .. 31;
    end record;
 
    -----------------------
@@ -1889,38 +1858,8 @@ package TMS570LC43xx.EMAC is
    -- MACADDRLO_Register --
    ------------------------
 
-   -----------------------
-   -- MACADDRLO.MACADDR --
-   -----------------------
-
-   --  MACADDRLO_MACADDR array element
-   subtype MACADDRLO_MACADDR_Element is TMS570LC43xx.Byte;
-
-   --  MACADDRLO_MACADDR array
-   type MACADDRLO_MACADDR_Field_Array is array (0 .. 1)
-     of MACADDRLO_MACADDR_Element
-     with Component_Size => 8, Size => 16;
-
-   --  Type definition for MACADDRLO_MACADDR
-   type MACADDRLO_MACADDR_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  MACADDR as a value
-            Val : TMS570LC43xx.Short;
-         when True =>
-            --  MACADDR as an array
-            Arr : MACADDRLO_MACADDR_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 16;
-
-   for MACADDRLO_MACADDR_Field use record
-      Val at 0 range 0 .. 15;
-      Arr at 0 range 0 .. 15;
-   end record;
-
+   subtype MACADDRLO_MACADDR1_Field is TMS570LC43xx.Byte;
+   subtype MACADDRLO_MACADDR0_Field is TMS570LC43xx.Byte;
    subtype MACADDRLO_CHANNEL_Field is TMS570LC43xx.UInt3;
    subtype MACADDRLO_MATCHFILT_Field is TMS570LC43xx.Bit;
    subtype MACADDRLO_VALID_Field is TMS570LC43xx.Bit;
@@ -1929,8 +1868,9 @@ package TMS570LC43xx.EMAC is
    --  MAC Address Low - From Receive Address Matching Memory Map
    type MACADDRLO_Register is record
       --  MAC addres bits 15:8 (byte 1)
-      MACADDR        : MACADDRLO_MACADDR_Field :=
-                        (As_Array => False, Val => 16#0#);
+      MACADDR1       : MACADDRLO_MACADDR1_Field := 16#0#;
+      --  MAC addres lower 8 bits (byte 0)
+      MACADDR0       : MACADDRLO_MACADDR0_Field := 16#0#;
       CHANNEL        : MACADDRLO_CHANNEL_Field := 16#0#;
       MATCHFILT      : MACADDRLO_MATCHFILT_Field := 16#0#;
       VALID          : MACADDRLO_VALID_Field := 16#0#;
@@ -1941,7 +1881,8 @@ package TMS570LC43xx.EMAC is
           Bit_Order => System.Low_Order_First;
 
    for MACADDRLO_Register use record
-      MACADDR        at 16#0# range 0 .. 15;
+      MACADDR1       at 16#0# range 0 .. 7;
+      MACADDR0       at 16#0# range 8 .. 15;
       CHANNEL        at 16#0# range 16 .. 18;
       MATCHFILT      at 16#0# range 19 .. 19;
       VALID          at 16#0# range 20 .. 20;
@@ -1952,33 +1893,30 @@ package TMS570LC43xx.EMAC is
    -- MACADDRHI_Register --
    ------------------------
 
-   --  MACADDRHI_MACADDR array element
-   subtype MACADDRHI_MACADDR_Element is TMS570LC43xx.Byte;
-
-   --  MACADDRHI_MACADDR array
-   type MACADDRHI_MACADDR_Field_Array is array (2 .. 5)
-     of MACADDRHI_MACADDR_Element
-     with Component_Size => 8, Size => 32;
+   subtype MACADDRHI_MACADDR5_Field is TMS570LC43xx.Byte;
+   subtype MACADDRHI_MACADDR4_Field is TMS570LC43xx.Byte;
+   subtype MACADDRHI_MACADDR3_Field is TMS570LC43xx.Byte;
+   subtype MACADDRHI_MACADDR2_Field is TMS570LC43xx.Byte;
 
    --  MAC Address High - Receive Address Matching
-   type MACADDRHI_Register
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  MACADDR as a value
-            Val : TMS570LC43xx.Word;
-         when True =>
-            --  MACADDR as an array
-            Arr : MACADDRHI_MACADDR_Field_Array;
-      end case;
+   type MACADDRHI_Register is record
+      --  MAC source address bits 47:40 (byte 5)
+      MACADDR5 : MACADDRHI_MACADDR5_Field := 16#0#;
+      --  MAC source address bits 39:32 (byte 4)
+      MACADDR4 : MACADDRHI_MACADDR4_Field := 16#0#;
+      --  MAC source address bits 31:23 (byte 3)
+      MACADDR3 : MACADDRHI_MACADDR3_Field := 16#0#;
+      --  MAC source address bits 23:16 (byte 2)
+      MACADDR2 : MACADDRHI_MACADDR2_Field := 16#0#;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for MACADDRHI_Register use record
-      Val at 0 range 0 .. 31;
-      Arr at 0 range 0 .. 31;
+      MACADDR5 at 16#0# range 0 .. 7;
+      MACADDR4 at 16#0# range 8 .. 15;
+      MACADDR3 at 16#0# range 16 .. 23;
+      MACADDR2 at 16#0# range 24 .. 31;
    end record;
 
    -----------------------

@@ -38,229 +38,214 @@ package TMS570LC43xx.Gio is
    -- IntDet_Register --
    ---------------------
 
-   --  IntDet_GioIntDet array element
-   subtype IntDet_GioIntDet_Element is TMS570LC43xx.Byte;
-
-   --  IntDet_GioIntDet array
-   type IntDet_GioIntDet_Field_Array is array (0 .. 3)
-     of IntDet_GioIntDet_Element
-     with Component_Size => 8, Size => 32;
+   subtype IntDet_GioIntDet0_Field is TMS570LC43xx.Byte;
+   subtype IntDet_GioIntDet1_Field is TMS570LC43xx.Byte;
+   subtype IntDet_GioIntDet2_Field is TMS570LC43xx.Byte;
+   subtype IntDet_GioIntDet3_Field is TMS570LC43xx.Byte;
 
    --  Interrupt Detect
-   type IntDet_Register
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  GioIntDet as a value
-            Val : TMS570LC43xx.Word;
-         when True =>
-            --  GioIntDet as an array
-            Arr : IntDet_GioIntDet_Field_Array;
-      end case;
+   type IntDet_Register is record
+      --  Interrupt detection select for pins GIOA[7:0]
+      GioIntDet0 : IntDet_GioIntDet0_Field := 16#0#;
+      --  Interrupt detection select for pins GIOB[7:0]
+      GioIntDet1 : IntDet_GioIntDet1_Field := 16#0#;
+      --  Interrupt detection select for pins GIOC[7:0]
+      GioIntDet2 : IntDet_GioIntDet2_Field := 16#0#;
+      --  Interrupt detection select for pins GIOD[7:0]
+      GioIntDet3 : IntDet_GioIntDet3_Field := 16#0#;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IntDet_Register use record
-      Val at 0 range 0 .. 31;
-      Arr at 0 range 0 .. 31;
+      GioIntDet0 at 16#0# range 0 .. 7;
+      GioIntDet1 at 16#0# range 8 .. 15;
+      GioIntDet2 at 16#0# range 16 .. 23;
+      GioIntDet3 at 16#0# range 24 .. 31;
    end record;
 
    ---------------------
    -- IntPol_Register --
    ---------------------
 
-   --  IntPol_GioPol array element
-   subtype IntPol_GioPol_Element is TMS570LC43xx.Byte;
-
-   --  IntPol_GioPol array
-   type IntPol_GioPol_Field_Array is array (0 .. 3) of IntPol_GioPol_Element
-     with Component_Size => 8, Size => 32;
+   subtype IntPol_GioPol0_Field is TMS570LC43xx.Byte;
+   subtype IntPol_GioPol1_Field is TMS570LC43xx.Byte;
+   subtype IntPol_GioPol2_Field is TMS570LC43xx.Byte;
+   subtype IntPol_GioPol3_Field is TMS570LC43xx.Byte;
 
    --  Interrupt Polarity
-   type IntPol_Register
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  GioPol as a value
-            Val : TMS570LC43xx.Word;
-         when True =>
-            --  GioPol as an array
-            Arr : IntPol_GioPol_Field_Array;
-      end case;
+   type IntPol_Register is record
+      --  Low-power mode (GIO module clocks off) / Interrupt polarity select
+      --  for pins GIOA[7:0]
+      GioPol0 : IntPol_GioPol0_Field := 16#0#;
+      --  Low-power mode (GIO module clocks off) / Interrupt polarity select
+      --  for pins GIOB[7:0]
+      GioPol1 : IntPol_GioPol1_Field := 16#0#;
+      --  Low-power mode (GIO module clocks off) / Interrupt polarity select
+      --  for pins GIOC[7:0]
+      GioPol2 : IntPol_GioPol2_Field := 16#0#;
+      --  Low-power mode (GIO module clocks off) / Interrupt polarity select
+      --  for pins GIOD[7:0]
+      GioPol3 : IntPol_GioPol3_Field := 16#0#;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IntPol_Register use record
-      Val at 0 range 0 .. 31;
-      Arr at 0 range 0 .. 31;
+      GioPol0 at 16#0# range 0 .. 7;
+      GioPol1 at 16#0# range 8 .. 15;
+      GioPol2 at 16#0# range 16 .. 23;
+      GioPol3 at 16#0# range 24 .. 31;
    end record;
 
    ------------------------
    -- IntEnaSet_Register --
    ------------------------
 
-   --  IntEnaSet_GioEnaSet array element
-   subtype IntEnaSet_GioEnaSet_Element is TMS570LC43xx.Byte;
-
-   --  IntEnaSet_GioEnaSet array
-   type IntEnaSet_GioEnaSet_Field_Array is array (0 .. 3)
-     of IntEnaSet_GioEnaSet_Element
-     with Component_Size => 8, Size => 32;
+   subtype IntEnaSet_GioEnaSet0_Field is TMS570LC43xx.Byte;
+   subtype IntEnaSet_GioEnaSet1_Field is TMS570LC43xx.Byte;
+   subtype IntEnaSet_GioEnaSet2_Field is TMS570LC43xx.Byte;
+   subtype IntEnaSet_GioEnaSet3_Field is TMS570LC43xx.Byte;
 
    --  Interrupt Enable Set
-   type IntEnaSet_Register
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  GioEnaSet as a value
-            Val : TMS570LC43xx.Word;
-         when True =>
-            --  GioEnaSet as an array
-            Arr : IntEnaSet_GioEnaSet_Field_Array;
-      end case;
+   type IntEnaSet_Register is record
+      --  Interrupt enable for pins GIOA[7:0]
+      GioEnaSet0 : IntEnaSet_GioEnaSet0_Field := 16#0#;
+      --  Interrupt enable for pins GIOB[7:0]
+      GioEnaSet1 : IntEnaSet_GioEnaSet1_Field := 16#0#;
+      --  Interrupt enable for pins GIOC[7:0]
+      GioEnaSet2 : IntEnaSet_GioEnaSet2_Field := 16#0#;
+      --  Interrupt enable for pins GIOD[7:0]
+      GioEnaSet3 : IntEnaSet_GioEnaSet3_Field := 16#0#;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IntEnaSet_Register use record
-      Val at 0 range 0 .. 31;
-      Arr at 0 range 0 .. 31;
+      GioEnaSet0 at 16#0# range 0 .. 7;
+      GioEnaSet1 at 16#0# range 8 .. 15;
+      GioEnaSet2 at 16#0# range 16 .. 23;
+      GioEnaSet3 at 16#0# range 24 .. 31;
    end record;
 
    ------------------------
    -- IntEnaClr_Register --
    ------------------------
 
-   --  IntEnaClr_GioEnaClr array element
-   subtype IntEnaClr_GioEnaClr_Element is TMS570LC43xx.Byte;
-
-   --  IntEnaClr_GioEnaClr array
-   type IntEnaClr_GioEnaClr_Field_Array is array (0 .. 3)
-     of IntEnaClr_GioEnaClr_Element
-     with Component_Size => 8, Size => 32;
+   subtype IntEnaClr_GioEnaClr0_Field is TMS570LC43xx.Byte;
+   subtype IntEnaClr_GioEnaClr1_Field is TMS570LC43xx.Byte;
+   subtype IntEnaClr_GioEnaClr2_Field is TMS570LC43xx.Byte;
+   subtype IntEnaClr_GioEnaClr3_Field is TMS570LC43xx.Byte;
 
    --  Interrupt Enable Clear
-   type IntEnaClr_Register
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  GioEnaClr as a value
-            Val : TMS570LC43xx.Word;
-         when True =>
-            --  GioEnaClr as an array
-            Arr : IntEnaClr_GioEnaClr_Field_Array;
-      end case;
+   type IntEnaClr_Register is record
+      --  Interrupt disable for pins GIOA[7:0]
+      GioEnaClr0 : IntEnaClr_GioEnaClr0_Field := 16#0#;
+      --  Interrupt disable for pins GIOB[7:0]
+      GioEnaClr1 : IntEnaClr_GioEnaClr1_Field := 16#0#;
+      --  Interrupt disable for pins GIOC[7:0]
+      GioEnaClr2 : IntEnaClr_GioEnaClr2_Field := 16#0#;
+      --  Interrupt disable for pins GIOD[7:0]
+      GioEnaClr3 : IntEnaClr_GioEnaClr3_Field := 16#0#;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IntEnaClr_Register use record
-      Val at 0 range 0 .. 31;
-      Arr at 0 range 0 .. 31;
+      GioEnaClr0 at 16#0# range 0 .. 7;
+      GioEnaClr1 at 16#0# range 8 .. 15;
+      GioEnaClr2 at 16#0# range 16 .. 23;
+      GioEnaClr3 at 16#0# range 24 .. 31;
    end record;
 
    ------------------------
    -- IntLvlSet_Register --
    ------------------------
 
-   --  IntLvlSet_GioLvlSet array element
-   subtype IntLvlSet_GioLvlSet_Element is TMS570LC43xx.Byte;
-
-   --  IntLvlSet_GioLvlSet array
-   type IntLvlSet_GioLvlSet_Field_Array is array (0 .. 3)
-     of IntLvlSet_GioLvlSet_Element
-     with Component_Size => 8, Size => 32;
+   subtype IntLvlSet_GioLvlSet0_Field is TMS570LC43xx.Byte;
+   subtype IntLvlSet_GioLvlSet1_Field is TMS570LC43xx.Byte;
+   subtype IntLvlSet_GioLvlSet2_Field is TMS570LC43xx.Byte;
+   subtype IntLvlSet_GioLvlSet3_Field is TMS570LC43xx.Byte;
 
    --  Interrupt Priority Set
-   type IntLvlSet_Register
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  GioLvlSet as a value
-            Val : TMS570LC43xx.Word;
-         when True =>
-            --  GioLvlSet as an array
-            Arr : IntLvlSet_GioLvlSet_Field_Array;
-      end case;
+   type IntLvlSet_Register is record
+      --  GIO high-priority interrupt for pins GIOA[7:0]
+      GioLvlSet0 : IntLvlSet_GioLvlSet0_Field := 16#0#;
+      --  GIO high-priority interrupt for pins GIOB[7:0]
+      GioLvlSet1 : IntLvlSet_GioLvlSet1_Field := 16#0#;
+      --  GIO high-priority interrupt for pins GIOC[7:0]
+      GioLvlSet2 : IntLvlSet_GioLvlSet2_Field := 16#0#;
+      --  GIO high-priority interrupt for pins GIOD[7:0]
+      GioLvlSet3 : IntLvlSet_GioLvlSet3_Field := 16#0#;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IntLvlSet_Register use record
-      Val at 0 range 0 .. 31;
-      Arr at 0 range 0 .. 31;
+      GioLvlSet0 at 16#0# range 0 .. 7;
+      GioLvlSet1 at 16#0# range 8 .. 15;
+      GioLvlSet2 at 16#0# range 16 .. 23;
+      GioLvlSet3 at 16#0# range 24 .. 31;
    end record;
 
    ------------------------
    -- IntLvlClr_Register --
    ------------------------
 
-   --  IntLvlClr_GioLvlClr array element
-   subtype IntLvlClr_GioLvlClr_Element is TMS570LC43xx.Byte;
-
-   --  IntLvlClr_GioLvlClr array
-   type IntLvlClr_GioLvlClr_Field_Array is array (0 .. 3)
-     of IntLvlClr_GioLvlClr_Element
-     with Component_Size => 8, Size => 32;
+   subtype IntLvlClr_GioLvlClr0_Field is TMS570LC43xx.Byte;
+   subtype IntLvlClr_GioLvlClr1_Field is TMS570LC43xx.Byte;
+   subtype IntLvlClr_GioLvlClr2_Field is TMS570LC43xx.Byte;
+   subtype IntLvlClr_GioLvlClr3_Field is TMS570LC43xx.Byte;
 
    --  Interrupt Priority Clear
-   type IntLvlClr_Register
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  GioLvlClr as a value
-            Val : TMS570LC43xx.Word;
-         when True =>
-            --  GioLvlClr as an array
-            Arr : IntLvlClr_GioLvlClr_Field_Array;
-      end case;
+   type IntLvlClr_Register is record
+      --  GIO low-priority interrupt for pins GIOA[7:0]
+      GioLvlClr0 : IntLvlClr_GioLvlClr0_Field := 16#0#;
+      --  GIO low-priority interrupt for pins GIOB[7:0]
+      GioLvlClr1 : IntLvlClr_GioLvlClr1_Field := 16#0#;
+      --  GIO low-priority interrupt for pins GIOC[7:0]
+      GioLvlClr2 : IntLvlClr_GioLvlClr2_Field := 16#0#;
+      --  GIO low-priority interrupt for pins GIOD[7:0]
+      GioLvlClr3 : IntLvlClr_GioLvlClr3_Field := 16#0#;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IntLvlClr_Register use record
-      Val at 0 range 0 .. 31;
-      Arr at 0 range 0 .. 31;
+      GioLvlClr0 at 16#0# range 0 .. 7;
+      GioLvlClr1 at 16#0# range 8 .. 15;
+      GioLvlClr2 at 16#0# range 16 .. 23;
+      GioLvlClr3 at 16#0# range 24 .. 31;
    end record;
 
    ---------------------
    -- IntFlg_Register --
    ---------------------
 
-   --  IntFlg_GioFlg array element
-   subtype IntFlg_GioFlg_Element is TMS570LC43xx.Byte;
-
-   --  IntFlg_GioFlg array
-   type IntFlg_GioFlg_Field_Array is array (0 .. 3) of IntFlg_GioFlg_Element
-     with Component_Size => 8, Size => 32;
+   subtype IntFlg_GioFlg0_Field is TMS570LC43xx.Byte;
+   subtype IntFlg_GioFlg1_Field is TMS570LC43xx.Byte;
+   subtype IntFlg_GioFlg2_Field is TMS570LC43xx.Byte;
+   subtype IntFlg_GioFlg3_Field is TMS570LC43xx.Byte;
 
    --  Interrupt Flag
-   type IntFlg_Register
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  GioFlg as a value
-            Val : TMS570LC43xx.Word;
-         when True =>
-            --  GioFlg as an array
-            Arr : IntFlg_GioFlg_Field_Array;
-      end case;
+   type IntFlg_Register is record
+      --  GIO flag for pins GIOA[7:0]
+      GioFlg0 : IntFlg_GioFlg0_Field := 16#0#;
+      --  GIO flag for pins GIOB[7:0]
+      GioFlg1 : IntFlg_GioFlg1_Field := 16#0#;
+      --  GIO flag for pins GIOC[7:0]
+      GioFlg2 : IntFlg_GioFlg2_Field := 16#0#;
+      --  GIO flag for pins GIOD[7:0]
+      GioFlg3 : IntFlg_GioFlg3_Field := 16#0#;
    end record
-     with Unchecked_Union, Size => 32, Volatile_Full_Access,
+     with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for IntFlg_Register use record
-      Val at 0 range 0 .. 31;
-      Arr at 0 range 0 .. 31;
+      GioFlg0 at 16#0# range 0 .. 7;
+      GioFlg1 at 16#0# range 8 .. 15;
+      GioFlg2 at 16#0# range 16 .. 23;
+      GioFlg3 at 16#0# range 24 .. 31;
    end record;
 
    ---------------------

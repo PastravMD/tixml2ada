@@ -156,46 +156,20 @@ package TMS570LC43xx.CP15 is
    -- CP15_MULTIPROCESSOR_ID_Register --
    -------------------------------------
 
-   ---------------------------------------
-   -- CP15_MULTIPROCESSOR_ID.AFFINITY_L --
-   ---------------------------------------
-
-   --  CP15_MULTIPROCESSOR_ID_AFFINITY_L array element
-   subtype CP15_MULTIPROCESSOR_ID_AFFINITY_L_Element is TMS570LC43xx.Byte;
-
-   --  CP15_MULTIPROCESSOR_ID_AFFINITY_L array
-   type CP15_MULTIPROCESSOR_ID_AFFINITY_L_Field_Array is array (0 .. 2)
-     of CP15_MULTIPROCESSOR_ID_AFFINITY_L_Element
-     with Component_Size => 8, Size => 24;
-
-   --  Type definition for CP15_MULTIPROCESSOR_ID_AFFINITY_L
-   type CP15_MULTIPROCESSOR_ID_AFFINITY_L_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  AFFINITY_L as a value
-            Val : TMS570LC43xx.UInt24;
-         when True =>
-            --  AFFINITY_L as an array
-            Arr : CP15_MULTIPROCESSOR_ID_AFFINITY_L_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 24;
-
-   for CP15_MULTIPROCESSOR_ID_AFFINITY_L_Field use record
-      Val at 0 range 0 .. 23;
-      Arr at 0 range 0 .. 23;
-   end record;
-
+   subtype CP15_MULTIPROCESSOR_ID_AFFINITY_L0_Field is TMS570LC43xx.Byte;
+   subtype CP15_MULTIPROCESSOR_ID_AFFINITY_L1_Field is TMS570LC43xx.Byte;
+   subtype CP15_MULTIPROCESSOR_ID_AFFINITY_L2_Field is TMS570LC43xx.Byte;
    subtype CP15_MULTIPROCESSOR_ID_Rsv1_Field is TMS570LC43xx.UInt6;
    subtype CP15_MULTIPROCESSOR_ID_MP_EXTENSIONS_Field is TMS570LC43xx.UInt2;
 
    --  MPIDR
    type CP15_MULTIPROCESSOR_ID_Register is record
       --  Processor within group: 0=CPU0, 1=CPU1 if implemented
-      AFFINITY_L    : CP15_MULTIPROCESSOR_ID_AFFINITY_L_Field :=
-                       (As_Array => False, Val => 16#0#);
+      AFFINITY_L0   : CP15_MULTIPROCESSOR_ID_AFFINITY_L0_Field := 16#0#;
+      --  Group ID
+      AFFINITY_L1   : CP15_MULTIPROCESSOR_ID_AFFINITY_L1_Field := 16#0#;
+      --  SBZ
+      AFFINITY_L2   : CP15_MULTIPROCESSOR_ID_AFFINITY_L2_Field := 16#0#;
       --  SBZ
       Rsv1          : CP15_MULTIPROCESSOR_ID_Rsv1_Field := 16#0#;
       --  Processor is part of a uniprocessor system
@@ -205,7 +179,9 @@ package TMS570LC43xx.CP15 is
           Bit_Order => System.Low_Order_First;
 
    for CP15_MULTIPROCESSOR_ID_Register use record
-      AFFINITY_L    at 16#0# range 0 .. 23;
+      AFFINITY_L0   at 16#0# range 0 .. 7;
+      AFFINITY_L1   at 16#0# range 8 .. 15;
+      AFFINITY_L2   at 16#0# range 16 .. 23;
       Rsv1          at 16#0# range 24 .. 29;
       MP_EXTENSIONS at 16#0# range 30 .. 31;
    end record;
@@ -214,54 +190,34 @@ package TMS570LC43xx.CP15 is
    -- CP15_PROCESSOR_FEATURE_0_Register --
    ---------------------------------------
 
-   ------------------------------------
-   -- CP15_PROCESSOR_FEATURE_0.STATE --
-   ------------------------------------
-
-   --  CP15_PROCESSOR_FEATURE_0_STATE array element
-   subtype CP15_PROCESSOR_FEATURE_0_STATE_Element is TMS570LC43xx.UInt4;
-
-   --  CP15_PROCESSOR_FEATURE_0_STATE array
-   type CP15_PROCESSOR_FEATURE_0_STATE_Field_Array is array (0 .. 3)
-     of CP15_PROCESSOR_FEATURE_0_STATE_Element
-     with Component_Size => 4, Size => 16;
-
-   --  Type definition for CP15_PROCESSOR_FEATURE_0_STATE
-   type CP15_PROCESSOR_FEATURE_0_STATE_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  STATE as a value
-            Val : TMS570LC43xx.Short;
-         when True =>
-            --  STATE as an array
-            Arr : CP15_PROCESSOR_FEATURE_0_STATE_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 16;
-
-   for CP15_PROCESSOR_FEATURE_0_STATE_Field use record
-      Val at 0 range 0 .. 15;
-      Arr at 0 range 0 .. 15;
-   end record;
-
+   subtype CP15_PROCESSOR_FEATURE_0_STATE0_Field is TMS570LC43xx.UInt4;
+   subtype CP15_PROCESSOR_FEATURE_0_STATE1_Field is TMS570LC43xx.UInt4;
+   subtype CP15_PROCESSOR_FEATURE_0_STATE2_Field is TMS570LC43xx.UInt4;
+   subtype CP15_PROCESSOR_FEATURE_0_STATE3_Field is TMS570LC43xx.UInt4;
    subtype CP15_PROCESSOR_FEATURE_0_Rsv1_Field is TMS570LC43xx.Short;
 
    --  PFR0
    type CP15_PROCESSOR_FEATURE_0_Register is record
       --  1 = Supports ARM Instructions
-      STATE : CP15_PROCESSOR_FEATURE_0_STATE_Field :=
-               (As_Array => False, Val => 16#0#);
+      STATE0 : CP15_PROCESSOR_FEATURE_0_STATE0_Field := 16#0#;
+      --  3 = Supports Thumb Encoding with All Thumb Instructions
+      STATE1 : CP15_PROCESSOR_FEATURE_0_STATE1_Field := 16#0#;
+      --  1 = Supports Acceleration of Execution Env in Software
+      STATE2 : CP15_PROCESSOR_FEATURE_0_STATE2_Field := 16#0#;
+      --  0 = Does Not ThumbEE
+      STATE3 : CP15_PROCESSOR_FEATURE_0_STATE3_Field := 16#0#;
       --  SBZ
-      Rsv1  : CP15_PROCESSOR_FEATURE_0_Rsv1_Field := 16#0#;
+      Rsv1   : CP15_PROCESSOR_FEATURE_0_Rsv1_Field := 16#0#;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CP15_PROCESSOR_FEATURE_0_Register use record
-      STATE at 16#0# range 0 .. 15;
-      Rsv1  at 16#0# range 16 .. 31;
+      STATE0 at 16#0# range 0 .. 3;
+      STATE1 at 16#0# range 4 .. 7;
+      STATE2 at 16#0# range 8 .. 11;
+      STATE3 at 16#0# range 12 .. 15;
+      Rsv1   at 16#0# range 16 .. 31;
    end record;
 
    ---------------------------------------
@@ -630,40 +586,10 @@ package TMS570LC43xx.CP15 is
    -----------------------------------------------
 
    subtype CP15_INSTRUCTION_SET_ATTRIBUTE_1_ENDIAN_Field is TMS570LC43xx.UInt4;
-
-   ------------------------------------------------
-   -- CP15_INSTRUCTION_SET_ATTRIBUTE_1.EXCEPTION --
-   ------------------------------------------------
-
-   --  CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION array element
-   subtype CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION_Element is
+   subtype CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION1_Field is
      TMS570LC43xx.UInt4;
-
-   --  CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION array
-   type CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION_Field_Array is array (1 .. 2)
-     of CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION_Element
-     with Component_Size => 4, Size => 8;
-
-   --  Type definition for CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION
-   type CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  EXCEPTION as a value
-            Val : TMS570LC43xx.Byte;
-         when True =>
-            --  EXCEPTION as an array
-            Arr : CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 8;
-
-   for CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION_Field use record
-      Val at 0 range 0 .. 7;
-      Arr at 0 range 0 .. 7;
-   end record;
-
+   subtype CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION2_Field is
+     TMS570LC43xx.UInt4;
    subtype CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXTEND_Field is TMS570LC43xx.UInt4;
    subtype CP15_INSTRUCTION_SET_ATTRIBUTE_1_ITE_Field is TMS570LC43xx.UInt4;
    subtype CP15_INSTRUCTION_SET_ATTRIBUTE_1_IMMEDIATE_Field is
@@ -676,33 +602,35 @@ package TMS570LC43xx.CP15 is
    --  ID_ISAR1
    type CP15_INSTRUCTION_SET_ATTRIBUTE_1_Register is record
       --  1 = Supports SETNED and E bit In PSR
-      ENDIAN      : CP15_INSTRUCTION_SET_ATTRIBUTE_1_ENDIAN_Field := 16#0#;
+      ENDIAN     : CP15_INSTRUCTION_SET_ATTRIBUTE_1_ENDIAN_Field := 16#0#;
       --  1 = Supports LDM (exception return), LDM (user regs), STM (User Regs)
-      EXCEPTION_k : CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION_Field :=
-                     (As_Array => False, Val => 16#0#);
+      EXCEPTION1 : CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION1_Field := 16#0#;
+      --  1 = Supports RFE, SRS, and CPS
+      EXCEPTION2 : CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXCEPTION2_Field := 16#0#;
       --  2 = Supports Sign or Zero Extend Instructions
-      EXTEND      : CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXTEND_Field := 16#0#;
+      EXTEND     : CP15_INSTRUCTION_SET_ATTRIBUTE_1_EXTEND_Field := 16#0#;
       --  1 = Supports If Then IT
-      ITE         : CP15_INSTRUCTION_SET_ATTRIBUTE_1_ITE_Field := 16#0#;
+      ITE        : CP15_INSTRUCTION_SET_ATTRIBUTE_1_ITE_Field := 16#0#;
       --  1 = Supports MOVT, MOV IMM16, Thumb ADD,SUB w. IMM2
-      IMMEDIATE   : CP15_INSTRUCTION_SET_ATTRIBUTE_1_IMMEDIATE_Field := 16#0#;
+      IMMEDIATE  : CP15_INSTRUCTION_SET_ATTRIBUTE_1_IMMEDIATE_Field := 16#0#;
       --  3 = Supports BX, T bit in PSR, BLX and PC Loads have BX Behavior, DP
       --  with PC like BX
-      INTERWRK    : CP15_INSTRUCTION_SET_ATTRIBUTE_1_INTERWRK_Field := 16#0#;
+      INTERWRK   : CP15_INSTRUCTION_SET_ATTRIBUTE_1_INTERWRK_Field := 16#0#;
       --  1 = Suppports BJZ, J bit in PSR
-      JAZELLE     : CP15_INSTRUCTION_SET_ATTRIBUTE_1_JAZELLE_Field := 16#0#;
+      JAZELLE    : CP15_INSTRUCTION_SET_ATTRIBUTE_1_JAZELLE_Field := 16#0#;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for CP15_INSTRUCTION_SET_ATTRIBUTE_1_Register use record
-      ENDIAN      at 16#0# range 0 .. 3;
-      EXCEPTION_k at 16#0# range 4 .. 11;
-      EXTEND      at 16#0# range 12 .. 15;
-      ITE         at 16#0# range 16 .. 19;
-      IMMEDIATE   at 16#0# range 20 .. 23;
-      INTERWRK    at 16#0# range 24 .. 27;
-      JAZELLE     at 16#0# range 28 .. 31;
+      ENDIAN     at 16#0# range 0 .. 3;
+      EXCEPTION1 at 16#0# range 4 .. 7;
+      EXCEPTION2 at 16#0# range 8 .. 11;
+      EXTEND     at 16#0# range 12 .. 15;
+      ITE        at 16#0# range 16 .. 19;
+      IMMEDIATE  at 16#0# range 20 .. 23;
+      INTERWRK   at 16#0# range 24 .. 27;
+      JAZELLE    at 16#0# range 28 .. 31;
    end record;
 
    -----------------------------------------------
@@ -931,39 +859,12 @@ package TMS570LC43xx.CP15 is
    subtype CP15_CURRENT_CACHE_LEVEL_ID_CL1I_Field is TMS570LC43xx.Bit;
    subtype CP15_CURRENT_CACHE_LEVEL_ID_CL1D_Field is TMS570LC43xx.Bit;
    subtype CP15_CURRENT_CACHE_LEVEL_ID_CL1_Field is TMS570LC43xx.Bit;
-
-   ------------------------------------
-   -- CP15_CURRENT_CACHE_LEVEL_ID.CL --
-   ------------------------------------
-
-   --  CP15_CURRENT_CACHE_LEVEL_ID_CL array element
-   subtype CP15_CURRENT_CACHE_LEVEL_ID_CL_Element is TMS570LC43xx.UInt3;
-
-   --  CP15_CURRENT_CACHE_LEVEL_ID_CL array
-   type CP15_CURRENT_CACHE_LEVEL_ID_CL_Field_Array is array (2 .. 7)
-     of CP15_CURRENT_CACHE_LEVEL_ID_CL_Element
-     with Component_Size => 3, Size => 18;
-
-   --  Type definition for CP15_CURRENT_CACHE_LEVEL_ID_CL
-   type CP15_CURRENT_CACHE_LEVEL_ID_CL_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  CL as a value
-            Val : TMS570LC43xx.UInt18;
-         when True =>
-            --  CL as an array
-            Arr : CP15_CURRENT_CACHE_LEVEL_ID_CL_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 18;
-
-   for CP15_CURRENT_CACHE_LEVEL_ID_CL_Field use record
-      Val at 0 range 0 .. 17;
-      Arr at 0 range 0 .. 17;
-   end record;
-
+   subtype CP15_CURRENT_CACHE_LEVEL_ID_CL2_Field is TMS570LC43xx.UInt3;
+   subtype CP15_CURRENT_CACHE_LEVEL_ID_CL3_Field is TMS570LC43xx.UInt3;
+   subtype CP15_CURRENT_CACHE_LEVEL_ID_CL4_Field is TMS570LC43xx.UInt3;
+   subtype CP15_CURRENT_CACHE_LEVEL_ID_CL5_Field is TMS570LC43xx.UInt3;
+   subtype CP15_CURRENT_CACHE_LEVEL_ID_CL6_Field is TMS570LC43xx.UInt3;
+   subtype CP15_CURRENT_CACHE_LEVEL_ID_CL7_Field is TMS570LC43xx.UInt3;
    subtype CP15_CURRENT_CACHE_LEVEL_ID_LOUIS_Field is TMS570LC43xx.UInt3;
    subtype CP15_CURRENT_CACHE_LEVEL_ID_LOC_Field is TMS570LC43xx.UInt3;
    subtype CP15_CURRENT_CACHE_LEVEL_ID_LOU_Field is TMS570LC43xx.UInt3;
@@ -978,8 +879,17 @@ package TMS570LC43xx.CP15 is
       --  0 = No Unified L1$
       CL1   : CP15_CURRENT_CACHE_LEVEL_ID_CL1_Field := 16#0#;
       --  0 = No L2$
-      CL    : CP15_CURRENT_CACHE_LEVEL_ID_CL_Field :=
-               (As_Array => False, Val => 16#0#);
+      CL2   : CP15_CURRENT_CACHE_LEVEL_ID_CL2_Field := 16#0#;
+      --  0 = No L3$
+      CL3   : CP15_CURRENT_CACHE_LEVEL_ID_CL3_Field := 16#0#;
+      --  0 = No L4$
+      CL4   : CP15_CURRENT_CACHE_LEVEL_ID_CL4_Field := 16#0#;
+      --  0 = No L5$
+      CL5   : CP15_CURRENT_CACHE_LEVEL_ID_CL5_Field := 16#0#;
+      --  0 = No L6$
+      CL6   : CP15_CURRENT_CACHE_LEVEL_ID_CL6_Field := 16#0#;
+      --  0 = No L7$
+      CL7   : CP15_CURRENT_CACHE_LEVEL_ID_CL7_Field := 16#0#;
       --  1 = Level of Inner Shareable Unification is L2
       LOUIS : CP15_CURRENT_CACHE_LEVEL_ID_LOUIS_Field := 16#0#;
       --  1 = Level of Coherency is L2
@@ -996,7 +906,12 @@ package TMS570LC43xx.CP15 is
       CL1I  at 16#0# range 0 .. 0;
       CL1D  at 16#0# range 1 .. 1;
       CL1   at 16#0# range 2 .. 2;
-      CL    at 16#0# range 3 .. 20;
+      CL2   at 16#0# range 3 .. 5;
+      CL3   at 16#0# range 6 .. 8;
+      CL4   at 16#0# range 9 .. 11;
+      CL5   at 16#0# range 12 .. 14;
+      CL6   at 16#0# range 15 .. 17;
+      CL7   at 16#0# range 18 .. 20;
       LOUIS at 16#0# range 21 .. 23;
       LOC   at 16#0# range 24 .. 26;
       LOU   at 16#0# range 27 .. 29;
@@ -1043,39 +958,8 @@ package TMS570LC43xx.CP15 is
    subtype CP15_SYSTEM_CONTROL_I_Field is TMS570LC43xx.Bit;
    subtype CP15_SYSTEM_CONTROL_V_Field is TMS570LC43xx.Bit;
    subtype CP15_SYSTEM_CONTROL_RR_Field is TMS570LC43xx.Bit;
-
-   -----------------------------
-   -- CP15_SYSTEM_CONTROL.Rsv --
-   -----------------------------
-
-   --  CP15_SYSTEM_CONTROL_Rsv array element
-   subtype CP15_SYSTEM_CONTROL_Rsv_Element is TMS570LC43xx.Bit;
-
-   --  CP15_SYSTEM_CONTROL_Rsv array
-   type CP15_SYSTEM_CONTROL_Rsv_Field_Array is array (5 .. 6)
-     of CP15_SYSTEM_CONTROL_Rsv_Element
-     with Component_Size => 1, Size => 2;
-
-   --  Type definition for CP15_SYSTEM_CONTROL_Rsv
-   type CP15_SYSTEM_CONTROL_Rsv_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  Rsv as a value
-            Val : TMS570LC43xx.UInt2;
-         when True =>
-            --  Rsv as an array
-            Arr : CP15_SYSTEM_CONTROL_Rsv_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 2;
-
-   for CP15_SYSTEM_CONTROL_Rsv_Field use record
-      Val at 0 range 0 .. 1;
-      Arr at 0 range 0 .. 1;
-   end record;
-
+   subtype CP15_SYSTEM_CONTROL_Rsv6_Field is TMS570LC43xx.Bit;
+   subtype CP15_SYSTEM_CONTROL_Rsv5_Field is TMS570LC43xx.Bit;
    subtype CP15_SYSTEM_CONTROL_BR_Field is TMS570LC43xx.Bit;
    subtype CP15_SYSTEM_CONTROL_Rsv4_Field is TMS570LC43xx.Bit;
    subtype CP15_SYSTEM_CONTROL_DZ_Field is TMS570LC43xx.Bit;
@@ -1114,8 +998,9 @@ package TMS570LC43xx.CP15 is
       --  Enable Round Robin Data Cache Replacement Strategy
       RR   : CP15_SYSTEM_CONTROL_RR_Field := 16#0#;
       --  Reserved SBZ
-      Rsv  : CP15_SYSTEM_CONTROL_Rsv_Field :=
-              (As_Array => False, Val => 16#0#);
+      Rsv6 : CP15_SYSTEM_CONTROL_Rsv6_Field := 16#0#;
+      --  Reserved SBO
+      Rsv5 : CP15_SYSTEM_CONTROL_Rsv5_Field := 16#0#;
       --  Enable Memory Protection Unit Background Region
       BR   : CP15_SYSTEM_CONTROL_BR_Field := 16#0#;
       --  Reserved SBO
@@ -1159,7 +1044,8 @@ package TMS570LC43xx.CP15 is
       I    at 16#0# range 12 .. 12;
       V    at 16#0# range 13 .. 13;
       RR   at 16#0# range 14 .. 14;
-      Rsv  at 16#0# range 15 .. 16;
+      Rsv6 at 16#0# range 15 .. 15;
+      Rsv5 at 16#0# range 16 .. 16;
       BR   at 16#0# range 17 .. 17;
       Rsv4 at 16#0# range 18 .. 18;
       DZ   at 16#0# range 19 .. 19;
@@ -1312,39 +1198,8 @@ package TMS570LC43xx.CP15 is
    --------------------------------------
 
    subtype CP15_COPROCESSOR_ACCESS_Rsv2_Field is TMS570LC43xx.UInt20;
-
-   --------------------------------
-   -- CP15_COPROCESSOR_ACCESS.CP --
-   --------------------------------
-
-   --  CP15_COPROCESSOR_ACCESS_CP array element
-   subtype CP15_COPROCESSOR_ACCESS_CP_Element is TMS570LC43xx.UInt2;
-
-   --  CP15_COPROCESSOR_ACCESS_CP array
-   type CP15_COPROCESSOR_ACCESS_CP_Field_Array is array (10 .. 11)
-     of CP15_COPROCESSOR_ACCESS_CP_Element
-     with Component_Size => 2, Size => 4;
-
-   --  Type definition for CP15_COPROCESSOR_ACCESS_CP
-   type CP15_COPROCESSOR_ACCESS_CP_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  CP as a value
-            Val : TMS570LC43xx.UInt4;
-         when True =>
-            --  CP as an array
-            Arr : CP15_COPROCESSOR_ACCESS_CP_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 4;
-
-   for CP15_COPROCESSOR_ACCESS_CP_Field use record
-      Val at 0 range 0 .. 3;
-      Arr at 0 range 0 .. 3;
-   end record;
-
+   subtype CP15_COPROCESSOR_ACCESS_CP10_Field is TMS570LC43xx.UInt2;
+   subtype CP15_COPROCESSOR_ACCESS_CP11_Field is TMS570LC43xx.UInt2;
    subtype CP15_COPROCESSOR_ACCESS_Rsv1_Field is TMS570LC43xx.UInt6;
    subtype CP15_COPROCESSOR_ACCESS_D32DIS_Field is TMS570LC43xx.Bit;
    subtype CP15_COPROCESSOR_ACCESS_ASEDIS_Field is TMS570LC43xx.Bit;
@@ -1354,8 +1209,9 @@ package TMS570LC43xx.CP15 is
       --  Reserved SBZ
       Rsv2   : CP15_COPROCESSOR_ACCESS_Rsv2_Field := 16#0#;
       --  FPU Access Mode 00=Denied,01=PrivOnly,11=PrivUser, 10=Rsv
-      CP     : CP15_COPROCESSOR_ACCESS_CP_Field :=
-                (As_Array => False, Val => 16#0#);
+      CP10   : CP15_COPROCESSOR_ACCESS_CP10_Field := 16#0#;
+      --  FPU Access Mode 00=Denied,01=PrivOnly,11=PrivUser, 10=Rsv
+      CP11   : CP15_COPROCESSOR_ACCESS_CP11_Field := 16#0#;
       --  Reserved SBZ
       Rsv1   : CP15_COPROCESSOR_ACCESS_Rsv1_Field := 16#0#;
       --  D16-D31 Disable
@@ -1368,7 +1224,8 @@ package TMS570LC43xx.CP15 is
 
    for CP15_COPROCESSOR_ACCESS_Register use record
       Rsv2   at 16#0# range 0 .. 19;
-      CP     at 16#0# range 20 .. 23;
+      CP10   at 16#0# range 20 .. 21;
+      CP11   at 16#0# range 22 .. 23;
       Rsv1   at 16#0# range 24 .. 29;
       D32DIS at 16#0# range 30 .. 30;
       ASEDIS at 16#0# range 31 .. 31;
@@ -1790,46 +1647,20 @@ package TMS570LC43xx.CP15 is
    -- CP15_COUNT_ENABLE_SET_Register --
    ------------------------------------
 
-   -----------------------------
-   -- CP15_COUNT_ENABLE_SET.P --
-   -----------------------------
-
-   --  CP15_COUNT_ENABLE_SET_P array element
-   subtype CP15_COUNT_ENABLE_SET_P_Element is TMS570LC43xx.Bit;
-
-   --  CP15_COUNT_ENABLE_SET_P array
-   type CP15_COUNT_ENABLE_SET_P_Field_Array is array (0 .. 2)
-     of CP15_COUNT_ENABLE_SET_P_Element
-     with Component_Size => 1, Size => 3;
-
-   --  Type definition for CP15_COUNT_ENABLE_SET_P
-   type CP15_COUNT_ENABLE_SET_P_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  P as a value
-            Val : TMS570LC43xx.UInt3;
-         when True =>
-            --  P as an array
-            Arr : CP15_COUNT_ENABLE_SET_P_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 3;
-
-   for CP15_COUNT_ENABLE_SET_P_Field use record
-      Val at 0 range 0 .. 2;
-      Arr at 0 range 0 .. 2;
-   end record;
-
+   subtype CP15_COUNT_ENABLE_SET_P0_Field is TMS570LC43xx.Bit;
+   subtype CP15_COUNT_ENABLE_SET_P1_Field is TMS570LC43xx.Bit;
+   subtype CP15_COUNT_ENABLE_SET_P2_Field is TMS570LC43xx.Bit;
    subtype CP15_COUNT_ENABLE_SET_Rsv1_Field is TMS570LC43xx.UInt28;
    subtype CP15_COUNT_ENABLE_SET_C_Field is TMS570LC43xx.Bit;
 
    --  PMCNTENSET
    type CP15_COUNT_ENABLE_SET_Register is record
       --  Write 1 to Enable PMXEVCNTR0, Reads Return 0
-      P    : CP15_COUNT_ENABLE_SET_P_Field :=
-              (As_Array => False, Val => 16#0#);
+      P0   : CP15_COUNT_ENABLE_SET_P0_Field := 16#0#;
+      --  Write 1 to Enable PMXEVCNTR1, Reads Return 0
+      P1   : CP15_COUNT_ENABLE_SET_P1_Field := 16#0#;
+      --  Write 1 to Enable PMXEVCNTR2, Reads Return 0
+      P2   : CP15_COUNT_ENABLE_SET_P2_Field := 16#0#;
       --  Reserved UNP or SBZ
       Rsv1 : CP15_COUNT_ENABLE_SET_Rsv1_Field := 16#0#;
       --  Write 1 to Enable CCNT, Reads Return 0
@@ -1839,7 +1670,9 @@ package TMS570LC43xx.CP15 is
           Bit_Order => System.Low_Order_First;
 
    for CP15_COUNT_ENABLE_SET_Register use record
-      P    at 16#0# range 0 .. 2;
+      P0   at 16#0# range 0 .. 0;
+      P1   at 16#0# range 1 .. 1;
+      P2   at 16#0# range 2 .. 2;
       Rsv1 at 16#0# range 3 .. 30;
       C    at 16#0# range 31 .. 31;
    end record;
@@ -1848,46 +1681,20 @@ package TMS570LC43xx.CP15 is
    -- CP15_COUNT_ENABLE_CLEAR_Register --
    --------------------------------------
 
-   -------------------------------
-   -- CP15_COUNT_ENABLE_CLEAR.P --
-   -------------------------------
-
-   --  CP15_COUNT_ENABLE_CLEAR_P array element
-   subtype CP15_COUNT_ENABLE_CLEAR_P_Element is TMS570LC43xx.Bit;
-
-   --  CP15_COUNT_ENABLE_CLEAR_P array
-   type CP15_COUNT_ENABLE_CLEAR_P_Field_Array is array (0 .. 2)
-     of CP15_COUNT_ENABLE_CLEAR_P_Element
-     with Component_Size => 1, Size => 3;
-
-   --  Type definition for CP15_COUNT_ENABLE_CLEAR_P
-   type CP15_COUNT_ENABLE_CLEAR_P_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  P as a value
-            Val : TMS570LC43xx.UInt3;
-         when True =>
-            --  P as an array
-            Arr : CP15_COUNT_ENABLE_CLEAR_P_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 3;
-
-   for CP15_COUNT_ENABLE_CLEAR_P_Field use record
-      Val at 0 range 0 .. 2;
-      Arr at 0 range 0 .. 2;
-   end record;
-
+   subtype CP15_COUNT_ENABLE_CLEAR_P0_Field is TMS570LC43xx.Bit;
+   subtype CP15_COUNT_ENABLE_CLEAR_P1_Field is TMS570LC43xx.Bit;
+   subtype CP15_COUNT_ENABLE_CLEAR_P2_Field is TMS570LC43xx.Bit;
    subtype CP15_COUNT_ENABLE_CLEAR_Rsv1_Field is TMS570LC43xx.UInt28;
    subtype CP15_COUNT_ENABLE_CLEAR_C_Field is TMS570LC43xx.Bit;
 
    --  PMCNTENCLR
    type CP15_COUNT_ENABLE_CLEAR_Register is record
       --  Write 1 to Disable PMXEVCNTR0, Reads Return 0
-      P    : CP15_COUNT_ENABLE_CLEAR_P_Field :=
-              (As_Array => False, Val => 16#0#);
+      P0   : CP15_COUNT_ENABLE_CLEAR_P0_Field := 16#0#;
+      --  Write 1 to Disable PMXEVCNTR1, Reads Return 0
+      P1   : CP15_COUNT_ENABLE_CLEAR_P1_Field := 16#0#;
+      --  Write 1 to Disable PMXEVCNTR2, Reads Return 0
+      P2   : CP15_COUNT_ENABLE_CLEAR_P2_Field := 16#0#;
       --  Reserved UNP or SBZ
       Rsv1 : CP15_COUNT_ENABLE_CLEAR_Rsv1_Field := 16#0#;
       --  Write 1 to Disable CCNT, Reads Return 0
@@ -1897,7 +1704,9 @@ package TMS570LC43xx.CP15 is
           Bit_Order => System.Low_Order_First;
 
    for CP15_COUNT_ENABLE_CLEAR_Register use record
-      P    at 16#0# range 0 .. 2;
+      P0   at 16#0# range 0 .. 0;
+      P1   at 16#0# range 1 .. 1;
+      P2   at 16#0# range 2 .. 2;
       Rsv1 at 16#0# range 3 .. 30;
       C    at 16#0# range 31 .. 31;
    end record;
@@ -1906,46 +1715,20 @@ package TMS570LC43xx.CP15 is
    -- CP15_OVERFLOW_FLAG_STATUS_Register --
    ----------------------------------------
 
-   ---------------------------------
-   -- CP15_OVERFLOW_FLAG_STATUS.P --
-   ---------------------------------
-
-   --  CP15_OVERFLOW_FLAG_STATUS_P array element
-   subtype CP15_OVERFLOW_FLAG_STATUS_P_Element is TMS570LC43xx.Bit;
-
-   --  CP15_OVERFLOW_FLAG_STATUS_P array
-   type CP15_OVERFLOW_FLAG_STATUS_P_Field_Array is array (0 .. 2)
-     of CP15_OVERFLOW_FLAG_STATUS_P_Element
-     with Component_Size => 1, Size => 3;
-
-   --  Type definition for CP15_OVERFLOW_FLAG_STATUS_P
-   type CP15_OVERFLOW_FLAG_STATUS_P_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  P as a value
-            Val : TMS570LC43xx.UInt3;
-         when True =>
-            --  P as an array
-            Arr : CP15_OVERFLOW_FLAG_STATUS_P_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 3;
-
-   for CP15_OVERFLOW_FLAG_STATUS_P_Field use record
-      Val at 0 range 0 .. 2;
-      Arr at 0 range 0 .. 2;
-   end record;
-
+   subtype CP15_OVERFLOW_FLAG_STATUS_P0_Field is TMS570LC43xx.Bit;
+   subtype CP15_OVERFLOW_FLAG_STATUS_P1_Field is TMS570LC43xx.Bit;
+   subtype CP15_OVERFLOW_FLAG_STATUS_P2_Field is TMS570LC43xx.Bit;
    subtype CP15_OVERFLOW_FLAG_STATUS_Rsv1_Field is TMS570LC43xx.UInt28;
    subtype CP15_OVERFLOW_FLAG_STATUS_C_Field is TMS570LC43xx.Bit;
 
    --  PMOVSR
    type CP15_OVERFLOW_FLAG_STATUS_Register is record
       --  PMXEVCNTR0 Overflow Flag (W12C)
-      P    : CP15_OVERFLOW_FLAG_STATUS_P_Field :=
-              (As_Array => False, Val => 16#0#);
+      P0   : CP15_OVERFLOW_FLAG_STATUS_P0_Field := 16#0#;
+      --  PMXEVCNTR1 Overflow Flag (W12C)
+      P1   : CP15_OVERFLOW_FLAG_STATUS_P1_Field := 16#0#;
+      --  PMXEVCNTR2 Overflow Flag (W12C)
+      P2   : CP15_OVERFLOW_FLAG_STATUS_P2_Field := 16#0#;
       --  Reserved UNP or SBZ
       Rsv1 : CP15_OVERFLOW_FLAG_STATUS_Rsv1_Field := 16#0#;
       --  CCNT Overflow Flag (W12C)
@@ -1955,7 +1738,9 @@ package TMS570LC43xx.CP15 is
           Bit_Order => System.Low_Order_First;
 
    for CP15_OVERFLOW_FLAG_STATUS_Register use record
-      P    at 16#0# range 0 .. 2;
+      P0   at 16#0# range 0 .. 0;
+      P1   at 16#0# range 1 .. 1;
+      P2   at 16#0# range 2 .. 2;
       Rsv1 at 16#0# range 3 .. 30;
       C    at 16#0# range 31 .. 31;
    end record;
@@ -1964,45 +1749,19 @@ package TMS570LC43xx.CP15 is
    -- CP15_SOFTWARE_INCREMENT_Register --
    --------------------------------------
 
-   -------------------------------
-   -- CP15_SOFTWARE_INCREMENT.P --
-   -------------------------------
-
-   --  CP15_SOFTWARE_INCREMENT_P array element
-   subtype CP15_SOFTWARE_INCREMENT_P_Element is TMS570LC43xx.Bit;
-
-   --  CP15_SOFTWARE_INCREMENT_P array
-   type CP15_SOFTWARE_INCREMENT_P_Field_Array is array (0 .. 2)
-     of CP15_SOFTWARE_INCREMENT_P_Element
-     with Component_Size => 1, Size => 3;
-
-   --  Type definition for CP15_SOFTWARE_INCREMENT_P
-   type CP15_SOFTWARE_INCREMENT_P_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  P as a value
-            Val : TMS570LC43xx.UInt3;
-         when True =>
-            --  P as an array
-            Arr : CP15_SOFTWARE_INCREMENT_P_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 3;
-
-   for CP15_SOFTWARE_INCREMENT_P_Field use record
-      Val at 0 range 0 .. 2;
-      Arr at 0 range 0 .. 2;
-   end record;
-
+   subtype CP15_SOFTWARE_INCREMENT_P0_Field is TMS570LC43xx.Bit;
+   subtype CP15_SOFTWARE_INCREMENT_P1_Field is TMS570LC43xx.Bit;
+   subtype CP15_SOFTWARE_INCREMENT_P2_Field is TMS570LC43xx.Bit;
    subtype CP15_SOFTWARE_INCREMENT_Rsv1_Field is TMS570LC43xx.UInt29;
 
    --  PMSWINC
    type CP15_SOFTWARE_INCREMENT_Register is record
       --  Increment PMXEVCNTR0
-      P    : CP15_SOFTWARE_INCREMENT_P_Field :=
-              (As_Array => False, Val => 16#0#);
+      P0   : CP15_SOFTWARE_INCREMENT_P0_Field := 16#0#;
+      --  Increment PMXEVCNTR1
+      P1   : CP15_SOFTWARE_INCREMENT_P1_Field := 16#0#;
+      --  Increment PMXEVCNTR2
+      P2   : CP15_SOFTWARE_INCREMENT_P2_Field := 16#0#;
       --  Reserved RAZ Reads, SBZP Writes
       Rsv1 : CP15_SOFTWARE_INCREMENT_Rsv1_Field := 16#0#;
    end record
@@ -2010,7 +1769,9 @@ package TMS570LC43xx.CP15 is
           Bit_Order => System.Low_Order_First;
 
    for CP15_SOFTWARE_INCREMENT_Register use record
-      P    at 16#0# range 0 .. 2;
+      P0   at 16#0# range 0 .. 0;
+      P1   at 16#0# range 1 .. 1;
+      P2   at 16#0# range 2 .. 2;
       Rsv1 at 16#0# range 3 .. 31;
    end record;
 
@@ -2085,46 +1846,20 @@ package TMS570LC43xx.CP15 is
    -- CP15_INTERRUPT_ENABLE_SET_Register --
    ----------------------------------------
 
-   ---------------------------------
-   -- CP15_INTERRUPT_ENABLE_SET.P --
-   ---------------------------------
-
-   --  CP15_INTERRUPT_ENABLE_SET_P array element
-   subtype CP15_INTERRUPT_ENABLE_SET_P_Element is TMS570LC43xx.Bit;
-
-   --  CP15_INTERRUPT_ENABLE_SET_P array
-   type CP15_INTERRUPT_ENABLE_SET_P_Field_Array is array (0 .. 2)
-     of CP15_INTERRUPT_ENABLE_SET_P_Element
-     with Component_Size => 1, Size => 3;
-
-   --  Type definition for CP15_INTERRUPT_ENABLE_SET_P
-   type CP15_INTERRUPT_ENABLE_SET_P_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  P as a value
-            Val : TMS570LC43xx.UInt3;
-         when True =>
-            --  P as an array
-            Arr : CP15_INTERRUPT_ENABLE_SET_P_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 3;
-
-   for CP15_INTERRUPT_ENABLE_SET_P_Field use record
-      Val at 0 range 0 .. 2;
-      Arr at 0 range 0 .. 2;
-   end record;
-
+   subtype CP15_INTERRUPT_ENABLE_SET_P0_Field is TMS570LC43xx.Bit;
+   subtype CP15_INTERRUPT_ENABLE_SET_P1_Field is TMS570LC43xx.Bit;
+   subtype CP15_INTERRUPT_ENABLE_SET_P2_Field is TMS570LC43xx.Bit;
    subtype CP15_INTERRUPT_ENABLE_SET_Rsv1_Field is TMS570LC43xx.UInt28;
    subtype CP15_INTERRUPT_ENABLE_SET_C_Field is TMS570LC43xx.Bit;
 
    --  PMINTENSET
    type CP15_INTERRUPT_ENABLE_SET_Register is record
       --  Write 1 to Enable PMXEVCNTR0 Overflow Interrupt
-      P    : CP15_INTERRUPT_ENABLE_SET_P_Field :=
-              (As_Array => False, Val => 16#0#);
+      P0   : CP15_INTERRUPT_ENABLE_SET_P0_Field := 16#0#;
+      --  Write 1 to Enable PMXEVCNTR1 Overflow Interrupt
+      P1   : CP15_INTERRUPT_ENABLE_SET_P1_Field := 16#0#;
+      --  Write 1 to Enable PMXEVCNTR2 Overflow Interrupt
+      P2   : CP15_INTERRUPT_ENABLE_SET_P2_Field := 16#0#;
       --  Reserved UNP or SBZ
       Rsv1 : CP15_INTERRUPT_ENABLE_SET_Rsv1_Field := 16#0#;
       --  Write 1 to Enable CCNT Overflow Interrupt
@@ -2134,7 +1869,9 @@ package TMS570LC43xx.CP15 is
           Bit_Order => System.Low_Order_First;
 
    for CP15_INTERRUPT_ENABLE_SET_Register use record
-      P    at 16#0# range 0 .. 2;
+      P0   at 16#0# range 0 .. 0;
+      P1   at 16#0# range 1 .. 1;
+      P2   at 16#0# range 2 .. 2;
       Rsv1 at 16#0# range 3 .. 30;
       C    at 16#0# range 31 .. 31;
    end record;
@@ -2143,46 +1880,20 @@ package TMS570LC43xx.CP15 is
    -- CP15_INTERRUPT_ENABLE_CLEAR_Register --
    ------------------------------------------
 
-   -----------------------------------
-   -- CP15_INTERRUPT_ENABLE_CLEAR.P --
-   -----------------------------------
-
-   --  CP15_INTERRUPT_ENABLE_CLEAR_P array element
-   subtype CP15_INTERRUPT_ENABLE_CLEAR_P_Element is TMS570LC43xx.Bit;
-
-   --  CP15_INTERRUPT_ENABLE_CLEAR_P array
-   type CP15_INTERRUPT_ENABLE_CLEAR_P_Field_Array is array (0 .. 2)
-     of CP15_INTERRUPT_ENABLE_CLEAR_P_Element
-     with Component_Size => 1, Size => 3;
-
-   --  Type definition for CP15_INTERRUPT_ENABLE_CLEAR_P
-   type CP15_INTERRUPT_ENABLE_CLEAR_P_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  P as a value
-            Val : TMS570LC43xx.UInt3;
-         when True =>
-            --  P as an array
-            Arr : CP15_INTERRUPT_ENABLE_CLEAR_P_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 3;
-
-   for CP15_INTERRUPT_ENABLE_CLEAR_P_Field use record
-      Val at 0 range 0 .. 2;
-      Arr at 0 range 0 .. 2;
-   end record;
-
+   subtype CP15_INTERRUPT_ENABLE_CLEAR_P0_Field is TMS570LC43xx.Bit;
+   subtype CP15_INTERRUPT_ENABLE_CLEAR_P1_Field is TMS570LC43xx.Bit;
+   subtype CP15_INTERRUPT_ENABLE_CLEAR_P2_Field is TMS570LC43xx.Bit;
    subtype CP15_INTERRUPT_ENABLE_CLEAR_Rsv1_Field is TMS570LC43xx.UInt28;
    subtype CP15_INTERRUPT_ENABLE_CLEAR_C_Field is TMS570LC43xx.Bit;
 
    --  PMINTENCLR
    type CP15_INTERRUPT_ENABLE_CLEAR_Register is record
       --  Write 1 to Disable PMXEVCNTR0 Overflow Interrupt
-      P    : CP15_INTERRUPT_ENABLE_CLEAR_P_Field :=
-              (As_Array => False, Val => 16#0#);
+      P0   : CP15_INTERRUPT_ENABLE_CLEAR_P0_Field := 16#0#;
+      --  Write 1 to Disable PMXEVCNTR1 Overflow Interrupt
+      P1   : CP15_INTERRUPT_ENABLE_CLEAR_P1_Field := 16#0#;
+      --  Write 1 to Disable PMXEVCNTR2 Overflow Interrupt
+      P2   : CP15_INTERRUPT_ENABLE_CLEAR_P2_Field := 16#0#;
       --  Reserved UNP or SBZ
       Rsv1 : CP15_INTERRUPT_ENABLE_CLEAR_Rsv1_Field := 16#0#;
       --  Write 1 to Disable CCNT Overflow Interrupt
@@ -2192,7 +1903,9 @@ package TMS570LC43xx.CP15 is
           Bit_Order => System.Low_Order_First;
 
    for CP15_INTERRUPT_ENABLE_CLEAR_Register use record
-      P    at 16#0# range 0 .. 2;
+      P0   at 16#0# range 0 .. 0;
+      P1   at 16#0# range 1 .. 1;
+      P2   at 16#0# range 2 .. 2;
       Rsv1 at 16#0# range 3 .. 30;
       C    at 16#0# range 31 .. 31;
    end record;
@@ -2320,46 +2033,20 @@ package TMS570LC43xx.CP15 is
    -- CP15_NVAL_IRQ_ENABLE_SET_Register --
    ---------------------------------------
 
-   --------------------------------
-   -- CP15_NVAL_IRQ_ENABLE_SET.P --
-   --------------------------------
-
-   --  CP15_NVAL_IRQ_ENABLE_SET_P array element
-   subtype CP15_NVAL_IRQ_ENABLE_SET_P_Element is TMS570LC43xx.Bit;
-
-   --  CP15_NVAL_IRQ_ENABLE_SET_P array
-   type CP15_NVAL_IRQ_ENABLE_SET_P_Field_Array is array (0 .. 2)
-     of CP15_NVAL_IRQ_ENABLE_SET_P_Element
-     with Component_Size => 1, Size => 3;
-
-   --  Type definition for CP15_NVAL_IRQ_ENABLE_SET_P
-   type CP15_NVAL_IRQ_ENABLE_SET_P_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  P as a value
-            Val : TMS570LC43xx.UInt3;
-         when True =>
-            --  P as an array
-            Arr : CP15_NVAL_IRQ_ENABLE_SET_P_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 3;
-
-   for CP15_NVAL_IRQ_ENABLE_SET_P_Field use record
-      Val at 0 range 0 .. 2;
-      Arr at 0 range 0 .. 2;
-   end record;
-
+   subtype CP15_NVAL_IRQ_ENABLE_SET_P0_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_IRQ_ENABLE_SET_P1_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_IRQ_ENABLE_SET_P2_Field is TMS570LC43xx.Bit;
    subtype CP15_NVAL_IRQ_ENABLE_SET_Rsv1_Field is TMS570LC43xx.UInt28;
    subtype CP15_NVAL_IRQ_ENABLE_SET_C_Field is TMS570LC43xx.Bit;
 
    --  Validation IRQ Enable Set Register
    type CP15_NVAL_IRQ_ENABLE_SET_Register is record
       --  PMXEVCNTR0 Overflow IRQ Request
-      P    : CP15_NVAL_IRQ_ENABLE_SET_P_Field :=
-              (As_Array => False, Val => 16#0#);
+      P0   : CP15_NVAL_IRQ_ENABLE_SET_P0_Field := 16#0#;
+      --  PMXEVCNTR1 Overflow IRQ Request
+      P1   : CP15_NVAL_IRQ_ENABLE_SET_P1_Field := 16#0#;
+      --  PMXEVCNTR2 Overflow IRQ Request
+      P2   : CP15_NVAL_IRQ_ENABLE_SET_P2_Field := 16#0#;
       --  Reserved UNP or SBZ
       Rsv1 : CP15_NVAL_IRQ_ENABLE_SET_Rsv1_Field := 16#0#;
       --  CCNT Overflow IRQ Request
@@ -2369,7 +2056,9 @@ package TMS570LC43xx.CP15 is
           Bit_Order => System.Low_Order_First;
 
    for CP15_NVAL_IRQ_ENABLE_SET_Register use record
-      P    at 16#0# range 0 .. 2;
+      P0   at 16#0# range 0 .. 0;
+      P1   at 16#0# range 1 .. 1;
+      P2   at 16#0# range 2 .. 2;
       Rsv1 at 16#0# range 3 .. 30;
       C    at 16#0# range 31 .. 31;
    end record;
@@ -2378,46 +2067,20 @@ package TMS570LC43xx.CP15 is
    -- CP15_NVAL_FIQ_ENABLE_SET_Register --
    ---------------------------------------
 
-   --------------------------------
-   -- CP15_NVAL_FIQ_ENABLE_SET.P --
-   --------------------------------
-
-   --  CP15_NVAL_FIQ_ENABLE_SET_P array element
-   subtype CP15_NVAL_FIQ_ENABLE_SET_P_Element is TMS570LC43xx.Bit;
-
-   --  CP15_NVAL_FIQ_ENABLE_SET_P array
-   type CP15_NVAL_FIQ_ENABLE_SET_P_Field_Array is array (0 .. 2)
-     of CP15_NVAL_FIQ_ENABLE_SET_P_Element
-     with Component_Size => 1, Size => 3;
-
-   --  Type definition for CP15_NVAL_FIQ_ENABLE_SET_P
-   type CP15_NVAL_FIQ_ENABLE_SET_P_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  P as a value
-            Val : TMS570LC43xx.UInt3;
-         when True =>
-            --  P as an array
-            Arr : CP15_NVAL_FIQ_ENABLE_SET_P_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 3;
-
-   for CP15_NVAL_FIQ_ENABLE_SET_P_Field use record
-      Val at 0 range 0 .. 2;
-      Arr at 0 range 0 .. 2;
-   end record;
-
+   subtype CP15_NVAL_FIQ_ENABLE_SET_P0_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_FIQ_ENABLE_SET_P1_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_FIQ_ENABLE_SET_P2_Field is TMS570LC43xx.Bit;
    subtype CP15_NVAL_FIQ_ENABLE_SET_Rsv1_Field is TMS570LC43xx.UInt28;
    subtype CP15_NVAL_FIQ_ENABLE_SET_C_Field is TMS570LC43xx.Bit;
 
    --  Validation FIQ Enable Set Register
    type CP15_NVAL_FIQ_ENABLE_SET_Register is record
       --  PMXEVCNTR0 Overflow FIQ Request
-      P    : CP15_NVAL_FIQ_ENABLE_SET_P_Field :=
-              (As_Array => False, Val => 16#0#);
+      P0   : CP15_NVAL_FIQ_ENABLE_SET_P0_Field := 16#0#;
+      --  PMXEVCNTR1 Overflow FIQ Request
+      P1   : CP15_NVAL_FIQ_ENABLE_SET_P1_Field := 16#0#;
+      --  PMXEVCNTR2 Overflow FIQ Request
+      P2   : CP15_NVAL_FIQ_ENABLE_SET_P2_Field := 16#0#;
       --  Reserved UNP or SBZ
       Rsv1 : CP15_NVAL_FIQ_ENABLE_SET_Rsv1_Field := 16#0#;
       --  CCNT Overflow FIQ Request
@@ -2427,7 +2090,9 @@ package TMS570LC43xx.CP15 is
           Bit_Order => System.Low_Order_First;
 
    for CP15_NVAL_FIQ_ENABLE_SET_Register use record
-      P    at 16#0# range 0 .. 2;
+      P0   at 16#0# range 0 .. 0;
+      P1   at 16#0# range 1 .. 1;
+      P2   at 16#0# range 2 .. 2;
       Rsv1 at 16#0# range 3 .. 30;
       C    at 16#0# range 31 .. 31;
    end record;
@@ -2436,46 +2101,20 @@ package TMS570LC43xx.CP15 is
    -- CP15_NVAL_RESET_ENABLE_SET_Register --
    -----------------------------------------
 
-   ----------------------------------
-   -- CP15_NVAL_RESET_ENABLE_SET.P --
-   ----------------------------------
-
-   --  CP15_NVAL_RESET_ENABLE_SET_P array element
-   subtype CP15_NVAL_RESET_ENABLE_SET_P_Element is TMS570LC43xx.Bit;
-
-   --  CP15_NVAL_RESET_ENABLE_SET_P array
-   type CP15_NVAL_RESET_ENABLE_SET_P_Field_Array is array (0 .. 2)
-     of CP15_NVAL_RESET_ENABLE_SET_P_Element
-     with Component_Size => 1, Size => 3;
-
-   --  Type definition for CP15_NVAL_RESET_ENABLE_SET_P
-   type CP15_NVAL_RESET_ENABLE_SET_P_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  P as a value
-            Val : TMS570LC43xx.UInt3;
-         when True =>
-            --  P as an array
-            Arr : CP15_NVAL_RESET_ENABLE_SET_P_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 3;
-
-   for CP15_NVAL_RESET_ENABLE_SET_P_Field use record
-      Val at 0 range 0 .. 2;
-      Arr at 0 range 0 .. 2;
-   end record;
-
+   subtype CP15_NVAL_RESET_ENABLE_SET_P0_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_RESET_ENABLE_SET_P1_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_RESET_ENABLE_SET_P2_Field is TMS570LC43xx.Bit;
    subtype CP15_NVAL_RESET_ENABLE_SET_Rsv1_Field is TMS570LC43xx.UInt28;
    subtype CP15_NVAL_RESET_ENABLE_SET_C_Field is TMS570LC43xx.Bit;
 
    --  Validation Reset Enable Set Register
    type CP15_NVAL_RESET_ENABLE_SET_Register is record
       --  PMXEVCNTR0 Overflow Reset Request
-      P    : CP15_NVAL_RESET_ENABLE_SET_P_Field :=
-              (As_Array => False, Val => 16#0#);
+      P0   : CP15_NVAL_RESET_ENABLE_SET_P0_Field := 16#0#;
+      --  PMXEVCNTR1 Overflow Reset Request
+      P1   : CP15_NVAL_RESET_ENABLE_SET_P1_Field := 16#0#;
+      --  PMXEVCNTR2 Overflow Reset Request
+      P2   : CP15_NVAL_RESET_ENABLE_SET_P2_Field := 16#0#;
       --  Reserved UNP or SBZ
       Rsv1 : CP15_NVAL_RESET_ENABLE_SET_Rsv1_Field := 16#0#;
       --  CCNT Overflow Reset Request
@@ -2485,7 +2124,9 @@ package TMS570LC43xx.CP15 is
           Bit_Order => System.Low_Order_First;
 
    for CP15_NVAL_RESET_ENABLE_SET_Register use record
-      P    at 16#0# range 0 .. 2;
+      P0   at 16#0# range 0 .. 0;
+      P1   at 16#0# range 1 .. 1;
+      P2   at 16#0# range 2 .. 2;
       Rsv1 at 16#0# range 3 .. 30;
       C    at 16#0# range 31 .. 31;
    end record;
@@ -2494,38 +2135,9 @@ package TMS570LC43xx.CP15 is
    -- CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_Register --
    -------------------------------------------------
 
-   ------------------------------------------
-   -- CP15_NVAL_DEBUG_REQUEST_ENABLE_SET.P --
-   ------------------------------------------
-
-   --  CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P array element
-   subtype CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P_Element is TMS570LC43xx.Bit;
-
-   --  CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P array
-   type CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P_Field_Array is array (0 .. 2)
-     of CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P_Element
-     with Component_Size => 1, Size => 3;
-
-   --  Type definition for CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P
-   type CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  P as a value
-            Val : TMS570LC43xx.UInt3;
-         when True =>
-            --  P as an array
-            Arr : CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 3;
-
-   for CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P_Field use record
-      Val at 0 range 0 .. 2;
-      Arr at 0 range 0 .. 2;
-   end record;
-
+   subtype CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P0_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P1_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P2_Field is TMS570LC43xx.Bit;
    subtype CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_Rsv1_Field is
      TMS570LC43xx.UInt28;
    subtype CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_C_Field is TMS570LC43xx.Bit;
@@ -2533,8 +2145,11 @@ package TMS570LC43xx.CP15 is
    --  Validation Debug Request Enable Set Register
    type CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_Register is record
       --  PMXEVCNTR0 Overflow Debug Request
-      P    : CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P_Field :=
-              (As_Array => False, Val => 16#0#);
+      P0   : CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P0_Field := 16#0#;
+      --  PMXEVCNTR1 Overflow Debug Request
+      P1   : CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P1_Field := 16#0#;
+      --  PMXEVCNTR2 Overflow Debug Request
+      P2   : CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_P2_Field := 16#0#;
       --  Reserved UNP or SBZ
       Rsv1 : CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_Rsv1_Field := 16#0#;
       --  CCNT Overflow Debug Request
@@ -2544,7 +2159,9 @@ package TMS570LC43xx.CP15 is
           Bit_Order => System.Low_Order_First;
 
    for CP15_NVAL_DEBUG_REQUEST_ENABLE_SET_Register use record
-      P    at 16#0# range 0 .. 2;
+      P0   at 16#0# range 0 .. 0;
+      P1   at 16#0# range 1 .. 1;
+      P2   at 16#0# range 2 .. 2;
       Rsv1 at 16#0# range 3 .. 30;
       C    at 16#0# range 31 .. 31;
    end record;
@@ -2553,46 +2170,20 @@ package TMS570LC43xx.CP15 is
    -- CP15_NVAL_IRQ_ENABLE_CLEAR_Register --
    -----------------------------------------
 
-   ----------------------------------
-   -- CP15_NVAL_IRQ_ENABLE_CLEAR.P --
-   ----------------------------------
-
-   --  CP15_NVAL_IRQ_ENABLE_CLEAR_P array element
-   subtype CP15_NVAL_IRQ_ENABLE_CLEAR_P_Element is TMS570LC43xx.Bit;
-
-   --  CP15_NVAL_IRQ_ENABLE_CLEAR_P array
-   type CP15_NVAL_IRQ_ENABLE_CLEAR_P_Field_Array is array (0 .. 2)
-     of CP15_NVAL_IRQ_ENABLE_CLEAR_P_Element
-     with Component_Size => 1, Size => 3;
-
-   --  Type definition for CP15_NVAL_IRQ_ENABLE_CLEAR_P
-   type CP15_NVAL_IRQ_ENABLE_CLEAR_P_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  P as a value
-            Val : TMS570LC43xx.UInt3;
-         when True =>
-            --  P as an array
-            Arr : CP15_NVAL_IRQ_ENABLE_CLEAR_P_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 3;
-
-   for CP15_NVAL_IRQ_ENABLE_CLEAR_P_Field use record
-      Val at 0 range 0 .. 2;
-      Arr at 0 range 0 .. 2;
-   end record;
-
+   subtype CP15_NVAL_IRQ_ENABLE_CLEAR_P0_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_IRQ_ENABLE_CLEAR_P1_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_IRQ_ENABLE_CLEAR_P2_Field is TMS570LC43xx.Bit;
    subtype CP15_NVAL_IRQ_ENABLE_CLEAR_Rsv1_Field is TMS570LC43xx.UInt28;
    subtype CP15_NVAL_IRQ_ENABLE_CLEAR_C_Field is TMS570LC43xx.Bit;
 
    --  Validation IRQ Enable Clear Register
    type CP15_NVAL_IRQ_ENABLE_CLEAR_Register is record
       --  PMXEVCNTR0 Overflow IRQ Request
-      P    : CP15_NVAL_IRQ_ENABLE_CLEAR_P_Field :=
-              (As_Array => False, Val => 16#0#);
+      P0   : CP15_NVAL_IRQ_ENABLE_CLEAR_P0_Field := 16#0#;
+      --  PMXEVCNTR1 Overflow IRQ Request
+      P1   : CP15_NVAL_IRQ_ENABLE_CLEAR_P1_Field := 16#0#;
+      --  PMXEVCNTR2 Overflow IRQ Request
+      P2   : CP15_NVAL_IRQ_ENABLE_CLEAR_P2_Field := 16#0#;
       --  Reserved UNP or SBZ
       Rsv1 : CP15_NVAL_IRQ_ENABLE_CLEAR_Rsv1_Field := 16#0#;
       --  CCNT Overflow IRQ Request
@@ -2602,7 +2193,9 @@ package TMS570LC43xx.CP15 is
           Bit_Order => System.Low_Order_First;
 
    for CP15_NVAL_IRQ_ENABLE_CLEAR_Register use record
-      P    at 16#0# range 0 .. 2;
+      P0   at 16#0# range 0 .. 0;
+      P1   at 16#0# range 1 .. 1;
+      P2   at 16#0# range 2 .. 2;
       Rsv1 at 16#0# range 3 .. 30;
       C    at 16#0# range 31 .. 31;
    end record;
@@ -2611,46 +2204,20 @@ package TMS570LC43xx.CP15 is
    -- CP15_NVAL_FIQ_ENABLE_CLEAR_Register --
    -----------------------------------------
 
-   ----------------------------------
-   -- CP15_NVAL_FIQ_ENABLE_CLEAR.P --
-   ----------------------------------
-
-   --  CP15_NVAL_FIQ_ENABLE_CLEAR_P array element
-   subtype CP15_NVAL_FIQ_ENABLE_CLEAR_P_Element is TMS570LC43xx.Bit;
-
-   --  CP15_NVAL_FIQ_ENABLE_CLEAR_P array
-   type CP15_NVAL_FIQ_ENABLE_CLEAR_P_Field_Array is array (0 .. 2)
-     of CP15_NVAL_FIQ_ENABLE_CLEAR_P_Element
-     with Component_Size => 1, Size => 3;
-
-   --  Type definition for CP15_NVAL_FIQ_ENABLE_CLEAR_P
-   type CP15_NVAL_FIQ_ENABLE_CLEAR_P_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  P as a value
-            Val : TMS570LC43xx.UInt3;
-         when True =>
-            --  P as an array
-            Arr : CP15_NVAL_FIQ_ENABLE_CLEAR_P_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 3;
-
-   for CP15_NVAL_FIQ_ENABLE_CLEAR_P_Field use record
-      Val at 0 range 0 .. 2;
-      Arr at 0 range 0 .. 2;
-   end record;
-
+   subtype CP15_NVAL_FIQ_ENABLE_CLEAR_P0_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_FIQ_ENABLE_CLEAR_P1_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_FIQ_ENABLE_CLEAR_P2_Field is TMS570LC43xx.Bit;
    subtype CP15_NVAL_FIQ_ENABLE_CLEAR_Rsv1_Field is TMS570LC43xx.UInt28;
    subtype CP15_NVAL_FIQ_ENABLE_CLEAR_C_Field is TMS570LC43xx.Bit;
 
    --  Validation FIQ Enable Clear Register
    type CP15_NVAL_FIQ_ENABLE_CLEAR_Register is record
       --  PMXEVCNTR0 Overflow FIQ Request
-      P    : CP15_NVAL_FIQ_ENABLE_CLEAR_P_Field :=
-              (As_Array => False, Val => 16#0#);
+      P0   : CP15_NVAL_FIQ_ENABLE_CLEAR_P0_Field := 16#0#;
+      --  PMXEVCNTR1 Overflow FIQ Request
+      P1   : CP15_NVAL_FIQ_ENABLE_CLEAR_P1_Field := 16#0#;
+      --  PMXEVCNTR2 Overflow FIQ Request
+      P2   : CP15_NVAL_FIQ_ENABLE_CLEAR_P2_Field := 16#0#;
       --  Reserved UNP or SBZ
       Rsv1 : CP15_NVAL_FIQ_ENABLE_CLEAR_Rsv1_Field := 16#0#;
       --  CCNT Overflow FIQ Request
@@ -2660,7 +2227,9 @@ package TMS570LC43xx.CP15 is
           Bit_Order => System.Low_Order_First;
 
    for CP15_NVAL_FIQ_ENABLE_CLEAR_Register use record
-      P    at 16#0# range 0 .. 2;
+      P0   at 16#0# range 0 .. 0;
+      P1   at 16#0# range 1 .. 1;
+      P2   at 16#0# range 2 .. 2;
       Rsv1 at 16#0# range 3 .. 30;
       C    at 16#0# range 31 .. 31;
    end record;
@@ -2669,46 +2238,20 @@ package TMS570LC43xx.CP15 is
    -- CP15_NVAL_RESET_ENABLE_CLEAR_Register --
    -------------------------------------------
 
-   ------------------------------------
-   -- CP15_NVAL_RESET_ENABLE_CLEAR.P --
-   ------------------------------------
-
-   --  CP15_NVAL_RESET_ENABLE_CLEAR_P array element
-   subtype CP15_NVAL_RESET_ENABLE_CLEAR_P_Element is TMS570LC43xx.Bit;
-
-   --  CP15_NVAL_RESET_ENABLE_CLEAR_P array
-   type CP15_NVAL_RESET_ENABLE_CLEAR_P_Field_Array is array (0 .. 2)
-     of CP15_NVAL_RESET_ENABLE_CLEAR_P_Element
-     with Component_Size => 1, Size => 3;
-
-   --  Type definition for CP15_NVAL_RESET_ENABLE_CLEAR_P
-   type CP15_NVAL_RESET_ENABLE_CLEAR_P_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  P as a value
-            Val : TMS570LC43xx.UInt3;
-         when True =>
-            --  P as an array
-            Arr : CP15_NVAL_RESET_ENABLE_CLEAR_P_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 3;
-
-   for CP15_NVAL_RESET_ENABLE_CLEAR_P_Field use record
-      Val at 0 range 0 .. 2;
-      Arr at 0 range 0 .. 2;
-   end record;
-
+   subtype CP15_NVAL_RESET_ENABLE_CLEAR_P0_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_RESET_ENABLE_CLEAR_P1_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_RESET_ENABLE_CLEAR_P2_Field is TMS570LC43xx.Bit;
    subtype CP15_NVAL_RESET_ENABLE_CLEAR_Rsv1_Field is TMS570LC43xx.UInt28;
    subtype CP15_NVAL_RESET_ENABLE_CLEAR_C_Field is TMS570LC43xx.Bit;
 
    --  Validation Reset Enable Clear Register
    type CP15_NVAL_RESET_ENABLE_CLEAR_Register is record
       --  PMXEVCNTR0 Overflow Reset Request
-      P    : CP15_NVAL_RESET_ENABLE_CLEAR_P_Field :=
-              (As_Array => False, Val => 16#0#);
+      P0   : CP15_NVAL_RESET_ENABLE_CLEAR_P0_Field := 16#0#;
+      --  PMXEVCNTR1 Overflow Reset Request
+      P1   : CP15_NVAL_RESET_ENABLE_CLEAR_P1_Field := 16#0#;
+      --  PMXEVCNTR2 Overflow Reset Request
+      P2   : CP15_NVAL_RESET_ENABLE_CLEAR_P2_Field := 16#0#;
       --  Reserved UNP or SBZ
       Rsv1 : CP15_NVAL_RESET_ENABLE_CLEAR_Rsv1_Field := 16#0#;
       --  CCNT Overflow Reset Request
@@ -2718,7 +2261,9 @@ package TMS570LC43xx.CP15 is
           Bit_Order => System.Low_Order_First;
 
    for CP15_NVAL_RESET_ENABLE_CLEAR_Register use record
-      P    at 16#0# range 0 .. 2;
+      P0   at 16#0# range 0 .. 0;
+      P1   at 16#0# range 1 .. 1;
+      P2   at 16#0# range 2 .. 2;
       Rsv1 at 16#0# range 3 .. 30;
       C    at 16#0# range 31 .. 31;
    end record;
@@ -2727,38 +2272,9 @@ package TMS570LC43xx.CP15 is
    -- CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_Register --
    ---------------------------------------------------
 
-   --------------------------------------------
-   -- CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR.P --
-   --------------------------------------------
-
-   --  CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P array element
-   subtype CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P_Element is TMS570LC43xx.Bit;
-
-   --  CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P array
-   type CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P_Field_Array is array (0 .. 2)
-     of CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P_Element
-     with Component_Size => 1, Size => 3;
-
-   --  Type definition for CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P
-   type CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  P as a value
-            Val : TMS570LC43xx.UInt3;
-         when True =>
-            --  P as an array
-            Arr : CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 3;
-
-   for CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P_Field use record
-      Val at 0 range 0 .. 2;
-      Arr at 0 range 0 .. 2;
-   end record;
-
+   subtype CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P0_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P1_Field is TMS570LC43xx.Bit;
+   subtype CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P2_Field is TMS570LC43xx.Bit;
    subtype CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_Rsv1_Field is
      TMS570LC43xx.UInt28;
    subtype CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_C_Field is TMS570LC43xx.Bit;
@@ -2766,8 +2282,11 @@ package TMS570LC43xx.CP15 is
    --  Validation Debug Enable Clear Register
    type CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_Register is record
       --  PMXEVCNTR0 Overflow Debug Request
-      P    : CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P_Field :=
-              (As_Array => False, Val => 16#0#);
+      P0   : CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P0_Field := 16#0#;
+      --  PMXEVCNTR1 Overflow Debug Request
+      P1   : CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P1_Field := 16#0#;
+      --  PMXEVCNTR2 Overflow Debug Request
+      P2   : CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_P2_Field := 16#0#;
       --  Reserved UNP or SBZ
       Rsv1 : CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_Rsv1_Field := 16#0#;
       --  CCNT Overflow Debug Request
@@ -2777,7 +2296,9 @@ package TMS570LC43xx.CP15 is
           Bit_Order => System.Low_Order_First;
 
    for CP15_NVAL_DEBUG_REQUEST_ENABLE_CLEAR_Register use record
-      P    at 16#0# range 0 .. 2;
+      P0   at 16#0# range 0 .. 0;
+      P1   at 16#0# range 1 .. 1;
+      P2   at 16#0# range 2 .. 2;
       Rsv1 at 16#0# range 3 .. 30;
       C    at 16#0# range 31 .. 31;
    end record;

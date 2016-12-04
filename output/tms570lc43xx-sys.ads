@@ -214,78 +214,34 @@ package TMS570LC43xx.Sys is
    -- CsDis_Register --
    --------------------
 
-   -----------------
-   -- CsDis.ClkSr --
-   -----------------
-
-   --  CsDis_ClkSr array element
-   subtype CsDis_ClkSr_Element is TMS570LC43xx.Bit;
-
-   --  CsDis_ClkSr array
-   type CsDis_ClkSr_Field_Array is array (0 .. 1) of CsDis_ClkSr_Element
-     with Component_Size => 1, Size => 2;
-
-   --  Type definition for CsDis_ClkSr
-   type CsDis_ClkSr_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  ClkSr as a value
-            Val : TMS570LC43xx.UInt2;
-         when True =>
-            --  ClkSr as an array
-            Arr : CsDis_ClkSr_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 2;
-
-   for CsDis_ClkSr_Field use record
-      Val at 0 range 0 .. 1;
-      Arr at 0 range 0 .. 1;
-   end record;
-
+   subtype CsDis_ClkSr0_Field is TMS570LC43xx.Bit;
+   subtype CsDis_ClkSr1_Field is TMS570LC43xx.Bit;
    subtype CsDis_Reserved_2_2_Field is TMS570LC43xx.Bit;
-
-   -----------------
-   -- CsDis.ClkSr --
-   -----------------
-
-   --  CsDis_ClkSr array
-   type CsDis_ClkSr_Field_Array_1 is array (3 .. 7) of CsDis_ClkSr_Element
-     with Component_Size => 1, Size => 5;
-
-   --  Type definition for CsDis_ClkSr
-   type CsDis_ClkSr_Field_1
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  ClkSr as a value
-            Val : TMS570LC43xx.UInt5;
-         when True =>
-            --  ClkSr as an array
-            Arr : CsDis_ClkSr_Field_Array_1;
-      end case;
-   end record
-     with Unchecked_Union, Size => 5;
-
-   for CsDis_ClkSr_Field_1 use record
-      Val at 0 range 0 .. 4;
-      Arr at 0 range 0 .. 4;
-   end record;
-
+   subtype CsDis_ClkSr3_Field is TMS570LC43xx.Bit;
+   subtype CsDis_ClkSr4_Field is TMS570LC43xx.Bit;
+   subtype CsDis_ClkSr5_Field is TMS570LC43xx.Bit;
+   subtype CsDis_ClkSr6_Field is TMS570LC43xx.Bit;
+   subtype CsDis_ClkSr7_Field is TMS570LC43xx.Bit;
    subtype CsDis_Reserved_8_31_Field is TMS570LC43xx.UInt24;
 
    --  Clock Source Disable Register
    type CsDis_Register is record
       --  Clock source 0 off.
-      ClkSr         : CsDis_ClkSr_Field := (As_Array => False, Val => 16#0#);
+      ClkSr0        : CsDis_ClkSr0_Field := 16#0#;
+      --  Clock source 1 off.
+      ClkSr1        : CsDis_ClkSr1_Field := 16#0#;
       --  Read returns 0. Writes have no effect.
       Reserved_2_2  : CsDis_Reserved_2_2_Field := 16#0#;
       --  Clock source 3 off.
-      ClkSr1        : CsDis_ClkSr_Field_1 :=
-                       (As_Array => False, Val => 16#0#);
+      ClkSr3        : CsDis_ClkSr3_Field := 16#0#;
+      --  Clock source 4 off.
+      ClkSr4        : CsDis_ClkSr4_Field := 16#0#;
+      --  Clock source 5 off.
+      ClkSr5        : CsDis_ClkSr5_Field := 16#0#;
+      --  Clock source 6 off.
+      ClkSr6        : CsDis_ClkSr6_Field := 16#0#;
+      --  Clock source 7 off.
+      ClkSr7        : CsDis_ClkSr7_Field := 16#0#;
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : CsDis_Reserved_8_31_Field := 16#0#;
    end record
@@ -293,9 +249,14 @@ package TMS570LC43xx.Sys is
           Bit_Order => System.Low_Order_First;
 
    for CsDis_Register use record
-      ClkSr         at 16#0# range 0 .. 1;
+      ClkSr0        at 16#0# range 0 .. 0;
+      ClkSr1        at 16#0# range 1 .. 1;
       Reserved_2_2  at 16#0# range 2 .. 2;
-      ClkSr1        at 16#0# range 3 .. 7;
+      ClkSr3        at 16#0# range 3 .. 3;
+      ClkSr4        at 16#0# range 4 .. 4;
+      ClkSr5        at 16#0# range 5 .. 5;
+      ClkSr6        at 16#0# range 6 .. 6;
+      ClkSr7        at 16#0# range 7 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 
@@ -303,81 +264,34 @@ package TMS570LC43xx.Sys is
    -- CsDisSet_Register --
    -----------------------
 
-   -----------------------
-   -- CsDisSet.SetClkSr --
-   -----------------------
-
-   --  CsDisSet_SetClkSr array element
-   subtype CsDisSet_SetClkSr_Element is TMS570LC43xx.Bit;
-
-   --  CsDisSet_SetClkSr array
-   type CsDisSet_SetClkSr_Field_Array is array (0 .. 1)
-     of CsDisSet_SetClkSr_Element
-     with Component_Size => 1, Size => 2;
-
-   --  Type definition for CsDisSet_SetClkSr
-   type CsDisSet_SetClkSr_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  SetClkSr as a value
-            Val : TMS570LC43xx.UInt2;
-         when True =>
-            --  SetClkSr as an array
-            Arr : CsDisSet_SetClkSr_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 2;
-
-   for CsDisSet_SetClkSr_Field use record
-      Val at 0 range 0 .. 1;
-      Arr at 0 range 0 .. 1;
-   end record;
-
+   subtype CsDisSet_SetClkSr0_Field is TMS570LC43xx.Bit;
+   subtype CsDisSet_SetClkSr1_Field is TMS570LC43xx.Bit;
    subtype CsDisSet_Reserved_2_2_Field is TMS570LC43xx.Bit;
-
-   -----------------------
-   -- CsDisSet.SetClkSr --
-   -----------------------
-
-   --  CsDisSet_SetClkSr array
-   type CsDisSet_SetClkSr_Field_Array_1 is array (3 .. 7)
-     of CsDisSet_SetClkSr_Element
-     with Component_Size => 1, Size => 5;
-
-   --  Type definition for CsDisSet_SetClkSr
-   type CsDisSet_SetClkSr_Field_1
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  SetClkSr as a value
-            Val : TMS570LC43xx.UInt5;
-         when True =>
-            --  SetClkSr as an array
-            Arr : CsDisSet_SetClkSr_Field_Array_1;
-      end case;
-   end record
-     with Unchecked_Union, Size => 5;
-
-   for CsDisSet_SetClkSr_Field_1 use record
-      Val at 0 range 0 .. 4;
-      Arr at 0 range 0 .. 4;
-   end record;
-
+   subtype CsDisSet_SetClkSr3_Field is TMS570LC43xx.Bit;
+   subtype CsDisSet_SetClkSr4_Field is TMS570LC43xx.Bit;
+   subtype CsDisSet_SetClkSr5_Field is TMS570LC43xx.Bit;
+   subtype CsDisSet_SetClkSr6_Field is TMS570LC43xx.Bit;
+   subtype CsDisSet_SetClkSr7_Field is TMS570LC43xx.Bit;
    subtype CsDisSet_Reserved_8_31_Field is TMS570LC43xx.UInt24;
 
    --  Clock Source Disable Set Register
    type CsDisSet_Register is record
       --  Set clock source 0 to the disabled state.
-      SetClkSr      : CsDisSet_SetClkSr_Field :=
-                       (As_Array => False, Val => 16#0#);
+      SetClkSr0     : CsDisSet_SetClkSr0_Field := 16#0#;
+      --  Set clock source 1 to the disabled state.
+      SetClkSr1     : CsDisSet_SetClkSr1_Field := 16#0#;
       --  Read returns 0. Writes have no effect.
       Reserved_2_2  : CsDisSet_Reserved_2_2_Field := 16#0#;
       --  Set clock source 3 to the disabled state.
-      SetClkSr1     : CsDisSet_SetClkSr_Field_1 :=
-                       (As_Array => False, Val => 16#0#);
+      SetClkSr3     : CsDisSet_SetClkSr3_Field := 16#0#;
+      --  Set clock source 4 to the disabled state.
+      SetClkSr4     : CsDisSet_SetClkSr4_Field := 16#0#;
+      --  Set clock source 5 to the disabled state.
+      SetClkSr5     : CsDisSet_SetClkSr5_Field := 16#0#;
+      --  Set clock source 6 to the disabled state.
+      SetClkSr6     : CsDisSet_SetClkSr6_Field := 16#0#;
+      --  Set clock source 7 to the disabled state.
+      SetClkSr7     : CsDisSet_SetClkSr7_Field := 16#0#;
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : CsDisSet_Reserved_8_31_Field := 16#0#;
    end record
@@ -385,9 +299,14 @@ package TMS570LC43xx.Sys is
           Bit_Order => System.Low_Order_First;
 
    for CsDisSet_Register use record
-      SetClkSr      at 16#0# range 0 .. 1;
+      SetClkSr0     at 16#0# range 0 .. 0;
+      SetClkSr1     at 16#0# range 1 .. 1;
       Reserved_2_2  at 16#0# range 2 .. 2;
-      SetClkSr1     at 16#0# range 3 .. 7;
+      SetClkSr3     at 16#0# range 3 .. 3;
+      SetClkSr4     at 16#0# range 4 .. 4;
+      SetClkSr5     at 16#0# range 5 .. 5;
+      SetClkSr6     at 16#0# range 6 .. 6;
+      SetClkSr7     at 16#0# range 7 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 
@@ -395,81 +314,34 @@ package TMS570LC43xx.Sys is
    -- CsDisClr_Register --
    -----------------------
 
-   -----------------------
-   -- CsDisClr.ClrClkSr --
-   -----------------------
-
-   --  CsDisClr_ClrClkSr array element
-   subtype CsDisClr_ClrClkSr_Element is TMS570LC43xx.Bit;
-
-   --  CsDisClr_ClrClkSr array
-   type CsDisClr_ClrClkSr_Field_Array is array (0 .. 1)
-     of CsDisClr_ClrClkSr_Element
-     with Component_Size => 1, Size => 2;
-
-   --  Type definition for CsDisClr_ClrClkSr
-   type CsDisClr_ClrClkSr_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  ClrClkSr as a value
-            Val : TMS570LC43xx.UInt2;
-         when True =>
-            --  ClrClkSr as an array
-            Arr : CsDisClr_ClrClkSr_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 2;
-
-   for CsDisClr_ClrClkSr_Field use record
-      Val at 0 range 0 .. 1;
-      Arr at 0 range 0 .. 1;
-   end record;
-
+   subtype CsDisClr_ClrClkSr0_Field is TMS570LC43xx.Bit;
+   subtype CsDisClr_ClrClkSr1_Field is TMS570LC43xx.Bit;
    subtype CsDisClr_Reserved_2_2_Field is TMS570LC43xx.Bit;
-
-   -----------------------
-   -- CsDisClr.ClrClkSr --
-   -----------------------
-
-   --  CsDisClr_ClrClkSr array
-   type CsDisClr_ClrClkSr_Field_Array_1 is array (3 .. 7)
-     of CsDisClr_ClrClkSr_Element
-     with Component_Size => 1, Size => 5;
-
-   --  Type definition for CsDisClr_ClrClkSr
-   type CsDisClr_ClrClkSr_Field_1
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  ClrClkSr as a value
-            Val : TMS570LC43xx.UInt5;
-         when True =>
-            --  ClrClkSr as an array
-            Arr : CsDisClr_ClrClkSr_Field_Array_1;
-      end case;
-   end record
-     with Unchecked_Union, Size => 5;
-
-   for CsDisClr_ClrClkSr_Field_1 use record
-      Val at 0 range 0 .. 4;
-      Arr at 0 range 0 .. 4;
-   end record;
-
+   subtype CsDisClr_ClrClkSr3_Field is TMS570LC43xx.Bit;
+   subtype CsDisClr_ClrClkSr4_Field is TMS570LC43xx.Bit;
+   subtype CsDisClr_ClrClkSr5_Field is TMS570LC43xx.Bit;
+   subtype CsDisClr_ClrClkSr6_Field is TMS570LC43xx.Bit;
+   subtype CsDisClr_ClrClkSr7_Field is TMS570LC43xx.Bit;
    subtype CsDisClr_Reserved_8_31_Field is TMS570LC43xx.UInt24;
 
    --  Clock Source Disable Clear Register
    type CsDisClr_Register is record
       --  Enables clock source 0.
-      ClrClkSr      : CsDisClr_ClrClkSr_Field :=
-                       (As_Array => False, Val => 16#0#);
+      ClrClkSr0     : CsDisClr_ClrClkSr0_Field := 16#0#;
+      --  Enables clock source 1.
+      ClrClkSr1     : CsDisClr_ClrClkSr1_Field := 16#0#;
       --  Read returns 0. Writes have no effect.
       Reserved_2_2  : CsDisClr_Reserved_2_2_Field := 16#0#;
       --  Enables clock source 3.
-      ClrClkSr1     : CsDisClr_ClrClkSr_Field_1 :=
-                       (As_Array => False, Val => 16#0#);
+      ClrClkSr3     : CsDisClr_ClrClkSr3_Field := 16#0#;
+      --  Enables clock source 4.
+      ClrClkSr4     : CsDisClr_ClrClkSr4_Field := 16#0#;
+      --  Enables clock source 5.
+      ClrClkSr5     : CsDisClr_ClrClkSr5_Field := 16#0#;
+      --  Enables clock source 6.
+      ClrClkSr6     : CsDisClr_ClrClkSr6_Field := 16#0#;
+      --  Enables clock source 7.
+      ClrClkSr7     : CsDisClr_ClrClkSr7_Field := 16#0#;
       --  Read returns 0. Writes have no effect.
       Reserved_8_31 : CsDisClr_Reserved_8_31_Field := 16#0#;
    end record
@@ -477,9 +349,14 @@ package TMS570LC43xx.Sys is
           Bit_Order => System.Low_Order_First;
 
    for CsDisClr_Register use record
-      ClrClkSr      at 16#0# range 0 .. 1;
+      ClrClkSr0     at 16#0# range 0 .. 0;
+      ClrClkSr1     at 16#0# range 1 .. 1;
       Reserved_2_2  at 16#0# range 2 .. 2;
-      ClrClkSr1     at 16#0# range 3 .. 7;
+      ClrClkSr3     at 16#0# range 3 .. 3;
+      ClrClkSr4     at 16#0# range 4 .. 4;
+      ClrClkSr5     at 16#0# range 5 .. 5;
+      ClrClkSr6     at 16#0# range 6 .. 6;
+      ClrClkSr7     at 16#0# range 7 .. 7;
       Reserved_8_31 at 16#0# range 8 .. 31;
    end record;
 

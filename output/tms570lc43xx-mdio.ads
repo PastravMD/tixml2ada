@@ -71,52 +71,24 @@ package TMS570LC43xx.MDIO is
    -- LINKINTRAW_Register --
    -------------------------
 
-   ------------------------
-   -- LINKINTRAW.USERPHY --
-   ------------------------
-
-   --  LINKINTRAW_USERPHY array element
-   subtype LINKINTRAW_USERPHY_Element is TMS570LC43xx.Bit;
-
-   --  LINKINTRAW_USERPHY array
-   type LINKINTRAW_USERPHY_Field_Array is array (0 .. 1)
-     of LINKINTRAW_USERPHY_Element
-     with Component_Size => 1, Size => 2;
-
-   --  Type definition for LINKINTRAW_USERPHY
-   type LINKINTRAW_USERPHY_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  USERPHY as a value
-            Val : TMS570LC43xx.UInt2;
-         when True =>
-            --  USERPHY as an array
-            Arr : LINKINTRAW_USERPHY_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 2;
-
-   for LINKINTRAW_USERPHY_Field use record
-      Val at 0 range 0 .. 1;
-      Arr at 0 range 0 .. 1;
-   end record;
-
+   subtype LINKINTRAW_USERPHY0_Field is TMS570LC43xx.Bit;
+   subtype LINKINTRAW_USERPHY1_Field is TMS570LC43xx.Bit;
    subtype LINKINTRAW_Reserved_2_31_Field is TMS570LC43xx.UInt30;
 
    --  MDIO Link Interrupt Raw Register
    type LINKINTRAW_Register is record
       --  MDIO Link change event, raw value; write to clear.
-      USERPHY       : LINKINTRAW_USERPHY_Field :=
-                       (As_Array => False, Val => 16#0#);
+      USERPHY0      : LINKINTRAW_USERPHY0_Field := 16#0#;
+      --  MDIO Link change event, raw value; write to clear.
+      USERPHY1      : LINKINTRAW_USERPHY1_Field := 16#0#;
       Reserved_2_31 : LINKINTRAW_Reserved_2_31_Field := 16#0#;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for LINKINTRAW_Register use record
-      USERPHY       at 16#0# range 0 .. 1;
+      USERPHY0      at 16#0# range 0 .. 0;
+      USERPHY1      at 16#0# range 1 .. 1;
       Reserved_2_31 at 16#0# range 2 .. 31;
    end record;
 
@@ -124,52 +96,24 @@ package TMS570LC43xx.MDIO is
    -- LINKINTMASKED_Register --
    ----------------------------
 
-   ---------------------------
-   -- LINKINTMASKED.USERPHY --
-   ---------------------------
-
-   --  LINKINTMASKED_USERPHY array element
-   subtype LINKINTMASKED_USERPHY_Element is TMS570LC43xx.Bit;
-
-   --  LINKINTMASKED_USERPHY array
-   type LINKINTMASKED_USERPHY_Field_Array is array (0 .. 1)
-     of LINKINTMASKED_USERPHY_Element
-     with Component_Size => 1, Size => 2;
-
-   --  Type definition for LINKINTMASKED_USERPHY
-   type LINKINTMASKED_USERPHY_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  USERPHY as a value
-            Val : TMS570LC43xx.UInt2;
-         when True =>
-            --  USERPHY as an array
-            Arr : LINKINTMASKED_USERPHY_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 2;
-
-   for LINKINTMASKED_USERPHY_Field use record
-      Val at 0 range 0 .. 1;
-      Arr at 0 range 0 .. 1;
-   end record;
-
+   subtype LINKINTMASKED_USERPHY0_Field is TMS570LC43xx.Bit;
+   subtype LINKINTMASKED_USERPHY1_Field is TMS570LC43xx.Bit;
    subtype LINKINTMASKED_Reserved_2_31_Field is TMS570LC43xx.UInt30;
 
    --  MDIO Link Interrupt Masked Register
    type LINKINTMASKED_Register is record
       --  MDIO Link change event, masked value; write to clear.
-      USERPHY       : LINKINTMASKED_USERPHY_Field :=
-                       (As_Array => False, Val => 16#0#);
+      USERPHY0      : LINKINTMASKED_USERPHY0_Field := 16#0#;
+      --  MDIO Link change event, masked value; write to clear.
+      USERPHY1      : LINKINTMASKED_USERPHY1_Field := 16#0#;
       Reserved_2_31 : LINKINTMASKED_Reserved_2_31_Field := 16#0#;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for LINKINTMASKED_Register use record
-      USERPHY       at 16#0# range 0 .. 1;
+      USERPHY0      at 16#0# range 0 .. 0;
+      USERPHY1      at 16#0# range 1 .. 1;
       Reserved_2_31 at 16#0# range 2 .. 31;
    end record;
 
@@ -177,52 +121,24 @@ package TMS570LC43xx.MDIO is
    -- USERINTRAW_Register --
    -------------------------
 
-   ---------------------------
-   -- USERINTRAW.USERACCESS --
-   ---------------------------
-
-   --  USERINTRAW_USERACCESS array element
-   subtype USERINTRAW_USERACCESS_Element is TMS570LC43xx.Bit;
-
-   --  USERINTRAW_USERACCESS array
-   type USERINTRAW_USERACCESS_Field_Array is array (0 .. 1)
-     of USERINTRAW_USERACCESS_Element
-     with Component_Size => 1, Size => 2;
-
-   --  Type definition for USERINTRAW_USERACCESS
-   type USERINTRAW_USERACCESS_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  USERACCESS as a value
-            Val : TMS570LC43xx.UInt2;
-         when True =>
-            --  USERACCESS as an array
-            Arr : USERINTRAW_USERACCESS_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 2;
-
-   for USERINTRAW_USERACCESS_Field use record
-      Val at 0 range 0 .. 1;
-      Arr at 0 range 0 .. 1;
-   end record;
-
+   subtype USERINTRAW_USERACCESS0_Field is TMS570LC43xx.Bit;
+   subtype USERINTRAW_USERACCESS1_Field is TMS570LC43xx.Bit;
    subtype USERINTRAW_Reserved_2_31_Field is TMS570LC43xx.UInt30;
 
    --  MDIO User Interrupt Raw Register
    type USERINTRAW_Register is record
       --  MDIO user command complete event, raw value; write to clear.
-      USERACCESS    : USERINTRAW_USERACCESS_Field :=
-                       (As_Array => False, Val => 16#0#);
+      USERACCESS0   : USERINTRAW_USERACCESS0_Field := 16#0#;
+      --  MDIO user command complete event, raw value; write to clear.
+      USERACCESS1   : USERINTRAW_USERACCESS1_Field := 16#0#;
       Reserved_2_31 : USERINTRAW_Reserved_2_31_Field := 16#0#;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for USERINTRAW_Register use record
-      USERACCESS    at 16#0# range 0 .. 1;
+      USERACCESS0   at 16#0# range 0 .. 0;
+      USERACCESS1   at 16#0# range 1 .. 1;
       Reserved_2_31 at 16#0# range 2 .. 31;
    end record;
 
@@ -230,52 +146,24 @@ package TMS570LC43xx.MDIO is
    -- USERINTMASKED_Register --
    ----------------------------
 
-   ------------------------------
-   -- USERINTMASKED.USERACCESS --
-   ------------------------------
-
-   --  USERINTMASKED_USERACCESS array element
-   subtype USERINTMASKED_USERACCESS_Element is TMS570LC43xx.Bit;
-
-   --  USERINTMASKED_USERACCESS array
-   type USERINTMASKED_USERACCESS_Field_Array is array (0 .. 1)
-     of USERINTMASKED_USERACCESS_Element
-     with Component_Size => 1, Size => 2;
-
-   --  Type definition for USERINTMASKED_USERACCESS
-   type USERINTMASKED_USERACCESS_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  USERACCESS as a value
-            Val : TMS570LC43xx.UInt2;
-         when True =>
-            --  USERACCESS as an array
-            Arr : USERINTMASKED_USERACCESS_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 2;
-
-   for USERINTMASKED_USERACCESS_Field use record
-      Val at 0 range 0 .. 1;
-      Arr at 0 range 0 .. 1;
-   end record;
-
+   subtype USERINTMASKED_USERACCESS0_Field is TMS570LC43xx.Bit;
+   subtype USERINTMASKED_USERACCESS1_Field is TMS570LC43xx.Bit;
    subtype USERINTMASKED_Reserved_2_31_Field is TMS570LC43xx.UInt30;
 
    --  MDIO User Interrupt Masked Register
    type USERINTMASKED_Register is record
       --  MDIO user command complete event, masked value; write to clear.
-      USERACCESS    : USERINTMASKED_USERACCESS_Field :=
-                       (As_Array => False, Val => 16#0#);
+      USERACCESS0   : USERINTMASKED_USERACCESS0_Field := 16#0#;
+      --  MDIO user command complete event, masked value; write to clear.
+      USERACCESS1   : USERINTMASKED_USERACCESS1_Field := 16#0#;
       Reserved_2_31 : USERINTMASKED_Reserved_2_31_Field := 16#0#;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for USERINTMASKED_Register use record
-      USERACCESS    at 16#0# range 0 .. 1;
+      USERACCESS0   at 16#0# range 0 .. 0;
+      USERACCESS1   at 16#0# range 1 .. 1;
       Reserved_2_31 at 16#0# range 2 .. 31;
    end record;
 
@@ -283,52 +171,24 @@ package TMS570LC43xx.MDIO is
    -- USERINTMASKSET_Register --
    -----------------------------
 
-   -------------------------------
-   -- USERINTMASKSET.USERACCESS --
-   -------------------------------
-
-   --  USERINTMASKSET_USERACCESS array element
-   subtype USERINTMASKSET_USERACCESS_Element is TMS570LC43xx.Bit;
-
-   --  USERINTMASKSET_USERACCESS array
-   type USERINTMASKSET_USERACCESS_Field_Array is array (0 .. 1)
-     of USERINTMASKSET_USERACCESS_Element
-     with Component_Size => 1, Size => 2;
-
-   --  Type definition for USERINTMASKSET_USERACCESS
-   type USERINTMASKSET_USERACCESS_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  USERACCESS as a value
-            Val : TMS570LC43xx.UInt2;
-         when True =>
-            --  USERACCESS as an array
-            Arr : USERINTMASKSET_USERACCESS_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 2;
-
-   for USERINTMASKSET_USERACCESS_Field use record
-      Val at 0 range 0 .. 1;
-      Arr at 0 range 0 .. 1;
-   end record;
-
+   subtype USERINTMASKSET_USERACCESS0_Field is TMS570LC43xx.Bit;
+   subtype USERINTMASKSET_USERACCESS1_Field is TMS570LC43xx.Bit;
    subtype USERINTMASKSET_Reserved_2_31_Field is TMS570LC43xx.UInt30;
 
    --  MDIO User Interrupt Mask Set Register
    type USERINTMASKSET_Register is record
       --  MDIO User interrupt mask set; write to set
-      USERACCESS    : USERINTMASKSET_USERACCESS_Field :=
-                       (As_Array => False, Val => 16#0#);
+      USERACCESS0   : USERINTMASKSET_USERACCESS0_Field := 16#0#;
+      --  MDIO User interrupt mask set; write to set
+      USERACCESS1   : USERINTMASKSET_USERACCESS1_Field := 16#0#;
       Reserved_2_31 : USERINTMASKSET_Reserved_2_31_Field := 16#0#;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for USERINTMASKSET_Register use record
-      USERACCESS    at 16#0# range 0 .. 1;
+      USERACCESS0   at 16#0# range 0 .. 0;
+      USERACCESS1   at 16#0# range 1 .. 1;
       Reserved_2_31 at 16#0# range 2 .. 31;
    end record;
 
@@ -336,52 +196,24 @@ package TMS570LC43xx.MDIO is
    -- USERINTMASKCLEAR_Register --
    -------------------------------
 
-   ---------------------------------
-   -- USERINTMASKCLEAR.USERACCESS --
-   ---------------------------------
-
-   --  USERINTMASKCLEAR_USERACCESS array element
-   subtype USERINTMASKCLEAR_USERACCESS_Element is TMS570LC43xx.Bit;
-
-   --  USERINTMASKCLEAR_USERACCESS array
-   type USERINTMASKCLEAR_USERACCESS_Field_Array is array (0 .. 1)
-     of USERINTMASKCLEAR_USERACCESS_Element
-     with Component_Size => 1, Size => 2;
-
-   --  Type definition for USERINTMASKCLEAR_USERACCESS
-   type USERINTMASKCLEAR_USERACCESS_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  USERACCESS as a value
-            Val : TMS570LC43xx.UInt2;
-         when True =>
-            --  USERACCESS as an array
-            Arr : USERINTMASKCLEAR_USERACCESS_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 2;
-
-   for USERINTMASKCLEAR_USERACCESS_Field use record
-      Val at 0 range 0 .. 1;
-      Arr at 0 range 0 .. 1;
-   end record;
-
+   subtype USERINTMASKCLEAR_USERACCESS0_Field is TMS570LC43xx.Bit;
+   subtype USERINTMASKCLEAR_USERACCESS1_Field is TMS570LC43xx.Bit;
    subtype USERINTMASKCLEAR_Reserved_2_31_Field is TMS570LC43xx.UInt30;
 
    --  MDIO User Interrupt Mask Clear Register
    type USERINTMASKCLEAR_Register is record
       --  MDIO User interrupt mask set; write to set
-      USERACCESS    : USERINTMASKCLEAR_USERACCESS_Field :=
-                       (As_Array => False, Val => 16#0#);
+      USERACCESS0   : USERINTMASKCLEAR_USERACCESS0_Field := 16#0#;
+      --  MDIO User interrupt mask set; write to set
+      USERACCESS1   : USERINTMASKCLEAR_USERACCESS1_Field := 16#0#;
       Reserved_2_31 : USERINTMASKCLEAR_Reserved_2_31_Field := 16#0#;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for USERINTMASKCLEAR_Register use record
-      USERACCESS    at 16#0# range 0 .. 1;
+      USERACCESS0   at 16#0# range 0 .. 0;
+      USERACCESS1   at 16#0# range 1 .. 1;
       Reserved_2_31 at 16#0# range 2 .. 31;
    end record;
 

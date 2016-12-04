@@ -81,54 +81,28 @@ package TMS570LC43xx.Rti is
    -- RTICAPCTRL_Register --
    -------------------------
 
-   ------------------------
-   -- RTICAPCTRL.CAPCNTR --
-   ------------------------
-
-   --  RTICAPCTRL_CAPCNTR array element
-   subtype RTICAPCTRL_CAPCNTR_Element is TMS570LC43xx.Bit;
-
-   --  RTICAPCTRL_CAPCNTR array
-   type RTICAPCTRL_CAPCNTR_Field_Array is array (0 .. 1)
-     of RTICAPCTRL_CAPCNTR_Element
-     with Component_Size => 1, Size => 2;
-
-   --  Type definition for RTICAPCTRL_CAPCNTR
-   type RTICAPCTRL_CAPCNTR_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  CAPCNTR as a value
-            Val : TMS570LC43xx.UInt2;
-         when True =>
-            --  CAPCNTR as an array
-            Arr : RTICAPCTRL_CAPCNTR_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 2;
-
-   for RTICAPCTRL_CAPCNTR_Field use record
-      Val at 0 range 0 .. 1;
-      Arr at 0 range 0 .. 1;
-   end record;
-
+   subtype RTICAPCTRL_CAPCNTR0_Field is TMS570LC43xx.Bit;
+   subtype RTICAPCTRL_CAPCNTR1_Field is TMS570LC43xx.Bit;
    subtype RTICAPCTRL_Rsv1_Field is TMS570LC43xx.UInt30;
 
    --  RTI Capture Control Register
    type RTICAPCTRL_Register is record
       --  Capture of RTIUC0/ RTIFRC0 is triggered by capture event 0=source 0,
       --  1=source 1
-      CAPCNTR : RTICAPCTRL_CAPCNTR_Field := (As_Array => False, Val => 16#0#);
+      CAPCNTR0 : RTICAPCTRL_CAPCNTR0_Field := 16#0#;
+      --  Capture of RTIUC1/ RTIFRC1 is triggered by capture event 0=source 0,
+      --  1=source 1
+      CAPCNTR1 : RTICAPCTRL_CAPCNTR1_Field := 16#0#;
       --  Reserved
-      Rsv1    : RTICAPCTRL_Rsv1_Field := 16#0#;
+      Rsv1     : RTICAPCTRL_Rsv1_Field := 16#0#;
    end record
      with Volatile_Full_Access, Size => 32,
           Bit_Order => System.Low_Order_First;
 
    for RTICAPCTRL_Register use record
-      CAPCNTR at 16#0# range 0 .. 1;
-      Rsv1    at 16#0# range 2 .. 31;
+      CAPCNTR0 at 16#0# range 0 .. 0;
+      CAPCNTR1 at 16#0# range 1 .. 1;
+      Rsv1     at 16#0# range 2 .. 31;
    end record;
 
    --------------------------
@@ -181,72 +155,15 @@ package TMS570LC43xx.Rti is
    -- RTISETINTENA_Register --
    ---------------------------
 
-   -------------------------
-   -- RTISETINTENA.SETINT --
-   -------------------------
-
-   --  RTISETINTENA_SETINT array element
-   subtype RTISETINTENA_SETINT_Element is TMS570LC43xx.Bit;
-
-   --  RTISETINTENA_SETINT array
-   type RTISETINTENA_SETINT_Field_Array is array (0 .. 3)
-     of RTISETINTENA_SETINT_Element
-     with Component_Size => 1, Size => 4;
-
-   --  Type definition for RTISETINTENA_SETINT
-   type RTISETINTENA_SETINT_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  SETINT as a value
-            Val : TMS570LC43xx.UInt4;
-         when True =>
-            --  SETINT as an array
-            Arr : RTISETINTENA_SETINT_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 4;
-
-   for RTISETINTENA_SETINT_Field use record
-      Val at 0 range 0 .. 3;
-      Arr at 0 range 0 .. 3;
-   end record;
-
+   subtype RTISETINTENA_SETINT0_Field is TMS570LC43xx.Bit;
+   subtype RTISETINTENA_SETINT1_Field is TMS570LC43xx.Bit;
+   subtype RTISETINTENA_SETINT2_Field is TMS570LC43xx.Bit;
+   subtype RTISETINTENA_SETINT3_Field is TMS570LC43xx.Bit;
    subtype RTISETINTENA_Rsv3_Field is TMS570LC43xx.UInt4;
-
-   -------------------------
-   -- RTISETINTENA.SETDMA --
-   -------------------------
-
-   --  RTISETINTENA_SETDMA array element
-   subtype RTISETINTENA_SETDMA_Element is TMS570LC43xx.Bit;
-
-   --  RTISETINTENA_SETDMA array
-   type RTISETINTENA_SETDMA_Field_Array is array (0 .. 3)
-     of RTISETINTENA_SETDMA_Element
-     with Component_Size => 1, Size => 4;
-
-   --  Type definition for RTISETINTENA_SETDMA
-   type RTISETINTENA_SETDMA_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  SETDMA as a value
-            Val : TMS570LC43xx.UInt4;
-         when True =>
-            --  SETDMA as an array
-            Arr : RTISETINTENA_SETDMA_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 4;
-
-   for RTISETINTENA_SETDMA_Field use record
-      Val at 0 range 0 .. 3;
-      Arr at 0 range 0 .. 3;
-   end record;
-
+   subtype RTISETINTENA_SETDMA0_Field is TMS570LC43xx.Bit;
+   subtype RTISETINTENA_SETDMA1_Field is TMS570LC43xx.Bit;
+   subtype RTISETINTENA_SETDMA2_Field is TMS570LC43xx.Bit;
+   subtype RTISETINTENA_SETDMA3_Field is TMS570LC43xx.Bit;
    subtype RTISETINTENA_Rsv2_Field is TMS570LC43xx.UInt4;
    subtype RTISETINTENA_SETTBINT_Field is TMS570LC43xx.Bit;
    subtype RTISETINTENA_SETOVL0INT_Field is TMS570LC43xx.Bit;
@@ -256,13 +173,23 @@ package TMS570LC43xx.Rti is
    --  RTI Set Interrupt Register
    type RTISETINTENA_Register is record
       --  Set Compare Interrupt Request 0 Enable, W12S
-      SETINT     : RTISETINTENA_SETINT_Field :=
-                    (As_Array => False, Val => 16#0#);
+      SETINT0    : RTISETINTENA_SETINT0_Field := 16#0#;
+      --  Set Compare Interrupt Request 1 Enable, W12S
+      SETINT1    : RTISETINTENA_SETINT1_Field := 16#0#;
+      --  Set Compare Interrupt Request 2 Enable, W12S
+      SETINT2    : RTISETINTENA_SETINT2_Field := 16#0#;
+      --  Set Compare Interrupt Request 3 Enable, W12S
+      SETINT3    : RTISETINTENA_SETINT3_Field := 16#0#;
       --  Reserved
       Rsv3       : RTISETINTENA_Rsv3_Field := 16#0#;
       --  Set Compare DMA Request 0 Enable, W12S
-      SETDMA     : RTISETINTENA_SETDMA_Field :=
-                    (As_Array => False, Val => 16#0#);
+      SETDMA0    : RTISETINTENA_SETDMA0_Field := 16#0#;
+      --  Set Compare DMA Request 1 Enable, W12S
+      SETDMA1    : RTISETINTENA_SETDMA1_Field := 16#0#;
+      --  Set Compare DMA Request 2 Enable, W12S
+      SETDMA2    : RTISETINTENA_SETDMA2_Field := 16#0#;
+      --  Set Compare DMA Request 3 Enable, W12S
+      SETDMA3    : RTISETINTENA_SETDMA3_Field := 16#0#;
       --  Reserved
       Rsv2       : RTISETINTENA_Rsv2_Field := 16#0#;
       --  Set Timebase Interrupt Enable, W12S
@@ -278,9 +205,15 @@ package TMS570LC43xx.Rti is
           Bit_Order => System.Low_Order_First;
 
    for RTISETINTENA_Register use record
-      SETINT     at 16#0# range 0 .. 3;
+      SETINT0    at 16#0# range 0 .. 0;
+      SETINT1    at 16#0# range 1 .. 1;
+      SETINT2    at 16#0# range 2 .. 2;
+      SETINT3    at 16#0# range 3 .. 3;
       Rsv3       at 16#0# range 4 .. 7;
-      SETDMA     at 16#0# range 8 .. 11;
+      SETDMA0    at 16#0# range 8 .. 8;
+      SETDMA1    at 16#0# range 9 .. 9;
+      SETDMA2    at 16#0# range 10 .. 10;
+      SETDMA3    at 16#0# range 11 .. 11;
       Rsv2       at 16#0# range 12 .. 15;
       SETTBINT   at 16#0# range 16 .. 16;
       SETOVL0INT at 16#0# range 17 .. 17;
@@ -292,72 +225,15 @@ package TMS570LC43xx.Rti is
    -- RTICLEARINTENA_Register --
    -----------------------------
 
-   -----------------------------
-   -- RTICLEARINTENA.CLEARINT --
-   -----------------------------
-
-   --  RTICLEARINTENA_CLEARINT array element
-   subtype RTICLEARINTENA_CLEARINT_Element is TMS570LC43xx.Bit;
-
-   --  RTICLEARINTENA_CLEARINT array
-   type RTICLEARINTENA_CLEARINT_Field_Array is array (0 .. 3)
-     of RTICLEARINTENA_CLEARINT_Element
-     with Component_Size => 1, Size => 4;
-
-   --  Type definition for RTICLEARINTENA_CLEARINT
-   type RTICLEARINTENA_CLEARINT_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  CLEARINT as a value
-            Val : TMS570LC43xx.UInt4;
-         when True =>
-            --  CLEARINT as an array
-            Arr : RTICLEARINTENA_CLEARINT_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 4;
-
-   for RTICLEARINTENA_CLEARINT_Field use record
-      Val at 0 range 0 .. 3;
-      Arr at 0 range 0 .. 3;
-   end record;
-
+   subtype RTICLEARINTENA_CLEARINT0_Field is TMS570LC43xx.Bit;
+   subtype RTICLEARINTENA_CLEARINT1_Field is TMS570LC43xx.Bit;
+   subtype RTICLEARINTENA_CLEARINT2_Field is TMS570LC43xx.Bit;
+   subtype RTICLEARINTENA_CLEARINT3_Field is TMS570LC43xx.Bit;
    subtype RTICLEARINTENA_Rsv3_Field is TMS570LC43xx.UInt4;
-
-   -----------------------------
-   -- RTICLEARINTENA.CLEARDMA --
-   -----------------------------
-
-   --  RTICLEARINTENA_CLEARDMA array element
-   subtype RTICLEARINTENA_CLEARDMA_Element is TMS570LC43xx.Bit;
-
-   --  RTICLEARINTENA_CLEARDMA array
-   type RTICLEARINTENA_CLEARDMA_Field_Array is array (0 .. 3)
-     of RTICLEARINTENA_CLEARDMA_Element
-     with Component_Size => 1, Size => 4;
-
-   --  Type definition for RTICLEARINTENA_CLEARDMA
-   type RTICLEARINTENA_CLEARDMA_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  CLEARDMA as a value
-            Val : TMS570LC43xx.UInt4;
-         when True =>
-            --  CLEARDMA as an array
-            Arr : RTICLEARINTENA_CLEARDMA_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 4;
-
-   for RTICLEARINTENA_CLEARDMA_Field use record
-      Val at 0 range 0 .. 3;
-      Arr at 0 range 0 .. 3;
-   end record;
-
+   subtype RTICLEARINTENA_CLEARDMA0_Field is TMS570LC43xx.Bit;
+   subtype RTICLEARINTENA_CLEARDMA1_Field is TMS570LC43xx.Bit;
+   subtype RTICLEARINTENA_CLEARDMA2_Field is TMS570LC43xx.Bit;
+   subtype RTICLEARINTENA_CLEARDMA3_Field is TMS570LC43xx.Bit;
    subtype RTICLEARINTENA_Rsv2_Field is TMS570LC43xx.UInt4;
    subtype RTICLEARINTENA_CLEARTBINT_Field is TMS570LC43xx.Bit;
    subtype RTICLEARINTENA_CLEAROVL0INT_Field is TMS570LC43xx.Bit;
@@ -367,13 +243,23 @@ package TMS570LC43xx.Rti is
    --  RTI Clear Interrupt Enable Register
    type RTICLEARINTENA_Register is record
       --  CLEAR Compare Interrupt Request 0 Enable, W12C
-      CLEARINT     : RTICLEARINTENA_CLEARINT_Field :=
-                      (As_Array => False, Val => 16#0#);
+      CLEARINT0    : RTICLEARINTENA_CLEARINT0_Field := 16#0#;
+      --  CLEAR Compare Interrupt Request 1 Enable, W12C
+      CLEARINT1    : RTICLEARINTENA_CLEARINT1_Field := 16#0#;
+      --  CLEAR Compare Interrupt Request 2 Enable, W12C
+      CLEARINT2    : RTICLEARINTENA_CLEARINT2_Field := 16#0#;
+      --  CLEAR Compare Interrupt Request 3 Enable, W12C
+      CLEARINT3    : RTICLEARINTENA_CLEARINT3_Field := 16#0#;
       --  Reserved
       Rsv3         : RTICLEARINTENA_Rsv3_Field := 16#0#;
       --  CLEAR Compare DMA Request 0 Enable, W12C
-      CLEARDMA     : RTICLEARINTENA_CLEARDMA_Field :=
-                      (As_Array => False, Val => 16#0#);
+      CLEARDMA0    : RTICLEARINTENA_CLEARDMA0_Field := 16#0#;
+      --  CLEAR Compare DMA Request 1 Enable, W12C
+      CLEARDMA1    : RTICLEARINTENA_CLEARDMA1_Field := 16#0#;
+      --  CLEAR Compare DMA Request 2 Enable, W12C
+      CLEARDMA2    : RTICLEARINTENA_CLEARDMA2_Field := 16#0#;
+      --  CLEAR Compare DMA Request 3 Enable, W12C
+      CLEARDMA3    : RTICLEARINTENA_CLEARDMA3_Field := 16#0#;
       --  Reserved
       Rsv2         : RTICLEARINTENA_Rsv2_Field := 16#0#;
       --  CLEAR Timebase Interrupt Enable, W12C
@@ -389,9 +275,15 @@ package TMS570LC43xx.Rti is
           Bit_Order => System.Low_Order_First;
 
    for RTICLEARINTENA_Register use record
-      CLEARINT     at 16#0# range 0 .. 3;
+      CLEARINT0    at 16#0# range 0 .. 0;
+      CLEARINT1    at 16#0# range 1 .. 1;
+      CLEARINT2    at 16#0# range 2 .. 2;
+      CLEARINT3    at 16#0# range 3 .. 3;
       Rsv3         at 16#0# range 4 .. 7;
-      CLEARDMA     at 16#0# range 8 .. 11;
+      CLEARDMA0    at 16#0# range 8 .. 8;
+      CLEARDMA1    at 16#0# range 9 .. 9;
+      CLEARDMA2    at 16#0# range 10 .. 10;
+      CLEARDMA3    at 16#0# range 11 .. 11;
       Rsv2         at 16#0# range 12 .. 15;
       CLEARTBINT   at 16#0# range 16 .. 16;
       CLEAROVL0INT at 16#0# range 17 .. 17;
@@ -403,38 +295,10 @@ package TMS570LC43xx.Rti is
    -- RTIINTFLAG_Register --
    -------------------------
 
-   --------------------
-   -- RTIINTFLAG.INT --
-   --------------------
-
-   --  RTIINTFLAG_INT array element
-   subtype RTIINTFLAG_INT_Element is TMS570LC43xx.Bit;
-
-   --  RTIINTFLAG_INT array
-   type RTIINTFLAG_INT_Field_Array is array (0 .. 3)
-     of RTIINTFLAG_INT_Element
-     with Component_Size => 1, Size => 4;
-
-   --  Type definition for RTIINTFLAG_INT
-   type RTIINTFLAG_INT_Field
-     (As_Array : Boolean := False)
-   is record
-      case As_Array is
-         when False =>
-            --  INT as a value
-            Val : TMS570LC43xx.UInt4;
-         when True =>
-            --  INT as an array
-            Arr : RTIINTFLAG_INT_Field_Array;
-      end case;
-   end record
-     with Unchecked_Union, Size => 4;
-
-   for RTIINTFLAG_INT_Field use record
-      Val at 0 range 0 .. 3;
-      Arr at 0 range 0 .. 3;
-   end record;
-
+   subtype RTIINTFLAG_INT0_Field is TMS570LC43xx.Bit;
+   subtype RTIINTFLAG_INT1_Field is TMS570LC43xx.Bit;
+   subtype RTIINTFLAG_INT2_Field is TMS570LC43xx.Bit;
+   subtype RTIINTFLAG_INT3_Field is TMS570LC43xx.Bit;
    subtype RTIINTFLAG_Rsv2_Field is TMS570LC43xx.UInt12;
    subtype RTIINTFLAG_TBINT_Field is TMS570LC43xx.Bit;
    subtype RTIINTFLAG_OVL0INT_Field is TMS570LC43xx.Bit;
@@ -444,7 +308,13 @@ package TMS570LC43xx.Rti is
    --  RTI Interrupt Flag Register
    type RTIINTFLAG_Register is record
       --  Compare Interrupt Flag 0, W12C
-      INT     : RTIINTFLAG_INT_Field := (As_Array => False, Val => 16#0#);
+      INT0    : RTIINTFLAG_INT0_Field := 16#0#;
+      --  Compare Interrupt Flag 1, W12C
+      INT1    : RTIINTFLAG_INT1_Field := 16#0#;
+      --  Compare Interrupt Flag 2, W12C
+      INT2    : RTIINTFLAG_INT2_Field := 16#0#;
+      --  Compare Interrupt Flag 3, W12C
+      INT3    : RTIINTFLAG_INT3_Field := 16#0#;
       --  Reserved
       Rsv2    : RTIINTFLAG_Rsv2_Field := 16#0#;
       --  Timebase Interrupt Flag, W12C
@@ -460,7 +330,10 @@ package TMS570LC43xx.Rti is
           Bit_Order => System.Low_Order_First;
 
    for RTIINTFLAG_Register use record
-      INT     at 16#0# range 0 .. 3;
+      INT0    at 16#0# range 0 .. 0;
+      INT1    at 16#0# range 1 .. 1;
+      INT2    at 16#0# range 2 .. 2;
+      INT3    at 16#0# range 3 .. 3;
       Rsv2    at 16#0# range 4 .. 15;
       TBINT   at 16#0# range 16 .. 16;
       OVL0INT at 16#0# range 17 .. 17;

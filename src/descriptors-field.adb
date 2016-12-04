@@ -31,14 +31,6 @@ with Tixml2Ada_Utils;
 
 package body Descriptors.Field is
 
-   function Similar_Field
-     (F1, F2     :        Field_T;
-      Prefix_Idx : in out Natural;
-      First      : in out Natural) return Boolean;
-   --  Checks if two fields are similar (Identical type and similar prefix,
-   --  e.g. names only differing by a number suffix). Returns the lowest
-   --  number as 'First'
-
    ----------------
    -- Read_Field --
    ----------------
@@ -240,70 +232,6 @@ package body Descriptors.Field is
         and then F1.Name = F2.Name;
    end "=";
 
-   ------------------------
-   -- Similar_Field_Name --
-   ------------------------
-
-   function Similar_Field
-     (F1, F2     :        Field_T;
-      Prefix_Idx : in out Natural;
-      First      : in out Natural) return Boolean
-   is
-      use Descriptors.Enumerate.Enumerate_Vectors;
-      Prefix : Unbounded_String;
-      N      : Natural;
-
-   begin
-      if F1.Size /= F2.Size then
-         return False;
-      end if;
-
-      if F1.Enums /= F2.Enums then
-         return False;
-      end if;
-
-      Prefix := Common_Prefix (F1.Name, F2.Name);
-
-      if Length (Prefix) = 0 then
-         return False;
-      end if;
-
-      Prefix_Idx := Length (Prefix);
-
-      for J in reverse 1 .. Length (F1.Name) loop
-         if Unbounded.Element (F1.Name, J) not in '0' .. '9' then
-            if J = Length (F1.Name) then
-               N := 1;
-            else
-               N := Natural'Value (Slice (F1.Name, J + 1, Length (F1.Name)));
-            end if;
-            if N < First then
-               First := N;
-            end if;
-
-            exit;
-         end if;
-      end loop;
-
-      for J in reverse 1 .. Length (F2.Name) loop
-         if Unbounded.Element (F2.Name, J) not in '0' .. '9' then
-            if J = Length (F1.Name) then
-               N := 1;
-            else
-               N := Natural'Value (Slice (F2.Name, J + 1, Length (F2.Name)));
-            end if;
-
-            if N < First then
-               First := N;
-            end if;
-
-            exit;
-         end if;
-      end loop;
-
-      return True;
-   end Similar_Field;
-
    ----------
    -- Dump --
    ----------
@@ -393,10 +321,7 @@ package body Descriptors.Field is
       Fields : array (0 .. Properties.Size - 1) of Field_T :=
         (others => Null_Field);
       Index         : Natural;
-      Index2        : Natural;
       Length        : Natural;
-      First         : Natural;
-      Prefix        : Natural;
       Default       : Unsigned;
       Default_Id    : Unbounded_String;
       Ada_Type      : Unbounded_String;
@@ -547,30 +472,6 @@ package body Descriptors.Field is
                end loop;
             end if;
 
-            --  Check if it's an array, in which case it's easier
-            --  to handle them as such.
-
-            Length := 1;
-            First  := Natural'Last;
-            Prefix := Unbounded.Length (Fields (Index).Name);
-
-            Index2 := Index + Fields (Index).Size;
-            while Index2 < Properties.Size loop
-               if Similar_Field
-                   (Fields (Index),
-                    Fields (Index2),
-                    Prefix,
-                    First)
-               then
-                  Length := Length + 1;
-               else
-                  exit;
-               end if;
-
-               Index2 := Index2 + Fields (Index).Size;
-            end loop;
-
-            if Length = 1 then
                if Ada_Type = Null_Unbounded_String then
                   --  We have a simple scalar value. Let's create a specific
                   --  subtype for it, so that programming conversion to this
@@ -594,106 +495,6 @@ package body Descriptors.Field is
                end if;
             --  If Ada_Type is not Null_Unbounded_String, then the Field
             --  type has already been generated
-
-            else
-               --  We have an array of values
-               declare
-                  F_Name : constant String :=
-                    Slice (Fields (Index).Name, 1, Prefix);
-                  T_Name : constant String :=
-                    (if
-                       To_String (Reg.Name) /= F_Name
-                     then
-                       To_String (Reg.Name) & "_" & F_Name
-                     else F_Name);
-
-                  Union_T : Ada_Type_Union :=
-                    New_Type_Union
-                      (Id        => T_Name & "_Field",
-                       Disc_Name => "As_Array",
-                       Disc_Type => Ada_Gen.Get_Boolean,
-                       Comment   => "Type definition for " & T_Name);
-                  Array_T : Ada_Type_Array;
-
-               begin
-                  if Index /= 0
-                    or else Fields (Index).Size * Length /= Properties.Size
-                  then
-                     --  Print a boxed comment only if there are more than
-                     --  one fields defined in the register. Else, this
-                     --  becomes a bit too verbose with one boxed comment to
-                     --  start the register definition, and one boxed comment
-                     --  for the unique register's field definition
-                     Add
-                       (Spec,
-                        New_Comment_Box (To_String (Reg.Name) & "." & F_Name));
-                  end if;
-
-                  if Ada_Type = Null_Unbounded_String then
-                     declare
-                        Scalar_T : Ada_Subtype_Scalar :=
-                          New_Subype_Scalar
-                            (Id      => T_Name & "_Element",
-                             Typ     => Target_Type (Ada_Type_Size),
-                             Comment => T_Name & " array element");
-                     begin
-                        Add (Spec, Scalar_T);
-                        Ada_Type := Id (Scalar_T);
-                     end;
-                  end if;
-
-                  Array_T :=
-                    New_Type_Array
-                      (Id           => T_Name & "_Field_Array",
-                       Index_Type   => "",
-                       Index_First  => First,
-                       Index_Last   => First + Length - 1,
-                       Element_Type => To_String (Ada_Type),
-                       Comment      => T_Name & " array");
-
-                  Add_Aspect
-                    (Array_T,
-                     "Component_Size => " & To_String (Fields (Index).Size));
-                  Add_Size_Aspect (Array_T, Fields (Index).Size * Length);
-
-                  Add (Spec, Array_T);
-
-                  Add_Size_Aspect (Union_T, Fields (Index).Size * Length);
-
-                  Add_Field
-                    (Rec      => Union_T,
-                     Enum_Val => "True",
-                     Id       => "Arr",
-                     Typ      => Id (Array_T),
-                     Offset   => 0,
-                     LSB      => 0,
-                     MSB      => Fields (Index).Size * Length - 1,
-                     Comment  => F_Name & " as an array");
-                  Add_Field
-                    (Rec      => Union_T,
-                     Enum_Val => "False",
-                     Id       => "Val",
-                     Typ      => Target_Type (Fields (Index).Size * Length),
-                     Offset   => 0,
-                     LSB      => 0,
-                     MSB      => Fields (Index).Size * Length - 1,
-                     Comment  => F_Name & " as a value");
-
-                  Add (Spec, Union_T);
-
-                  Ada_Type      := Id (Union_T);
-                  Ada_Type_Size := Fields (Index).Size * Length;
-                  Ada_Name      := To_Unbounded_String (F_Name);
-
-                  if not All_RO then
-                     Default_Id :=
-                       To_Unbounded_String
-                         ("(As_Array => False, Val => " &
-                          To_Hex (Default) &
-                          ")");
-                  end if;
-               end;
-            end if;
 
             Description := Fields (Index).Description;
 
