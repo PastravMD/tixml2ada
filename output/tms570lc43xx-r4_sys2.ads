@@ -247,6 +247,10 @@ package TMS570LC43xx.R4_SYS2 is
       HBCD_STAT     : TMS570LC43xx.Word;
       --  Clock Trim 1 Register
       CLKTRMI1      : TMS570LC43xx.Word;
+      --  ECP Control Register
+      ECPCNTL       : TMS570LC43xx.Word;
+      --  ECP Control Register 1
+      ECPCNTL1      : TMS570LC43xx.Word;
       --  Clock 2 Control Register
       CLK2CNTRL     : CLK2CNTRL_Register;
       --  Peripheral Asynchronous Clock Configuration 1 Register
@@ -259,6 +263,8 @@ package TMS570LC43xx.R4_SYS2 is
       VCLKACON3     : TMS570LC43xx.Word;
       --  HCLK1 Control Register
       HCLK1Ctrl     : HCLK1Ctrl_Register;
+      --  IP ECC Error Enable Register
+      IP1ECCERREN   : TMS570LC43xx.Word;
       --  EFUSE Controller Control Register
       EFC_CTLREG    : EFC_CTLREG_Register;
       --  Die Identification Register Lower Word
@@ -287,12 +293,15 @@ package TMS570LC43xx.R4_SYS2 is
       CLKHB_RTIDREG at 16 range 0 .. 31;
       HBCD_STAT     at 20 range 0 .. 31;
       CLKTRMI1      at 32 range 0 .. 31;
+      ECPCNTL       at 36 range 0 .. 31;
+      ECPCNTL1      at 40 range 0 .. 31;
       CLK2CNTRL     at 60 range 0 .. 31;
       VCLKACON1     at 64 range 0 .. 31;
       CLK3CNTRL     at 68 range 0 .. 31;
       VCLKACON2     at 72 range 0 .. 31;
       VCLKACON3     at 80 range 0 .. 31;
       HCLK1Ctrl     at 84 range 0 .. 31;
+      IP1ECCERREN   at 120 range 0 .. 31;
       EFC_CTLREG    at 236 range 0 .. 31;
       DIEIDL_REG0   at 240 range 0 .. 31;
       DIEIDH_REG1   at 244 range 0 .. 31;

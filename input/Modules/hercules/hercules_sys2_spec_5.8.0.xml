@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<module id="R4_SYS2" HW_revision="" XML_version="1.1.1b" description="R4 System Registers Second Frame">
+<module id="R4_SYS2" HW_revision="" XML_version="1.1.2b" description="R4 System Registers Second Frame">
   <!-- (c) Texas Instruments 2003-2012, All rights reserved. -->
   <!-- Filename: Hercules_SYS2_spec_5.8.0.xml                  -->
   <!-- Version: 1.0                                          -->
-  <!--Version: 1.1 Added new registers at address offset 0x44,0x48,0x50,0x54 and 0x74-->
+  <!--Version: 1.1 Added new registers at address offset 0x24,0x28,0x44,0x48,0x50,0x54,0x74,0x78 -->
   <register id="PLLCTL3" acronym="PLLCTL3" offset="0x00" width="32" description="PLL Control Register 3 ">
       <bitfield id="OdPll2" width="3" begin="31" end="29" resetval="0" description="Internal PLL Output Divider" range="" rwaccess="RW"></bitfield>
       <bitfield id="PllDiv2" width="5" begin="28" end="24" resetval="0" description="PLL2 Output Clock Divider" range="" rwaccess="RW"></bitfield>
@@ -20,8 +20,8 @@
   <register id="CLKHB_RTIDREG" acronym="CLKHB_RTIDREG" offset="0x10" width="32" description="Clocked Hibernate RTI Domain Control Register"></register>
   <register id="HBCD_STAT" acronym="HBCD_STAT" offset="0x14" width="32" description="Hibernate Clock Domain Status Register"></register>
   <register id="CLKTRMI1" acronym="CLKTRMI1" offset="0x20" width="32" description="Clock Trim 1 Register"></register>
-  <!-- UM: missing reg id="ECPCNTL" offset="0x24" description="ECP Control Register." -->
-  <!-- UM: missing reg id="ECPCNTL1" offset="0x28" description="ECP Control Register 1." -->
+  <register id="ECPCNTL" acronym="ECPCNTL" offset="0x24" width="32" description="ECP Control Register"></register>
+  <register id="ECPCNTL1" acronym="ECPCNTL1" offset="0x28" width="32" description="ECP Control Register 1"></register>
   <register id="CLK2CNTRL" acronym="CLK2CNTRL" offset="0x3C" width="32" description="Clock 2 Control Register">
       <bitfield id="Reserved" width="28" begin="31" end="4" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
       <bitfield id="VClk3R" width="4" begin="3" end="0" resetval="0" description="VBUS clock3 ratio." range="" rwaccess="RW"></bitfield>
@@ -51,9 +51,8 @@
       <bitfield id="Reserved0" width="4" begin="7" end="4" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
       <bitfield id="Pll1RFSlipFilterKey" width="4" begin="3" end="0" resetval="0" description="Enable the PLL1 RFSLIP filtering." range="" rwaccess="RW"></bitfield>
   </register>
-  <!-- possible reg offset error CLK2SLIP at 0x70 ? -->
   <register id="CLK2SLIP" acronym="CLK2SLIP" offset="0x70" width="32" description="Clock2 Slip Register"></register>
-  <!-- UM: missing reg id="IP1ECCERREN" offset="0x78" description="IP ECC Error Enable Register" -->
+  <register id="IP1ECCERREN" acronym="IP1ECCERREN" offset="0x78" width="32" description="IP ECC Error Enable Register"></register>
   <register id="EFC_CTLREG" acronym="EFC_CTLREG" offset="0xEC" width="32" description="EFUSE Controller Control Register">
       <bitfield id="Reserved0" width="28" begin="31" end="4" resetval="0" description="Read returns 0. Writes have no effect." range="" rwaccess="RW"></bitfield>     
       <bitfield id="EfcInstrWEn" width="4" begin="3" end="0" resetval="0" description="Enable user write of 4 EFUSE controller instructions." range="" rwaccess="RW"></bitfield>
